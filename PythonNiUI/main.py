@@ -23,6 +23,8 @@ class Ui_MainWindow(QMainWindow):
         self.label2.setPixmap(QPixmap(u"ricemate.png"))
         self.pushButton = QtWidgets.QPushButton(parent = self.centralwidget)
         self.pushButton.setObjectName(u"pushButton")
+        self.pushButton.setText("Tap to continue:")
+        self.pushButton.setStyleSheet(u"color: rgb(0,0,0)")
         self.pushButton.setGeometry(QRect(30, 230, 721, 121))
         font = QFont()
         font.setPointSize(28)
