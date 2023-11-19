@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color:rgb(241, 251, 249)</string>
+   <string notr="true"/>
   </property>
   <widget class="QLabel" name="dinoradoHeadLabel">
    <property name="geometry">
@@ -45,6 +45,14 @@
      <width>201</width>
      <height>201</height>
     </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+image: url(:/newPrefix/Dinorado.png);
+</string>
    </property>
   </widget>
   <widget class="QGroupBox" name="dinoradoGroupBox">
@@ -117,6 +125,9 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="dinoradoConfirmButton">
     <property name="geometry">
@@ -156,6 +167,9 @@ color: rgb(240, 240, 240);</string>
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../Isa pang thesis/bg/resource.qrc"/>
+  <include location="../Graphics/newResource.qrc"/>
+ </resources>
  <connections/>
 </ui>
