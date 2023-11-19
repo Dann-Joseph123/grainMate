@@ -158,50 +158,53 @@ class Ui_MainWindow(QMainWindow):
         #Order Amount
         self.dinoradoHeadLabel = QLabel(self.centralwidget)
         self.dinoradoHeadLabel.setObjectName(u"dinoradoHeadLabel")
-        self.dinoradoHeadLabel.setGeometry(QRect(320, 20, 131, 61))
+        self.dinoradoHeadLabel.setGeometry(QRect(320, 20, 131, 61))        
         font = QFont()
         font.setPointSize(24)
         self.dinoradoHeadLabel.setFont(font)
         self.dinoradoHeadLabel.setStyleSheet(u"color: rgb(33, 123, 88);")
+        self.dinoradoHeadLabel.hide()
         self.dinoradoGraphicsView = QGraphicsView(self.centralwidget)
         self.dinoradoGraphicsView.setObjectName(u"dinoradoGraphicsView")
         self.dinoradoGraphicsView.setGeometry(QRect(79, 110, 201, 201))
+        self.dinoradoGraphicsView.hide()
         self.dinoradoGroupBox = QGroupBox(self.centralwidget)
         self.dinoradoGroupBox.setObjectName(u"dinoradoGroupBox")
         self.dinoradoGroupBox.setGeometry(QRect(280, 110, 431, 201))
+        self.dinoradoGroupBox.hide()
         self.dinoradoLabel = QLabel(self.dinoradoGroupBox)
         self.dinoradoLabel.setObjectName(u"dinoradoLabel")
         self.dinoradoLabel.setGeometry(QRect(30, 10, 81, 31))
         font1 = QFont()
         font1.setPointSize(14)
         self.dinoradoLabel.setFont(font1)
+        self.dinoradoLabel.hide()
         self.dinoradoPriceLabel = QLabel(self.dinoradoGroupBox)
         self.dinoradoPriceLabel.setObjectName(u"dinoradoPriceLabel")
         self.dinoradoPriceLabel.setGeometry(QRect(30, 40, 171, 31))
         font2 = QFont()
         font2.setPointSize(11)
         self.dinoradoPriceLabel.setFont(font2)
+        self.dinoradoPriceLabel.hide()
         self.dinoradoSpinBox = QSpinBox(self.dinoradoGroupBox)
         self.dinoradoSpinBox.setObjectName(u"dinoradoSpinBox")
         self.dinoradoSpinBox.setGeometry(QRect(30, 90, 81, 41))
+        self.dinoradoSpinBox.hide()
         self.dinoradoTextEdit = QPlainTextEdit(self.dinoradoGroupBox)
         self.dinoradoTextEdit.setObjectName(u"dinoradoTextEdit")
         self.dinoradoTextEdit.setEnabled(False)
         self.dinoradoTextEdit.setGeometry(QRect(290, 30, 104, 41))
+        self.dinoradoTextEdit.hide()
         self.dinoradoConfirmButton = QPushButton(self.dinoradoGroupBox)
         self.dinoradoConfirmButton.setObjectName(u"dinoradoConfirmButton")
         self.dinoradoConfirmButton.setGeometry(QRect(300, 150, 91, 31))
         self.dinoradoConfirmButton.setStyleSheet(u"background-color: rgb(66, 107, 31);\n" "color: rgb(240, 240, 240);\n" "font: 10pt \"MS Shell Dlg 2\";")
+        self.dinoradoConfirmButton.hide()
         self.dinoradoCancelButton = QPushButton(self.dinoradoGroupBox)
         self.dinoradoCancelButton.setObjectName(u"dinoradoCancelButton")
         self.dinoradoCancelButton.setGeometry(QRect(200, 150, 91, 31))
         self.dinoradoCancelButton.setStyleSheet(u"background-color: rgb(254, 0, 0);\n" "font: 10pt \"MS Shell Dlg 2\";\n" "color: rgb(240, 240, 240);")
-        
-        
-        
-        
-        
-        
+        self.dinoradoCancelButton.hide()
         
         
         
@@ -243,7 +246,7 @@ class Ui_MainWindow(QMainWindow):
         self.orderPushButton2.show()
         self.orderPushButton3.show()
         self.orderPushButton4.show()
-        self.orderPushButton1.clicked.connect()
+        self.orderPushButton1.clicked.connect(self.setThesisUIform2)
         print("Clicked")
 
     def setThesisUIform2(self):
@@ -262,6 +265,16 @@ class Ui_MainWindow(QMainWindow):
         self.orderPushButton2.hide()
         self.orderPushButton3.hide()
         self.orderPushButton4.hide()
+        self.dinoradoHeadLabel.show()
+        self.dinoradoGraphicsView.show()
+        self.dinoradoGroupBox.show()
+        self.dinoradoLabel.show()
+        self.dinoradoPriceLabel.show()
+        self.dinoradoSpinBox.show()
+        self.dinoradoTextEdit.show()
+        self.dinoradoConfirmButton.show()
+        self.dinoradoCancelButton.show()
+        
 
 
 
