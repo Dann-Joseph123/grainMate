@@ -19,7 +19,7 @@
   <widget class="QGroupBox" name="sinandomengGroupBox">
    <property name="geometry">
     <rect>
-     <x>281</x>
+     <x>280</x>
      <y>120</y>
      <width>431</width>
      <height>201</height>
