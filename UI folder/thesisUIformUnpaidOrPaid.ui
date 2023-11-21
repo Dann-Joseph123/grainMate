@@ -31,10 +31,10 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>110</x>
      <y>10</y>
-     <width>701</width>
-     <height>371</height>
+     <width>581</width>
+     <height>361</height>
     </rect>
    </property>
    <property name="title">
@@ -43,8 +43,8 @@
    <widget class="QLabel" name="orderSummaryLabel">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>20</y>
+      <x>50</x>
+      <y>50</y>
       <width>261</width>
       <height>51</height>
      </rect>
@@ -61,8 +61,8 @@
    <widget class="QLabel" name="totalLabel">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>100</y>
+      <x>60</x>
+      <y>120</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -82,8 +82,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>480</x>
-      <y>80</y>
+      <x>350</x>
+      <y>110</y>
       <width>181</width>
       <height>61</height>
      </rect>
@@ -100,8 +100,8 @@
    <widget class="QPushButton" name="orderConfirmation">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>250</y>
+      <x>100</x>
+      <y>280</y>
       <width>381</width>
       <height>41</height>
      </rect>
@@ -134,8 +134,8 @@ color: rgb(241, 251, 249);</string>
    <widget class="QLabel" name="instructionLabel">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>220</y>
+      <x>190</x>
+      <y>250</y>
       <width>221</width>
       <height>16</height>
      </rect>
@@ -149,38 +149,24 @@ color: rgb(241, 251, 249);</string>
      <string>Please insert the exact amount</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="orderCancellation">
+   <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>300</y>
-      <width>381</width>
-      <height>41</height>
+      <x>20</x>
+      <y>20</y>
+      <width>51</width>
+      <height>24</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="mouseTracking">
-     <bool>true</bool>
-    </property>
-    <property name="tabletTracking">
-     <bool>true</bool>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(200, 0, 0);
-color: rgb(240, 240, 240);</string>
-    </property>
     <property name="text">
-     <string>Cancel</string>
+     <string/>
     </property>
-    <property name="checkable">
-     <bool>true</bool>
+    <property name="icon">
+     <iconset>
+      <normaloff>../Graphics/previous.png</normaloff>../Graphics/previous.png</iconset>
     </property>
     <property name="flat">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
