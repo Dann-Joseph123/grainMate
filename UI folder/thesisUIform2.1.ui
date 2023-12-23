@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>801</width>
     <height>400</height>
    </rect>
   </property>
@@ -112,21 +112,22 @@ image: url(:/newPrefix/Dinorado.png);
       <height>41</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QPlainTextEdit" name="dinoradoTextEdit">
-    <property name="enabled">
-     <bool>false</bool>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
     </property>
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>30</y>
-      <width>104</width>
-      <height>41</height>
-     </rect>
+    <property name="singleStep">
+     <number>2</number>
     </property>
-    <property name="readOnly">
-     <bool>true</bool>
+    <property name="stepType">
+     <enum>QAbstractSpinBox::AdaptiveDecimalStepType</enum>
+    </property>
+    <property name="value">
+     <number>5</number>
+    </property>
+    <property name="displayIntegerBase">
+     <number>10</number>
     </property>
    </widget>
    <widget class="QPushButton" name="dinoradoConfirmButton">
@@ -165,6 +166,32 @@ color: rgb(240, 240, 240);</string>
      <string>Cancel</string>
     </property>
    </widget>
+   <widget class="QTextEdit" name="textEdit">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>20</y>
+      <width>104</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>340</y>
+     <width>113</width>
+     <height>21</height>
+    </rect>
+   </property>
   </widget>
  </widget>
  <resources>
