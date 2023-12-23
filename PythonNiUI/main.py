@@ -387,7 +387,7 @@ class Ui_MainWindow(QMainWindow):
         backIcon.addFile(u"Graphics/previous.png", QSize(), QIcon.Normal, QIcon.Off)
         self.backPushButton.setIcon(backIcon)
         self.backPushButton.setFlat(True)
-        self.backPushButton.clicked.connect(self.displayHomePage)
+        self.backPushButton.clicked.connect(self.reminderMessage)
         
         self.orderSummaryLabel.hide()
         self.orderSummaryLabelgroupBox.hide()
@@ -541,18 +541,19 @@ class Ui_MainWindow(QMainWindow):
         self.adminBackButton.hide()
         self.adminCreateNewAccount.hide()
     
-    # def reminderMessage(self):
-    #     reminder = QMessageBox(self)
-    #     reminder.setWindowTitle("Notice")
-    #     reminder.setText("This is a question dialog")
-    #     reminder.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-    #     reminder.setIcon(QMessageBox.Question)
-    #     button = reminder.exec()
+    def reminderMessage(self):
+        reminder = QMessageBox(self)
+        reminder.setWindowTitle("Notice")
+        reminder.setText("This is a question dialog")
+        reminder.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        reminder.setIcon(QMessageBox.Question)
+        button = reminder.exec()
 
-    #     if button == QMessageBox.Yes:
-    #         print("Yes!")
-    #     else:
-    #         print("No!")
+        if button == QMessageBox.Yes:
+            print("Yes!")
+            self.displayHomePage()
+        else:
+            print("No!")
 
     def hideOrders(self): #hide orders when clicking back/ cancel
         self.productTitle1.hide()
