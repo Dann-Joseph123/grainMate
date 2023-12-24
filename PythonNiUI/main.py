@@ -544,9 +544,9 @@ class Ui_MainWindow(QMainWindow):
     def reminderMessage(self):
         reminder = QMessageBox(self)
         reminder.setWindowTitle("Notice")
-        reminder.setText("This is a question dialog")
+        reminder.setText("Pressing Yes will cancel your transaction. Everything will not be saved.")
         reminder.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        reminder.setIcon(QMessageBox.Question)
+        reminder.setIcon(QMessageBox.Warning)
         button = reminder.exec()
 
         if button == QMessageBox.Yes:
