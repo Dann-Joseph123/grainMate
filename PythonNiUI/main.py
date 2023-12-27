@@ -162,7 +162,7 @@ class Ui_MainWindow(QMainWindow):
         
 
 
-        #Dinorado Order Amount
+        #Product 1 and General Formats
         self.productTitle1 = QLabel(self.centralwidget)
         self.productTitle1.setObjectName(u"label")
         self.productTitle1.setGeometry(QRect(290, 40, 211, 61))
@@ -228,7 +228,7 @@ class Ui_MainWindow(QMainWindow):
         self.productSpinBox1.valueChanged.connect(self.displayToTotal1)
         self.productPrice1.textChanged.connect(self.priceToAmount1)
 
-        #Sinandomeng Order Amount
+        #Product 2 Order Amount
         self.productTitle2 = QLabel(self.centralwidget)
         self.productTitle2.setObjectName(u"label")
         self.productTitle2.setGeometry(QRect(290, 40, 211, 61))
@@ -264,8 +264,7 @@ class Ui_MainWindow(QMainWindow):
         self.universalCancelButton.clicked.connect(self.setOrderPage)
         self.universalConfirmButton.clicked.connect(self.setOrderSummary)
         
-        #jasmine Rice
-
+        #Product 3
         self.productTitle3 = QLabel(self.centralwidget)
         self.productTitle3.setObjectName(u"label")
         self.productTitle3.setGeometry(QRect(290, 40, 211, 61))
@@ -302,7 +301,7 @@ class Ui_MainWindow(QMainWindow):
         self.universalConfirmButton.clicked.connect(self.setOrderSummary)
 
 
-        #RED RICE
+        #Product 4
         self.productTitle4 = QLabel(self.centralwidget)
         self.productTitle4.setObjectName(u"productTitle4")
         self.productTitle4.setGeometry(QRect(350, 40, 131, 61))
@@ -399,18 +398,16 @@ class Ui_MainWindow(QMainWindow):
 
 
         #Admin Landing Page
-        self.adminUserNameTextEdit = QTextEdit(self.centralwidget)
-        self.adminUserNameTextEdit.setObjectName(u"adminUserNameTextEdit")
-        self.adminUserNameTextEdit.setGeometry(QRect(310, 230, 261, 41))
+        self.adminUserNameLineEdit = QLineEdit(self.centralwidget)
+        self.adminUserNameLineEdit.setObjectName(u"adminUserNameLineEdit")
+        self.adminUserNameLineEdit.setGeometry(QRect(310, 230, 261, 41))
         adminTextEditFont = QFont()
         adminTextEditFont.setPointSize(14)
-        self.adminUserNameTextEdit.setFont(adminTextEditFont)
-        self.adminUserNameTextEdit.setFrameShape(QFrame.Panel)
-        self.adminPasswrodTextEdit2 = QTextEdit(self.centralwidget)
-        self.adminPasswrodTextEdit2.setObjectName(u"adminPasswrodTextEdit2")
-        self.adminPasswrodTextEdit2.setFont(adminTextEditFont)
-        self.adminPasswrodTextEdit2.setGeometry(QRect(310, 290, 261, 41))
-        self.adminPasswrodTextEdit2.setFrameShape(QFrame.Panel)
+        self.adminUserNameLineEdit.setFont(adminTextEditFont)
+        self.adminPasswordLineEdit2 = QLineEdit(self.centralwidget)
+        self.adminPasswordLineEdit2.setObjectName(u"adminPasswordLineEdit2")
+        self.adminPasswordLineEdit2.setFont(adminTextEditFont)
+        self.adminPasswordLineEdit2.setGeometry(QRect(310, 290, 261, 41))
         self.adminUserNameLabel = QLabel(self.centralwidget)
         self.adminUserNameLabel.setObjectName(u"adminUserNameLabel")
         self.adminUserNameLabel.setGeometry(QRect(200, 240, 101, 21))
@@ -454,11 +451,12 @@ class Ui_MainWindow(QMainWindow):
         adminBackButtonFont3.setPointSize(12)
         self.adminCreateNewAccount.setFont(adminBackButtonFont3)
         self.adminCreateNewAccount.setStyleSheet(u"color: rgb(31, 115, 82);")
-        self.adminCreateNewAccount.setFlat(True)
+        self.adminCreateNewAccount.setFlat(False)
         self.adminCreateNewAccount.setText("Create New Account")
+        self.adminCreateNewAccount.clicked.connect(self.verifyAccount)
 
-        self.adminUserNameTextEdit.hide()
-        self.adminPasswrodTextEdit2.hide()
+        self.adminUserNameLineEdit.hide()
+        self.adminPasswordLineEdit2.hide()
         self.adminUserNameLabel.hide()
         self.adminPasswordLabel2.hide()
         self.adminLogoLabel.hide()
@@ -466,6 +464,50 @@ class Ui_MainWindow(QMainWindow):
         self.adminBackButton.hide()
         self.adminCreateNewAccount.hide()
         
+
+        #Admin Main Menu
+        self.adminUpdateButton = QPushButton(MainWindow)
+        self.adminUpdateButton.setObjectName(u"adminUpdateButton")
+        self.adminUpdateButton.setGeometry(QRect(100, 200, 130, 130))
+        updateIcon = QIcon()
+        updateIcon.addFile(u"Graphics/updateIcon.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.adminUpdateButton.setIcon(updateIcon)
+        self.adminUpdateButton.setIconSize(QSize(100, 100))
+        self.adminSecurityButton = QPushButton(MainWindow)
+        self.adminSecurityButton.setObjectName(u"adminSecurityButton")
+        self.adminSecurityButton.setGeometry(QRect(330, 200, 130, 130))
+        self.adminSecurityButton.setText(u"Admin Security")
+        self.adminSalesButton = QPushButton(MainWindow)
+        self.adminSalesButton.setObjectName(u"adminSalesButton")
+        self.adminSalesButton.setGeometry(QRect(560, 200, 130, 130))
+        self.adminSalesButton.setText(u"Admin Sales")
+        self.updateLabel = QLabel(MainWindow)
+        self.updateLabel.setObjectName(u"updateLabel")
+        self.updateLabel.setGeometry(QRect(140, 340, 99, 36))
+        self.updateLabel.setStyleSheet(u"color: rgb(31, 114, 82)")
+        self.updateLabel.setText(u"Update Product Details")
+        self.alertLabel = QLabel(MainWindow)
+        self.alertLabel.setObjectName(u"alertLabel")
+        self.alertLabel.setGeometry(QRect(370, 340, 49, 36))
+        self.alertLabel.setText("Security Information")
+        self.salesDataLabel = QLabel(MainWindow)
+        self.salesDataLabel.setObjectName(u"salesDataLabel")
+        self.salesDataLabel.setGeometry(QRect(610, 340, 49, 36))
+        self.salesDataLabel.setText("Sales Data")
+        self.adminAccountButton = QPushButton(MainWindow)
+        self.adminAccountButton.setObjectName(u"adminAccountButton")
+        self.adminAccountButton.setGeometry(QRect(710, 30, 51, 41))
+
+        self.adminUpdateButton.hide()
+        self.adminSecurityButton.hide()
+        self.adminSalesButton.hide()
+        self.updateLabel.hide()
+        self.alertLabel.hide()
+        self.salesDataLabel.hide()
+        self.adminAccountButton.hide()
+
+
+
 
         self.retranslateUi(MainWindow)
 
@@ -532,10 +574,12 @@ class Ui_MainWindow(QMainWindow):
         self.label2.show()
         self.pushButton.show()
         self.pushButton_2.show()
-        self.adminUserNameTextEdit.hide()
-        self.adminPasswrodTextEdit2.hide()
+        self.adminUserNameLineEdit.hide()
+        self.adminPasswordLineEdit2.hide()
         self.adminUserNameLabel.hide()
         self.adminPasswordLabel2.hide()
+        self.adminUserNameLineEdit.clear()
+        self.adminPasswordLineEdit2.clear()
         self.adminLogoLabel.hide()
         self.adminTitleLabel.hide()
         self.adminBackButton.hide()
@@ -554,6 +598,25 @@ class Ui_MainWindow(QMainWindow):
             self.displayHomePage()
         else:
             print("No!")
+
+    def verifyAccount(self):
+        username = self.adminUserNameLineEdit.text()
+        password = self.adminPasswordLineEdit2.text()
+
+        if username == 'username' and password == '000':
+            print("Logged In")
+            self.setAdminMainMenu()
+
+        else:
+            invalidMessage = QMessageBox(self)
+            invalidMessage.setWindowTitle("Invalid Input")
+            invalidMessage.setText("You entered an invalid account username or password")
+            invalidMessage.setStandardButtons(QMessageBox.Ok)
+            invalidMessage.setIcon(QMessageBox.Warning)
+            asdf = invalidMessage.exec()
+            self.adminUserNameLineEdit.clear()
+            self.adminPasswordLineEdit2.clear()
+            print("Invalid username or password")
 
     def hideOrders(self): #hide orders when clicking back/ cancel
         self.productTitle1.hide()
@@ -580,6 +643,14 @@ class Ui_MainWindow(QMainWindow):
         self.productPrice4.hide()
         self.productLabel4.hide()
         self.orderSummaryLabelgroupBox.hide()
+
+        self.adminUpdateButton.hide()
+        self.adminSecurityButton.hide()
+        self.adminSalesButton.hide()
+        self.updateLabel.hide()
+        self.alertLabel.hide()
+        self.salesDataLabel.hide()
+        self.adminAccountButton.hide()
     
     def hideMainMenus(self):
         self.label2.hide()
@@ -610,7 +681,6 @@ class Ui_MainWindow(QMainWindow):
         self.orderPushButton3.clicked.connect(self.setProduct3)
         self.orderPushButton4.clicked.connect(self.setProduct4)
         
-
         #Order Summary
         self.orderSummaryLabel.hide()
         self.orderSummaryLabelgroupBox.hide()
@@ -745,14 +815,33 @@ class Ui_MainWindow(QMainWindow):
         self.label2.hide()
         self.pushButton.hide()
         self.pushButton_2.hide()
-        self.adminUserNameTextEdit.show()
-        self.adminPasswrodTextEdit2.show()
+        self.adminUserNameLineEdit.show()
+        self.adminPasswordLineEdit2.show()
         self.adminUserNameLabel.show()
         self.adminPasswordLabel2.show()
         self.adminLogoLabel.show()
         self.adminTitleLabel.show()
         self.adminBackButton.show()
         self.adminCreateNewAccount.show()
+
+    def setAdminMainMenu(self):
+        self.adminUpdateButton.show()
+        self.adminSecurityButton.show()
+        self.adminSalesButton.show()
+        self.updateLabel.show()
+        self.alertLabel.show()
+        self.salesDataLabel.show()
+        self.adminAccountButton.show()
+        self.adminUserNameLineEdit.hide()
+        self.adminPasswordLineEdit2.hide()
+        self.adminUserNameLabel.hide()
+        self.adminPasswordLabel2.hide()
+        self.adminLogoLabel.show()
+        self.adminTitleLabel.hide()
+        self.adminBackButton.show()
+        self.adminCreateNewAccount.hide()
+
+
         
     # def productRiceLabel(self):
     #     #self.
