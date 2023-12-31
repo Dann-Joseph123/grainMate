@@ -466,6 +466,12 @@ class Ui_MainWindow(QMainWindow):
         
 
         #Admin Main Menu
+        self.adminToLandingPageButton = QPushButton(self.centralwidget)
+        self.adminToLandingPageButton.setObjectName(u"adminToLandingPageButton")
+        self.adminToLandingPageButton.setGeometry(QRect(20, 30, 61, 31))
+        self.adminToLandingPageButton.setIcon(backIcon)
+        self.adminToLandingPageButton.setFlat(True)
+        self.adminToLandingPageButton.clicked.connect(self.adminReminderMessage)
         self.adminUpdateButton = QPushButton(MainWindow)
         self.adminUpdateButton.setObjectName(u"adminUpdateButton")
         self.adminUpdateButton.setGeometry(QRect(100, 200, 130, 130))
@@ -478,10 +484,12 @@ class Ui_MainWindow(QMainWindow):
         self.adminSecurityButton.setObjectName(u"adminSecurityButton")
         self.adminSecurityButton.setGeometry(QRect(330, 200, 130, 130))
         self.adminSecurityButton.setText(u"Admin Security")
+        self.adminSecurityButton.clicked.connect(self.setUnregisteredSales)
         self.adminSalesButton = QPushButton(MainWindow)
         self.adminSalesButton.setObjectName(u"adminSalesButton")
         self.adminSalesButton.setGeometry(QRect(560, 200, 130, 130))
         self.adminSalesButton.setText(u"Admin Sales")
+        self.adminSalesButton.clicked.connect(self.setSalesData)
         self.updateLabel = QLabel(MainWindow)
         self.updateLabel.setObjectName(u"updateLabel")
         self.updateLabel.setGeometry(QRect(140, 340, 99, 36))
@@ -506,6 +514,7 @@ class Ui_MainWindow(QMainWindow):
         self.alertLabel.hide()
         self.salesDataLabel.hide()
         self.adminAccountButton.hide()
+        self.adminToLandingPageButton.hide()
 
 
         #adminUpdateProducts
@@ -514,7 +523,7 @@ class Ui_MainWindow(QMainWindow):
         self.adminUpdateBackButton.setGeometry(QRect(20, 30, 61, 31))
         self.adminUpdateBackButton.setIcon(backIcon)
         self.adminUpdateBackButton.setFlat(True)
-        self.adminUpdateBackButton.clicked.connect(self.adminBackButtonFunction)
+        self.adminUpdateBackButton.clicked.connect(self.adminReminderMessage)
         self.updateLabel_3 = QLabel(MainWindow)
         self.updateLabel_3.setObjectName(u"updateLabel_3")
         self.updateLabel_3.setGeometry(QRect(470, 350, 61, 16))
@@ -566,6 +575,46 @@ class Ui_MainWindow(QMainWindow):
         self.updateProduct_3.hide()
         self.updateProduct_4.hide()
         self.titleLabel_1.hide()
+
+        #Unregistered Sales Data
+        self.listView = QListView(MainWindow)
+        self.listView.setObjectName(u"listView")
+        self.listView.setGeometry(QRect(130, 110, 541, 251))
+        self.unregisteredSalesDataLabel = QLabel(MainWindow)
+        self.unregisteredSalesDataLabel.setObjectName(u"unregisteredSalesDataLabel")
+        self.unregisteredSalesDataLabel.setGeometry(QRect(220, 20, 381, 81))
+        self.unregisteredSalesDataLabel.setText(u"Sales Data")
+        unregisteredSalesFont2 = QFont()
+        unregisteredSalesFont2.setPointSize(34)
+        self.unregisteredSalesDataLabel.setFont(unregisteredSalesFont2)
+        self.unregisteredSalesDataLabel.setStyleSheet(u"color: rgb(29, 108, 77);")
+        self.unregisteredSalesDataLabel.setText("Unregistered Sales Data")
+
+        self.listView.hide()
+        self.unregisteredSalesDataLabel.hide()
+        
+        #Sales Data 
+        self.salesListView = QListView(MainWindow)
+        self.salesListView.setObjectName(u"salesListView")
+        self.salesListView.setGeometry(QRect(130, 110, 541, 251))
+        self.salesDataLabel2 = QLabel(MainWindow)
+        self.salesDataLabel2.setObjectName(u"salesDataLabel")
+        self.salesDataLabel2.setGeometry(QRect(300, 10, 221, 81))
+        salesDataLabelFont = QFont()
+        salesDataLabelFont.setPointSize(34)
+        self.salesDataLabel2.setFont(salesDataLabelFont)
+        self.salesDataLabel2.setStyleSheet(u"color: rgb(29, 108, 77);")
+        self.salesDataLabel2.setText("Sales Data")
+
+        self.salesListView.hide()
+        self.salesDataLabel2.hide()
+
+        
+
+        
+        
+
+
 
 
 
@@ -645,11 +694,16 @@ class Ui_MainWindow(QMainWindow):
         self.adminTitleLabel.hide()
         self.adminBackButton.hide()
         self.adminCreateNewAccount.hide()
+        self.listView.hide()
+        self.unregisteredSalesDataLabel.hide()
+        self.salesListView.hide()
+        self.salesDataLabel2.hide()
+        self.adminUpdateBackButton.hide()
     
     def reminderMessage(self):
         reminder = QMessageBox(self)
         reminder.setWindowTitle("Notice")
-        reminder.setText("Pressing Yes will cancel your transaction. Everything will not be saved.")
+        reminder.setText("Pressing YES will cancel your transaction. Everything will not be saved.")
         reminder.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         reminder.setIcon(QMessageBox.Warning)
         button = reminder.exec()
@@ -718,34 +772,6 @@ class Ui_MainWindow(QMainWindow):
         self.label2.hide()
         self.pushButton.hide()
         self.pushButton_2.hide()
-
-    def adminUpdateProducts(self):
-        self.accountButton.show()
-        self.updateLabel.show()
-        self.updateLabel_2.show()
-        self.updateLabel_3.show()
-        self.updateLabel_4.show()
-        self.updateProduct_1.show()
-        self.updateProduct_2.show()
-        self.updateProduct_3.show()
-        self.updateProduct_4.show()
-        self.titleLabel_1.show()
-
-        self.adminUpdateButton.hide()
-        self.adminSecurityButton.hide()
-        self.adminSalesButton.hide()
-        self.updateLabel.hide()
-        self.alertLabel.hide()
-        self.salesDataLabel.hide()
-        self.adminAccountButton.hide()
-        self.adminUserNameLineEdit.hide()
-        self.adminPasswordLineEdit2.hide()
-        self.adminUserNameLabel.hide()
-        self.adminPasswordLabel2.hide()
-        self.adminLogoLabel.show()
-        self.adminTitleLabel.hide()
-        self.adminBackButton.show()
-        self.adminCreateNewAccount.hide()
 
 
     def setOrderPage(self): #MainMenue page
@@ -907,34 +933,14 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_2.hide()
         self.adminUserNameLineEdit.show()
         self.adminPasswordLineEdit2.show()
+        self.adminUserNameLineEdit.clear()
+        self.adminPasswordLineEdit2.clear()
         self.adminUserNameLabel.show()
         self.adminPasswordLabel2.show()
         self.adminLogoLabel.show()
         self.adminTitleLabel.show()
         self.adminBackButton.show()
         self.adminCreateNewAccount.show()
-
-    def setAdminMainMenu(self):
-        self.adminUpdateButton.show()
-        self.adminSecurityButton.show()
-        self.adminSalesButton.show()
-        self.updateLabel.show()
-        self.alertLabel.show()
-        self.salesDataLabel.show()
-        self.adminAccountButton.show()
-        self.adminUserNameLineEdit.hide()
-        self.adminPasswordLineEdit2.hide()
-        self.adminUserNameLabel.hide()
-        self.adminPasswordLabel2.hide()
-        self.adminLogoLabel.show()
-        self.adminTitleLabel.hide()
-        self.adminBackButton.show()
-        self.adminCreateNewAccount.hide()
-
-    
-    def adminBackButtonFunction(self):
-        #hide adminUpdate
-        self.setAdminMainMenu()
         self.accountButton.hide()
         self.updateLabel.hide()
         self.updateLabel_2.hide()
@@ -952,6 +958,90 @@ class Ui_MainWindow(QMainWindow):
         self.alertLabel.hide()
         self.salesDataLabel.hide()
         self.adminAccountButton.hide()
+        self.adminUpdateBackButton.hide()
+    
+    def adminReminderMessage(self):
+        adminReminder = QMessageBox(self)
+        adminReminder.setWindowTitle("Notice")
+        adminReminder.setText("Pressing YES will return you to login form. Everything will not be saved.")
+        adminReminder.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        adminReminder.setIcon(QMessageBox.Warning)
+        adminButton = adminReminder.exec()
+
+        if adminButton == QMessageBox.Yes:
+            print("Yes!")
+            self.setAdminLandingPage()
+        else:
+            print("No!")
+        
+
+    def setAdminMainMenu(self):
+        self.adminUpdateButton.show()
+        self.adminSecurityButton.show()
+        self.adminSalesButton.show()
+        self.updateLabel.show()
+        self.alertLabel.show()
+        self.salesDataLabel.show()
+        self.adminAccountButton.show()
+        self.adminUserNameLineEdit.hide()
+        self.adminPasswordLineEdit2.hide()
+        self.adminUserNameLabel.hide()
+        self.adminPasswordLabel2.hide()
+        self.adminLogoLabel.show()
+        self.adminTitleLabel.hide()
+        self.adminUpdateBackButton.show()
+        self.adminCreateNewAccount.hide()
+    
+    def adminUpdateProducts(self):
+        self.accountButton.show()
+        self.updateLabel.show()
+        self.updateLabel_2.show()
+        self.updateLabel_3.show()
+        self.updateLabel_4.show()
+        self.updateProduct_1.show()
+        self.updateProduct_2.show()
+        self.updateProduct_3.show()
+        self.updateProduct_4.show()
+        self.titleLabel_1.show()
+        self.hideAdminMainMenu()
+
+    def hideAdminMainMenu(self):
+        self.adminUpdateButton.hide()
+        self.adminSecurityButton.hide()
+        self.adminSalesButton.hide()
+        self.updateLabel.hide()
+        self.alertLabel.hide()
+        self.salesDataLabel.hide()
+        self.adminAccountButton.hide()
+        self.adminUserNameLineEdit.hide()
+        self.adminPasswordLineEdit2.hide()
+        self.adminUserNameLabel.hide()
+        self.adminPasswordLabel2.hide()
+        self.adminLogoLabel.show()
+        self.adminTitleLabel.hide()
+        self.adminBackButton.show()
+        self.adminCreateNewAccount.hide()
+
+    def setUnregisteredSales(self):
+        self.listView.show()
+        self.unregisteredSalesDataLabel.show()
+        self.adminUpdateBackButton.show()
+        self.hideAdminMainMenu()
+        self.adminLogoLabel.hide()
+        self.label2.hide()
+        self.pushButton.hide()
+        self.pushButton_2.hide()
+
+    def setSalesData(self):
+        self.hideAdminMainMenu()
+        self.adminLogoLabel.hide()
+        self.salesListView.show()
+        self.salesDataLabel2.show()
+        self.adminUpdateBackButton.show()
+        self.label2.hide()
+        self.pushButton.hide()
+        self.pushButton_2.hide()
+        
 
 
 
