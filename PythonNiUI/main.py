@@ -1,8 +1,8 @@
 import sys
-from PySide6.QtCore import QCoreApplication, QMetaObject, QRect, QSize
-from PySide6.QtGui import *
-from PySide6.QtWidgets import *
-from PySide6 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QCoreApplication, QMetaObject, QRect, QSize
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5 import QtCore, QtGui, QtWidgets
 # import RPi.GPIO as GPIO
 # from hx711 import HX711
 
@@ -90,22 +90,20 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel5.setStyleSheet(u"color: rgb(33, 123, 88);")
         # self.orderLabel5.setText("Red Rice")
         self.orderLabel5.hide()
-        self.orderLabel6 = QLineEdit(self.centralwidget)
+        self.orderLabel6 = QLabel(self.centralwidget)
         self.orderLabel6.setObjectName(u"orderLabel6")
         self.orderLabel6.setGeometry(QRect(100, 310, 81, 21))
         font2 = QFont()
         font2.setPointSize(10       )
         self.orderLabel6.setFont(font2)
         self.orderLabel6.setStyleSheet(u"color: rgb(33, 123, 88);")
-        self.orderLabel6.setReadOnly(True)
         # self.orderLabel6.setText("P. 52.00")
         self.orderLabel6.hide()
-        self.orderLabel7 = QLineEdit(self.centralwidget)
+        self.orderLabel7 = QLabel(self.centralwidget)
         self.orderLabel7.setObjectName(u"orderLabel7")
         self.orderLabel7.setGeometry(QRect(270, 310, 81, 21))
         self.orderLabel7.setFont(font2)
         self.orderLabel7.setStyleSheet(u"color: rgb(33, 123, 88);")
-        self.orderLabel7.setReadOnly(True)
         # self.orderLabel7.setText("P. 45.00")
         self.orderLabel7.hide()
         self.orderLabel8 = QLabel(self.centralwidget)
@@ -405,30 +403,19 @@ class Ui_MainWindow(QMainWindow):
 
 
         #Admin Landing Page
-        self.adminUserNameLineEdit = QLineEdit(self.centralwidget)
-        self.adminUserNameLineEdit.setObjectName(u"adminUserNameLineEdit")
-        self.adminUserNameLineEdit.setGeometry(QRect(310, 230, 261, 41))
         adminTextEditFont = QFont()
         adminTextEditFont.setPointSize(12)
-        self.adminUserNameLineEdit.setFont(adminTextEditFont)
-        self.adminUserNameLineEdit.setPlaceholderText(u"Enter Username")
         self.adminPasswordLineEdit2 = QLineEdit(self.centralwidget)
         self.adminPasswordLineEdit2.setObjectName(u"adminPasswordLineEdit2")
         self.adminPasswordLineEdit2.setFont(adminTextEditFont)
-        self.adminPasswordLineEdit2.setGeometry(QRect(310, 290, 261, 41))
-        self.adminPasswordLineEdit2.setPlaceholderText(u"Enter password")
-        self.adminUserNameLabel = QLabel(self.centralwidget)
-        self.adminUserNameLabel.setObjectName(u"adminUserNameLabel")
-        self.adminUserNameLabel.setGeometry(QRect(200, 240, 101, 21))
-        self.adminUserNameLabel.setFont(adminTextEditFont)
-        self.adminUserNameLabel.setStyleSheet(u"color: rgb(32, 119, 85);")
-        self.adminUserNameLabel.setText("Username:")
+        self.adminPasswordLineEdit2.setGeometry(QRect(310, 230, 261, 41))
+        self.adminPasswordLineEdit2.setPlaceholderText(u"Enter your pin number")
         self.adminPasswordLabel2 = QLabel(self.centralwidget)
         self.adminPasswordLabel2.setObjectName(u"adminPasswordLabel2")
-        self.adminPasswordLabel2.setGeometry(QRect(200, 290, 91, 31))
+        self.adminPasswordLabel2.setGeometry(QRect(200, 240, 101, 21))
         self.adminPasswordLabel2.setFont(adminTextEditFont)
         self.adminPasswordLabel2.setStyleSheet(u"color: rgb(30, 112, 80);")
-        self.adminPasswordLabel2.setText("Password:")
+        self.adminPasswordLabel2.setText("Pin:")
         self.adminLogoLabel = QLabel(self.centralwidget)
         self.adminLogoLabel.setObjectName(u"adminLogoLabel")
         self.adminLogoLabel.setGeometry(QRect(50, -60, 701, 291))
@@ -437,7 +424,7 @@ class Ui_MainWindow(QMainWindow):
         self.adminLogoLabel.setLineWidth(1)
         self.adminLogoLabel.setPixmap(QPixmap(u"ricemate.png"))
         self.adminLogoLabel.setScaledContents(False)
-        self.adminLogoLabel.setAlignment(Qt.AlignCenter)
+        #self.adminLogoLabel.setAlignment(QAlignCenter)
         self.adminTitleLabel = QLabel(self.centralwidget)
         self.adminTitleLabel.setObjectName(u"adminTitleLabel")
         self.adminTitleLabel.setGeometry(QRect(300, 190, 241, 21))
@@ -455,7 +442,7 @@ class Ui_MainWindow(QMainWindow):
         self.adminBackButton.clicked.connect(self.displayHomePage)
         self.adminCreateNewAccount = QPushButton(self.centralwidget)
         self.adminCreateNewAccount.setObjectName(u"adminCreateNewAccount")
-        self.adminCreateNewAccount.setGeometry(QRect(230, 350, 371, 24))
+        self.adminCreateNewAccount.setGeometry(QRect(230, 300, 371, 54))
         adminBackButtonFont3 = QFont()
         adminBackButtonFont3.setPointSize(12)
         self.adminCreateNewAccount.setFont(adminBackButtonFont3)
@@ -464,9 +451,7 @@ class Ui_MainWindow(QMainWindow):
         self.adminCreateNewAccount.setText("Create New Account")
         self.adminCreateNewAccount.clicked.connect(self.verifyAccount)
 
-        self.adminUserNameLineEdit.hide()
         self.adminPasswordLineEdit2.hide()
-        self.adminUserNameLabel.hide()
         self.adminPasswordLabel2.hide()
         self.adminLogoLabel.hide()
         self.adminTitleLabel.hide()
@@ -710,11 +695,8 @@ class Ui_MainWindow(QMainWindow):
         self.label2.show()
         self.pushButton.show()
         self.pushButton_2.show()
-        self.adminUserNameLineEdit.hide()
         self.adminPasswordLineEdit2.hide()
-        self.adminUserNameLabel.hide()
         self.adminPasswordLabel2.hide()
-        self.adminUserNameLineEdit.clear()
         self.adminPasswordLineEdit2.clear()
         self.adminLogoLabel.hide()
         self.adminTitleLabel.hide()
@@ -752,10 +734,9 @@ class Ui_MainWindow(QMainWindow):
             print("No!")
 
     def verifyAccount(self):
-        username = self.adminUserNameLineEdit.text()
         password = self.adminPasswordLineEdit2.text()
 
-        if username == 'username' and password == '000':
+        if password == '000':
             print("Logged In")
             self.setAdminMainMenu()
 
@@ -766,7 +747,6 @@ class Ui_MainWindow(QMainWindow):
             invalidMessage.setStandardButtons(QMessageBox.Ok)
             invalidMessage.setIcon(QMessageBox.Warning)
             asdf = invalidMessage.exec()
-            self.adminUserNameLineEdit.clear()
             self.adminPasswordLineEdit2.clear()
             print("Invalid username or password")
 
@@ -966,11 +946,8 @@ class Ui_MainWindow(QMainWindow):
         self.label2.hide()
         self.pushButton.hide()
         self.pushButton_2.hide()
-        self.adminUserNameLineEdit.show()
         self.adminPasswordLineEdit2.show()
-        self.adminUserNameLineEdit.clear()
         self.adminPasswordLineEdit2.clear()
-        self.adminUserNameLabel.show()
         self.adminPasswordLabel2.show()
         self.adminLogoLabel.show()
         self.adminTitleLabel.show()
@@ -1019,9 +996,7 @@ class Ui_MainWindow(QMainWindow):
         self.alertLabel.show()
         self.salesDataLabel.show()
         self.adminAccountButton.show()
-        self.adminUserNameLineEdit.hide()
         self.adminPasswordLineEdit2.hide()
-        self.adminUserNameLabel.hide()
         self.adminPasswordLabel2.hide()
         self.adminLogoLabel.show()
         self.adminTitleLabel.hide()
@@ -1054,9 +1029,7 @@ class Ui_MainWindow(QMainWindow):
         self.alertLabel.hide()
         self.salesDataLabel.hide()
         self.adminAccountButton.hide()
-        self.adminUserNameLineEdit.hide()
         self.adminPasswordLineEdit2.hide()
-        self.adminUserNameLabel.hide()
         self.adminPasswordLabel2.hide()
         self.adminLogoLabel.show()
         self.adminTitleLabel.hide()
