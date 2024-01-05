@@ -3,6 +3,8 @@ from PySide6.QtCore import QCoreApplication, QMetaObject, QRect, QSize
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 from PySide6 import QtCore, QtGui, QtWidgets
+# import RPi.GPIO as GPIO
+# from hx711 import HX711
 
 class Ui_MainWindow(QMainWindow):
 
@@ -63,6 +65,7 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel2.setGeometry(QRect(80, 260, 111, 41))
         self.orderLabel2.setFont(font1)
         self.orderLabel2.setStyleSheet(u"color: rgb(33, 123, 88);")
+       # self.orderLabel2.setReadOnly(True)
         # self.orderLabel2.setText("Dinorado")
         self.orderLabel2.hide()
         self.orderLabel3 = QLabel(self.centralwidget)
@@ -70,6 +73,7 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel3.setGeometry(QRect(240, 260, 151, 41))
         self.orderLabel3.setFont(font1)
         self.orderLabel3.setStyleSheet(u"color: rgb(33, 123, 88);")
+        #self.orderLabel3.setReadOnly(True)
         # self.orderLabel3.setText("Sinandomeng")
         self.orderLabel3.hide()
         self.orderLabel4 = QLabel(self.centralwidget)
@@ -86,20 +90,22 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel5.setStyleSheet(u"color: rgb(33, 123, 88);")
         # self.orderLabel5.setText("Red Rice")
         self.orderLabel5.hide()
-        self.orderLabel6 = QLabel(self.centralwidget)
+        self.orderLabel6 = QLineEdit(self.centralwidget)
         self.orderLabel6.setObjectName(u"orderLabel6")
         self.orderLabel6.setGeometry(QRect(100, 310, 81, 21))
         font2 = QFont()
         font2.setPointSize(10       )
         self.orderLabel6.setFont(font2)
         self.orderLabel6.setStyleSheet(u"color: rgb(33, 123, 88);")
+        self.orderLabel6.setReadOnly(True)
         # self.orderLabel6.setText("P. 52.00")
         self.orderLabel6.hide()
-        self.orderLabel7 = QLabel(self.centralwidget)
+        self.orderLabel7 = QLineEdit(self.centralwidget)
         self.orderLabel7.setObjectName(u"orderLabel7")
         self.orderLabel7.setGeometry(QRect(270, 310, 81, 21))
         self.orderLabel7.setFont(font2)
         self.orderLabel7.setStyleSheet(u"color: rgb(33, 123, 88);")
+        self.orderLabel7.setReadOnly(True)
         # self.orderLabel7.setText("P. 45.00")
         self.orderLabel7.hide()
         self.orderLabel8 = QLabel(self.centralwidget)
@@ -160,6 +166,7 @@ class Ui_MainWindow(QMainWindow):
         self.orderPushButton4.setIconSize(QSize(195, 140))
         self.orderPushButton4.hide()
         
+        
 
 
         #Product 1 and General Formats
@@ -205,7 +212,7 @@ class Ui_MainWindow(QMainWindow):
         self.productPrice1.setObjectName(u"productPrice1")
         self.productPrice1.setGeometry(QRect(30, 40, 80, 31))
         self.productPrice1.setEnabled(True)
-        self.productPrice1.setReadOnly(False)
+        self.productPrice1.setReadOnly(True)
         font2 = QFont()
         font2.setPointSize(11)
         self.productPrice1.setFont(font2)
@@ -246,7 +253,7 @@ class Ui_MainWindow(QMainWindow):
         self.productPrice2.setObjectName(u"sinandomengPrice")
         self.productPrice2.setGeometry(QRect(30, 40, 80, 31))
         self.productPrice2.setEnabled(True)
-        self.productPrice2.setReadOnly(False)
+        self.productPrice2.setReadOnly(True)
         self.productPrice2.setFont(font2)
         self.productPrice2.hide()
         self.productView2 = QGraphicsView(self.centralwidget)
@@ -282,7 +289,7 @@ class Ui_MainWindow(QMainWindow):
         self.productPrice3.setObjectName(u"productPrice3")
         self.productPrice3.setGeometry(QRect(30, 40, 80, 31))
         self.productPrice3.setEnabled(True)
-        self.productPrice3.setReadOnly(False)
+        self.productPrice3.setReadOnly(True)
         self.productPrice3.setFont(font2)
         self.productPrice3.hide()
         self.productView3 = QGraphicsView(self.centralwidget)
@@ -317,7 +324,7 @@ class Ui_MainWindow(QMainWindow):
         self.productPrice4.setObjectName(u"productPrice4")
         self.productPrice4.setGeometry(QRect(30, 40, 80, 31))
         self.productPrice4.setFont(font2)
-        self.productPrice4.setReadOnly(False)
+        self.productPrice4.setReadOnly(True)
         self.productPrice4.setEnabled(True)
         self.productView4 = QGraphicsView(self.centralwidget)
         self.productView4.setObjectName(u"productView4")
@@ -588,7 +595,7 @@ class Ui_MainWindow(QMainWindow):
         self.spinBox.setObjectName(u"spinBox")
         self.spinBox.setGeometry(QRect(510, 170, 51, 41))
         self.spinBox.setFont(adminfont3)
-        self.spinBox.setMinimum(1)
+        self.spinBox.setMinimum(0)
         self.spinBox.setMaximum(4)
                                     
         self.spinBox.hide()
@@ -657,7 +664,7 @@ class Ui_MainWindow(QMainWindow):
     def priceToAmount1(self): #price of the product#1
         priceBox = self.sender()
         priceValue = priceBox.toPlainText()
-        self.userPrice1 = int(priceValue)
+        self.userPrice1 = float(priceValue)
     
     def priceToAmount2(self): #price of the product#2
         priceBox = self.sender()
@@ -667,12 +674,12 @@ class Ui_MainWindow(QMainWindow):
     def priceToAmount3(self): #price of the product#3
         priceBox = self.sender()
         priceValue = priceBox.toPlainText()
-        self.userPrice3 = int(priceValue)
+        self.userPrice3 = float(priceValue)
 
     def priceToAmount4(self): #price of the product#4
         priceBox = self.sender()
         priceValue = priceBox.toPlainText()
-        self.userPrice4 = int(priceValue)
+        self.userPrice4 = float(priceValue)
 
     def displayToTotal1(self): #amount bought by the buyer in product#1
         spinbox1 = self.sender()
@@ -720,6 +727,15 @@ class Ui_MainWindow(QMainWindow):
         self.adminUpdateBackButton.hide()
         self.adminBackButton.hide()
         self.backPushButton.hide()
+        self.spinBox.hide()
+        self.adminProduct1Label.hide()
+        self.updateProductName1LineEdit.hide()
+        self.updateProductPrice1LineEdit.hide()
+        self.adminUpdateProductName1Label.hide()
+        self.adminUpdateProductPrice1Label.hide()
+        self.saveButton.hide()
+        self.cancelButton.hide()
+        
     
     def reminderMessage(self):
         reminder = QMessageBox(self)
@@ -929,7 +945,7 @@ class Ui_MainWindow(QMainWindow):
         self.showUniversalGroupBox()
         self.pushButton_2.hide()
 
-    def setOrderSummary(self):
+    def setOrderSummary(self):  #Order Summary going to Payment
         self.hideOrders()
         self.orderSummaryLabel.show()
         self.orderSummaryLabelgroupBox.show()
@@ -940,13 +956,13 @@ class Ui_MainWindow(QMainWindow):
         self.totalLabel.show()
         self.pushButton_2.hide()
 
-    def showUniversalGroupBox(self):
+    def showUniversalGroupBox(self):    #Orders universal group box
         self.universalGroupBox.show()
         self.universalTextEdit.show()
         self.universalConfirmButton.show()
         self.universalCancelButton.show()  
 
-    def setAdminLandingPage(self):
+    def setAdminLandingPage(self):  #Admin Landing page UI
         self.label2.hide()
         self.pushButton.hide()
         self.pushButton_2.hide()
@@ -981,7 +997,7 @@ class Ui_MainWindow(QMainWindow):
         self.listView.hide()
         self.unregisteredSalesDataLabel.hide()
     
-    def adminReminderMessage(self):
+    def adminReminderMessage(self): #To Back to Admin Landing Page - login form
         adminReminder = QMessageBox(self)
         adminReminder.setWindowTitle("Notice")
         adminReminder.setText("Pressing YES will return you to login form. Everything will not be saved.")
@@ -995,7 +1011,7 @@ class Ui_MainWindow(QMainWindow):
         else:
             print("No!")
         
-    def setAdminMainMenu(self):
+    def setAdminMainMenu(self): #Admin Main Menu (Update Products, Unregistered Sales, Sales Data)
         self.adminUpdateButton.show()
         self.adminSecurityButton.show()
         self.adminSalesButton.show()
@@ -1012,7 +1028,7 @@ class Ui_MainWindow(QMainWindow):
         self.adminUpdateBackButton.show()
         self.adminCreateNewAccount.hide()
 
-    def adminUpdateProductDetails(self):
+    def adminUpdateProductDetails(self):    #Update Products
         self.adminProduct1Label.show()
         self.updateProductName1LineEdit.show()
         self.updateProductPrice1LineEdit.show()
@@ -1031,7 +1047,7 @@ class Ui_MainWindow(QMainWindow):
         self.salesDataLabel.hide()
         self.adminAccountButton.hide()
 
-    def hideAdminMainMenu(self):
+    def hideAdminMainMenu(self): #Hide the contents of admin main menu
         self.adminUpdateButton.hide()
         self.adminSecurityButton.hide()
         self.adminSalesButton.hide()
@@ -1047,7 +1063,7 @@ class Ui_MainWindow(QMainWindow):
         self.adminBackButton.show()
         self.adminCreateNewAccount.hide()
 
-    def setUnregisteredSales(self):
+    def setUnregisteredSales(self): #Show the contents of the unregistered sales UI
         self.listView.show()
         self.unregisteredSalesDataLabel.show()
         self.adminUpdateBackButton.show()
@@ -1057,7 +1073,7 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton.hide()
         self.pushButton_2.hide()
 
-    def setSalesData(self):
+    def setSalesData(self): #Show the contents of the Sales Data UI
         self.hideAdminMainMenu()
         self.adminLogoLabel.hide()
         self.salesListView.show()
@@ -1068,38 +1084,42 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_2.hide()
         
     def productRiceLabel(self):
-        if self.spinBox.value == 1:
-            updatedName = self.updateProductName1LineEdit.text()
-            updatedPrice = self.updateProductPrice1LineEdit.text()
-            self.orderLabel2.setText(updatedName)
-            self.orderLabel6.setText(updatedPrice)
-        elif self.spinBox.value == 2:
-            updatedName = self.updateProductName1LineEdit.text()
-            updatedPrice = self.updateProductPrice1LineEdit.text()
-            self.orderLabel3.setText(updatedName)
-            self.orderLabel7.setText(updatedPrice)
-        elif self.spinBox.value == 2:
-            updatedName = self.updateProductName1LineEdit.text()
-            updatedPrice = self.updateProductPrice1LineEdit.text()
-            self.orderLabel4.setText(updatedName)
-            self.orderLabel8.setText(updatedPrice)
-        elif self.spinBox.value == 2:
-            updatedName = self.updateProductName1LineEdit.text()
-            updatedPrice = self.updateProductPrice1LineEdit.text()
-            self.orderLabel5.setText(updatedName)
-            self.orderLabel9.setText(updatedPrice)
+        if self.spinBox.value() == 1:
+            updatedProductLabel = self.sender()
+            updatedProductLabel = self.updateProductName1LineEdit.text()
+            updatedProductPrice = self.sender()
+            updatedProductPrice = self.updateProductPrice1LineEdit.text()
+            self.orderLabel2.setText(updatedProductLabel)
+            self.orderLabel6.setText(updatedProductPrice)
+            self.productPrice1.setText(updatedProductPrice)
+            print(updatedProductLabel)
+            print(updatedProductPrice)
+            
+        elif self.spinBox.value() == 2:
+            updatedProductLabel = self.sender()
+            updatedProductLabel = self.updateProductName1LineEdit.text()
+            updatedProductPrice = self.sender()
+            updatedProductPrice = self.updateProductPrice1LineEdit.text()
+            self.productPrice2.setText(updatedProductPrice)
+            self.orderLabel3.setText(updatedProductLabel)
+            self.orderLabel7.setText(updatedProductPrice)
 
-        
-
-
-
-        
-
-
-
-
-        
-
+        elif self.spinBox.value() == 3:
+            updatedProductLabel = self.sender()
+            updatedProductLabel = self.updateProductName1LineEdit.text()
+            updatedProductPrice = self.sender()
+            updatedProductPrice = self.updateProductPrice1LineEdit.text()
+            self.productPrice3.setText(updatedProductPrice)
+            self.orderLabel4.setText(updatedProductLabel)
+            self.orderLabel8.setText(updatedProductPrice)
+        elif self.spinBox.value() == 4:
+            updatedProductLabel = self.sender()
+            updatedProductLabel = self.updateProductName1LineEdit.text()
+            updatedProductPrice = self.sender()
+            updatedProductPrice = self.updateProductPrice1LineEdit.text()
+            self.productPrice4.setText(updatedProductPrice)
+            self.orderLabel5.setText(updatedProductLabel)
+            self.orderLabel9.setText(updatedProductPrice)
 
 
 if __name__ == "__main__":
