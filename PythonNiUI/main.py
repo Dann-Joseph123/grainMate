@@ -1,8 +1,9 @@
 import sys
-from PyQt5.QtCore import QCoreApplication, QMetaObject, QRect, QSize
+from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtWidgets, QtCore
+import csv
 # import RPi.GPIO as GPIO
 # from hx711 import HX711
 
@@ -65,7 +66,8 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel2.setGeometry(QRect(80, 290, 111, 41))
         self.orderLabel2.setFont(font1)
         self.orderLabel2.setStyleSheet(u"color: rgb(33, 123, 88);")
-       # self.orderLabel2.setReadOnly(True)
+        self.orderLabel2.setAlignment(Qt.AlignCenter)
+        # self.orderLabel2.setReadOnly(True)
         # self.orderLabel2.setText("Dinorado")
         self.orderLabel2.hide()
         self.orderLabel3 = QLabel(self.centralwidget)
@@ -73,14 +75,16 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel3.setGeometry(QRect(240, 290, 151, 41))
         self.orderLabel3.setFont(font1)
         self.orderLabel3.setStyleSheet(u"color: rgb(33, 123, 88);")
+        self.orderLabel3.setAlignment(Qt.AlignCenter)
         #self.orderLabel3.setReadOnly(True)
         # self.orderLabel3.setText("Sinandomeng")
         self.orderLabel3.hide()
         self.orderLabel4 = QLabel(self.centralwidget)
         self.orderLabel4.setObjectName(u"orderLabel4")
-        self.orderLabel4.setGeometry(QRect(450, 290, 91, 41))
+        self.orderLabel4.setGeometry(QRect(440, 290, 100, 41))
         self.orderLabel4.setFont(font1)
         self.orderLabel4.setStyleSheet(u"color: rgb(33, 123, 88);")
+        self.orderLabel4.setAlignment(Qt.AlignCenter)
         # self.orderLabel4.setText("Jasmine")
         self.orderLabel4.hide()
         self.orderLabel5 = QLabel(self.centralwidget)
@@ -88,6 +92,7 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel5.setGeometry(QRect(620, 290, 100, 41))
         self.orderLabel5.setFont(font1)
         self.orderLabel5.setStyleSheet(u"color: rgb(33, 123, 88);")
+        self.orderLabel5.setAlignment(Qt.AlignCenter)
         # self.orderLabel5.setText("Red Rice")
         self.orderLabel5.hide()
         self.orderLabel6 = QLabel(self.centralwidget)
@@ -97,6 +102,7 @@ class Ui_MainWindow(QMainWindow):
         font2.setPointSize(10       )
         self.orderLabel6.setFont(font2)
         self.orderLabel6.setStyleSheet(u"color: rgb(33, 123, 88);")
+        self.orderLabel6.setAlignment(Qt.AlignCenter)
         # self.orderLabel6.setText("P. 52.00")
         self.orderLabel6.hide()
         self.orderLabel7 = QLabel(self.centralwidget)
@@ -104,6 +110,7 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel7.setGeometry(QRect(270, 340, 81, 21))
         self.orderLabel7.setFont(font2)
         self.orderLabel7.setStyleSheet(u"color: rgb(33, 123, 88);")
+        self.orderLabel7.setAlignment(Qt.AlignCenter)
         # self.orderLabel7.setText("P. 45.00")
         self.orderLabel7.hide()
         self.orderLabel8 = QLabel(self.centralwidget)
@@ -111,6 +118,7 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel8.setGeometry(QRect(460, 340, 81, 21))
         self.orderLabel8.setFont(font2)
         self.orderLabel8.setStyleSheet(u"color: rgb(33, 123, 88);")
+        self.orderLabel8.setAlignment(Qt.AlignCenter)
         # self.orderLabel8.setText("P. 48.00")
         self.orderLabel8.hide()
         self.orderLabel9 = QLabel(self.centralwidget)
@@ -118,6 +126,7 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel9.setGeometry(QRect(640, 340, 81, 21))
         self.orderLabel9.setFont(font2)
         self.orderLabel9.setStyleSheet(u"color: rgb(33, 123, 88);")
+        self.orderLabel9.setAlignment(Qt.AlignCenter)
         # self.orderLabel9.setText("P. 57.00")
         self.orderLabel9.hide()
         
@@ -667,6 +676,7 @@ class Ui_MainWindow(QMainWindow):
         self.updatePinPushButton.setGeometry(QRect(310, 390, 181, 51))
         self.updatePinPushButton.setFont(adminBackButtonFont3)
         self.updatePinPushButton.setStyleSheet("color: rgb(31, 115, 82);")
+        self.updatePinPushButton.clicked.connect(self.userUpdatedPinPassword)
         self.updatePinPushButton.setText(u"Update Pin")
         self.updatePinLineEdit = QLineEdit(MainWindow)
         self.updatePinLineEdit.setObjectName(u"updatePinLineEdit")
@@ -807,7 +817,6 @@ class Ui_MainWindow(QMainWindow):
         
 
 
-
         self.retranslateUi(MainWindow)
 
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -925,8 +934,10 @@ class Ui_MainWindow(QMainWindow):
 
     def verifyAccount(self):
         password = self.adminPasswordLineEdit2.text()
-
-        if password == '000':
+        with open('PythonNiUI\password.csv', 'r') as csv:
+            data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
+            pin = data[0]
+        if password == pin:
             print("Logged In")
             self.setAdminMainMenu()
 
@@ -1005,7 +1016,42 @@ class Ui_MainWindow(QMainWindow):
         self.orderPushButton2.clicked.connect(self.setProduct2)
         self.orderPushButton3.clicked.connect(self.setProduct3)
         self.orderPushButton4.clicked.connect(self.setProduct4)
-        
+
+        #Read CSV
+        with open('PythonNiUI\productNameAndPrices.csv', 'r') as csv:
+            data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-4:]
+            print(data)
+            loadProductLabel1 = data[0][0]
+            loadProductPrice1 = data[0][1]
+            loadProductLabel2 = data[1][0]
+            loadProductPrice2 = data[1][1]
+            loadProductLabel3 = data[2][0]
+            loadProductPrice3 = data[2][1]
+            loadProductLabel4 = data[3][0]
+            loadProductPrice4 = data[3][1]
+            # print(loadProductLabel1, loadProductPrice1)
+
+            self.orderLabel2.setText(loadProductLabel1)
+            self.orderLabel6.setText(loadProductPrice1)
+            self.productPrice1.setText(loadProductPrice1)
+            self.productTitle1.setText(loadProductLabel1)
+            self.productLabel1.setText(loadProductLabel1)
+            self.productPrice2.setText(loadProductPrice2)
+            self.orderLabel3.setText(loadProductLabel2)
+            self.orderLabel7.setText(loadProductPrice2)
+            self.productTitle2.setText(loadProductLabel2)
+            self.productLabel2.setText(loadProductLabel2)
+            self.productPrice3.setText(loadProductPrice3)
+            self.orderLabel4.setText(loadProductLabel3)
+            self.orderLabel8.setText(loadProductPrice3)
+            self.productTitle3.setText(loadProductLabel3)
+            self.productLabel3.setText(loadProductLabel3)
+            self.productPrice4.setText(loadProductPrice4)
+            self.orderLabel5.setText(loadProductLabel4)
+            self.orderLabel9.setText(loadProductPrice4)
+            self.productTitle4.setText(loadProductLabel4)
+            self.productLabel4.setText(loadProductLabel4)
+        #     print(data)
         
         #Order Summary
         self.orderSummaryLabel.hide()
@@ -1283,51 +1329,78 @@ class Ui_MainWindow(QMainWindow):
         
     def productRiceLabel(self):
         if self.spinBox.value() == 1:
-            updatedProductLabel = self.sender()
-            updatedProductLabel = self.updateProductName1LineEdit.text()
-            updatedProductPrice = self.sender()
-            updatedProductPrice = self.updateProductPrice1LineEdit.text()
-            self.orderLabel2.setText(updatedProductLabel)
-            self.orderLabel6.setText(updatedProductPrice)
-            self.productPrice1.setText(updatedProductPrice)
-            self.productTitle1.setText(updatedProductLabel)
-            self.productLabel1.setText(updatedProductLabel)
-            print(updatedProductLabel)
-            print(updatedProductPrice)
-            print("The product is saved.")
-            
+            self.getItemInProductDetailCSV()
+            with open('PythonNiUI\productNameAndPrices.csv', 'r') as csv:
+                data = [[data_to_append.strip() for data_to_append in line.strip().split(',')] for line in csv.readlines()][-4]
+                output = data[0]
+                output1 = data[1]
+            self.orderLabel2.setText(output)
+            self.orderLabel6.setText(output1)
+            self.productPrice1.setText(output1)
+            self.productTitle1.setText(output)
+            self.productLabel1.setText(output)
+
         elif self.spinBox.value() == 2:
-            updatedProductLabel = self.sender()
-            updatedProductLabel = self.updateProductName1LineEdit.text()
-            updatedProductPrice = self.sender()
-            updatedProductPrice = self.updateProductPrice1LineEdit.text()
-            self.productPrice2.setText(updatedProductPrice)
-            self.orderLabel3.setText(updatedProductLabel)
-            self.orderLabel7.setText(updatedProductPrice)
-            self.productTitle2.setText(updatedProductLabel)
-            self.productLabel2.setText(updatedProductLabel)
+            self.getItemInProductDetailCSV()
+            with open('PythonNiUI\productNameAndPrices.csv', 'r') as csv:
+                data = [[data_to_append.strip() for data_to_append in line.strip().split(',')] for line in csv.readlines()][-3]
+                output = data[0]
+                output1 = data[1]
+            self.productPrice2.setText(output1)
+            self.orderLabel3.setText(output)
+            self.orderLabel7.setText(output1)
+            self.productTitle2.setText(output)
+            self.productLabel2.setText(output)
 
         elif self.spinBox.value() == 3:
-            updatedProductLabel = self.sender()
-            updatedProductLabel = self.updateProductName1LineEdit.text()
-            updatedProductPrice = self.sender()
-            updatedProductPrice = self.updateProductPrice1LineEdit.text()
-            self.productPrice3.setText(updatedProductPrice)
-            self.orderLabel4.setText(updatedProductLabel)
-            self.orderLabel8.setText(updatedProductPrice)
-            self.productTitle3.setText(updatedProductLabel)
-            self.productLabel3.setText(updatedProductLabel)
+            self.getItemInProductDetailCSV()
+            with open('PythonNiUI\productNameAndPrices.csv', 'r') as csv:
+                data = [[data_to_append.strip() for data_to_append in line.strip().split(',')] for line in csv.readlines()][-2]
+                output = data[0]
+                output1 = data[1]
+            self.productPrice3.setText(output1)
+            self.orderLabel4.setText(output)
+            self.orderLabel8.setText(output1)
+            self.productTitle3.setText(output)
+            self.productLabel3.setText(output)
 
         elif self.spinBox.value() == 4:
+            self.getItemInProductDetailCSV()
+            with open('PythonNiUI\productNameAndPrices.csv', 'r') as csv:
+                data = [[data_to_append.strip() for data_to_append in line.strip().split(',')] for line in csv.readlines()][-1]
+                output = data[0]
+                output1 = data[1]
+            self.productPrice4.setText(output1)
+            self.orderLabel5.setText(output)
+            self.orderLabel9.setText(output1)
+            self.productTitle4.setText(output)
+            self.productLabel4.setText(output)
+
+    def getItemInProductDetailCSV(self): #dapat magaappend sa number sa part inupdate
             updatedProductLabel = self.sender()
             updatedProductLabel = self.updateProductName1LineEdit.text()
             updatedProductPrice = self.sender()
             updatedProductPrice = self.updateProductPrice1LineEdit.text()
-            self.productPrice4.setText(updatedProductPrice)
-            self.orderLabel5.setText(updatedProductLabel)
-            self.orderLabel9.setText(updatedProductPrice)
-            self.productTitle4.setText(updatedProductLabel)
-            self.productLabel4.setText(updatedProductLabel)
+            data_to_append = [
+                [updatedProductLabel, updatedProductPrice],
+            ]
+
+            file = open('PythonNiUI\productNameAndPrices.csv', 'a', newline='')
+            writer = csv.writer(file)
+            writer.writerows(data_to_append)
+            file.close()
+    
+    # def readItemInCSVtoOrderForm(self):
+    #     with open('PythonNiUI\productNameAndPrices.csv', 'r') as csv:
+    #         data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
+    #         output = data[0]
+    #         output1 = data[1]
+    #         self.orderLabel2.setText(output)
+    #         self.orderLabel6.setText(output1)
+    #         self.productPrice1.setText(output1)
+    #         self.productTitle1.setText(output)
+    #         self.productLabel1.setText(output)
+
 
     def setPinVerification(self):
         self.changePinConfirmButton.show()
@@ -1355,11 +1428,33 @@ class Ui_MainWindow(QMainWindow):
         self.changePinLineEdit.hide()
         self.changePinLabel.hide()
         self.adminLogoLabel.hide()
-        
 
+    def userUpdatedPinPassword(self):
+        updatedPinLabel= self.sender()
+        updatedPinLabel = self.updatePinLineEdit.text()
+        finalUpdatedPinLabel = self.sender()
+        finalUpdatedPinLabel = self.updatePinConfirmLineEdit.text()
+
+        if updatedPinLabel == finalUpdatedPinLabel:
+            pinPasswords = [
+                [finalUpdatedPinLabel],
+            ]
+
+            file = open('PythonNiUI\password.csv', 'a', newline='')
+            writer = csv.writer(file)
+            writer.writerows(pinPasswords)
+            file.close()
+
+    # def checkUpdatedPinPassword(self):
+    #     with open('PythonNiUI\password.csv', 'r') as csv:
+    #         data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
+    #         print(data)
 
     def pinVerificationConfirmButton(self): #use CSV to store the updated passwords
-        if self.changePinLineEdit.text() == "000":
+        with open('PythonNiUI\password.csv', 'r') as csv:
+            data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
+            pin = data[0]
+        if self.changePinLineEdit.text() == pin:
             self.setUpdatePinPassword()
 
             # updatedPinPassword = self.sender()

@@ -1,9 +1,13 @@
-import sys
-from PySide6.QtWidgets import QApplication
-from ui_thesisUI1 import Ui_MainWindow
-app = QApplication(sys.argv)
+import csv
 
-window = Ui_MainWindow()
-window.show()
-app.exec_()
+# data_to_append = [
+#     ['Jasmine', '56'],
+#     ['Jezmen', '45']
+# ]
 
+# file = open('PythonNiUI\productNameAndPrices.csv', 'a', newline='')
+# writer = csv.writer(file)
+# writer.writerows(data_to_append)
+# file.close()
+
+    # def readItemInCSVtoOrderForm(self)
