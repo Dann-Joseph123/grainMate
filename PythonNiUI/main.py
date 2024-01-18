@@ -115,7 +115,7 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel7.hide()
         self.orderLabel8 = QLabel(self.centralwidget)
         self.orderLabel8.setObjectName(u"orderLabel8")
-        self.orderLabel8.setGeometry(QRect(460, 340, 81, 21))
+        self.orderLabel8.setGeometry(QRect(450, 340, 81, 21))
         self.orderLabel8.setFont(font2)
         self.orderLabel8.setStyleSheet(u"color: rgb(33, 123, 88);")
         self.orderLabel8.setAlignment(Qt.AlignCenter)
@@ -934,7 +934,7 @@ class Ui_MainWindow(QMainWindow):
 
     def verifyAccount(self):
         password = self.adminPasswordLineEdit2.text()
-        with open('PythonNiUI\password.csv', 'r') as csv:
+        with open('PythonNiUI\CSVFiles\password.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             pin = data[0]
         if password == pin:
@@ -1018,34 +1018,42 @@ class Ui_MainWindow(QMainWindow):
         self.orderPushButton4.clicked.connect(self.setProduct4)
 
         #Read CSV
-        with open('PythonNiUI\productNameAndPrices.csv', 'r') as csv:
-            data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-4:]
-            print(data)
-            loadProductLabel1 = data[0][0]
-            loadProductPrice1 = data[0][1]
-            loadProductLabel2 = data[1][0]
-            loadProductPrice2 = data[1][1]
-            loadProductLabel3 = data[2][0]
-            loadProductPrice3 = data[2][1]
-            loadProductLabel4 = data[3][0]
-            loadProductPrice4 = data[3][1]
-            # print(loadProductLabel1, loadProductPrice1)
-
+        with open('PythonNiUI\CSVFiles\product#1NameAndPrice.csv', 'r') as csv:
+            data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
+            # print(data)
+            loadProductLabel1 = data[0]
+            loadProductPrice1 = data[1]
+            print(loadProductLabel1, loadProductPrice1)
             self.orderLabel2.setText(loadProductLabel1)
             self.orderLabel6.setText(loadProductPrice1)
             self.productPrice1.setText(loadProductPrice1)
             self.productTitle1.setText(loadProductLabel1)
             self.productLabel1.setText(loadProductLabel1)
+
+        with open('PythonNiUI\CSVFiles\product#2NameAndPrice.csv', 'r') as csv:
+            data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
+            loadProductLabel2 = data[0]
+            loadProductPrice2 = data[1]
             self.productPrice2.setText(loadProductPrice2)
             self.orderLabel3.setText(loadProductLabel2)
             self.orderLabel7.setText(loadProductPrice2)
             self.productTitle2.setText(loadProductLabel2)
             self.productLabel2.setText(loadProductLabel2)
+
+        with open('PythonNiUI\CSVFiles\product#3NameAndPrice.csv', 'r') as csv:
+            data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
+            loadProductLabel3 = data[0]
+            loadProductPrice3 = data[1]
             self.productPrice3.setText(loadProductPrice3)
             self.orderLabel4.setText(loadProductLabel3)
             self.orderLabel8.setText(loadProductPrice3)
             self.productTitle3.setText(loadProductLabel3)
             self.productLabel3.setText(loadProductLabel3)
+
+        with open('PythonNiUI\CSVFiles\product#4NameAndPrice.csv', 'r') as csv:
+            data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
+            loadProductLabel4 = data[0]
+            loadProductPrice4 = data[1]
             self.productPrice4.setText(loadProductPrice4)
             self.orderLabel5.setText(loadProductLabel4)
             self.orderLabel9.setText(loadProductPrice4)
@@ -1327,56 +1335,21 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_2.hide()
         self.updateLabel.hide ()
         
-    def productRiceLabel(self):
+    def productRiceLabel(self): #Calls UpdateProductFunctions in every spinbox
         if self.spinBox.value() == 1:
-            self.getItemInProductDetailCSV()
-            with open('PythonNiUI\productNameAndPrices.csv', 'r') as csv:
-                data = [[data_to_append.strip() for data_to_append in line.strip().split(',')] for line in csv.readlines()][-4]
-                output = data[0]
-                output1 = data[1]
-            self.orderLabel2.setText(output)
-            self.orderLabel6.setText(output1)
-            self.productPrice1.setText(output1)
-            self.productTitle1.setText(output)
-            self.productLabel1.setText(output)
+            self.getItemInProduct1DetailCSV()
 
         elif self.spinBox.value() == 2:
-            self.getItemInProductDetailCSV()
-            with open('PythonNiUI\productNameAndPrices.csv', 'r') as csv:
-                data = [[data_to_append.strip() for data_to_append in line.strip().split(',')] for line in csv.readlines()][-3]
-                output = data[0]
-                output1 = data[1]
-            self.productPrice2.setText(output1)
-            self.orderLabel3.setText(output)
-            self.orderLabel7.setText(output1)
-            self.productTitle2.setText(output)
-            self.productLabel2.setText(output)
+            self.getItemInProduct2DetailCSV()
 
         elif self.spinBox.value() == 3:
-            self.getItemInProductDetailCSV()
-            with open('PythonNiUI\productNameAndPrices.csv', 'r') as csv:
-                data = [[data_to_append.strip() for data_to_append in line.strip().split(',')] for line in csv.readlines()][-2]
-                output = data[0]
-                output1 = data[1]
-            self.productPrice3.setText(output1)
-            self.orderLabel4.setText(output)
-            self.orderLabel8.setText(output1)
-            self.productTitle3.setText(output)
-            self.productLabel3.setText(output)
+            self.getItemInProduct3DetailCSV()
 
         elif self.spinBox.value() == 4:
-            self.getItemInProductDetailCSV()
-            with open('PythonNiUI\productNameAndPrices.csv', 'r') as csv:
-                data = [[data_to_append.strip() for data_to_append in line.strip().split(',')] for line in csv.readlines()][-1]
-                output = data[0]
-                output1 = data[1]
-            self.productPrice4.setText(output1)
-            self.orderLabel5.setText(output)
-            self.orderLabel9.setText(output1)
-            self.productTitle4.setText(output)
-            self.productLabel4.setText(output)
+            self.getItemInProduct4DetailCSV()
 
-    def getItemInProductDetailCSV(self): #dapat magaappend sa number sa part inupdate
+
+    def getItemInProduct1DetailCSV(self): #Product#1
             updatedProductLabel = self.sender()
             updatedProductLabel = self.updateProductName1LineEdit.text()
             updatedProductPrice = self.sender()
@@ -1385,22 +1358,52 @@ class Ui_MainWindow(QMainWindow):
                 [updatedProductLabel, updatedProductPrice],
             ]
 
-            file = open('PythonNiUI\productNameAndPrices.csv', 'a', newline='')
+            file = open('PythonNiUI\CSVFiles\product#1NameAndPrice.csv', 'a', newline='')
             writer = csv.writer(file)
             writer.writerows(data_to_append)
             file.close()
-    
-    # def readItemInCSVtoOrderForm(self):
-    #     with open('PythonNiUI\productNameAndPrices.csv', 'r') as csv:
-    #         data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
-    #         output = data[0]
-    #         output1 = data[1]
-    #         self.orderLabel2.setText(output)
-    #         self.orderLabel6.setText(output1)
-    #         self.productPrice1.setText(output1)
-    #         self.productTitle1.setText(output)
-    #         self.productLabel1.setText(output)
 
+    def getItemInProduct2DetailCSV(self): #Product#2
+        updatedProductLabel = self.sender()
+        updatedProductLabel = self.updateProductName1LineEdit.text()
+        updatedProductPrice = self.sender()
+        updatedProductPrice = self.updateProductPrice1LineEdit.text()
+        data_to_append = [
+            [updatedProductLabel, updatedProductPrice],
+        ]
+
+        file = open('PythonNiUI\CSVFiles\product#2NameAndPrice.csv', 'a', newline='')
+        writer = csv.writer(file)
+        writer.writerows(data_to_append)
+        file.close()
+
+    def getItemInProduct3DetailCSV(self): #Product#3
+        updatedProductLabel = self.sender()
+        updatedProductLabel = self.updateProductName1LineEdit.text()
+        updatedProductPrice = self.sender()
+        updatedProductPrice = self.updateProductPrice1LineEdit.text()
+        data_to_append = [
+            [updatedProductLabel, updatedProductPrice],
+        ]
+
+        file = open('PythonNiUI\CSVFiles\product#3NameAndPrice.csv', 'a', newline='')
+        writer = csv.writer(file)
+        writer.writerows(data_to_append)
+        file.close()
+
+    def getItemInProduct4DetailCSV(self): #Product#4
+            updatedProductLabel = self.sender()
+            updatedProductLabel = self.updateProductName1LineEdit.text()
+            updatedProductPrice = self.sender()
+            updatedProductPrice = self.updateProductPrice1LineEdit.text()
+            data_to_append = [
+                [updatedProductLabel, updatedProductPrice],
+            ]
+
+            file = open('PythonNiUI\CSVFiles\product#4NameAndPrice.csv', 'a', newline='')
+            writer = csv.writer(file)
+            writer.writerows(data_to_append)
+            file.close()
 
     def setPinVerification(self):
         self.changePinConfirmButton.show()
@@ -1440,7 +1443,7 @@ class Ui_MainWindow(QMainWindow):
                 [finalUpdatedPinLabel],
             ]
 
-            file = open('PythonNiUI\password.csv', 'a', newline='')
+            file = open('PythonNiUI\CSVFiles\password.csv', 'a', newline='')
             writer = csv.writer(file)
             writer.writerows(pinPasswords)
             file.close()
@@ -1451,7 +1454,7 @@ class Ui_MainWindow(QMainWindow):
     #         print(data)
 
     def pinVerificationConfirmButton(self): #use CSV to store the updated passwords
-        with open('PythonNiUI\password.csv', 'r') as csv:
+        with open('PythonNiUI\CSVFiles\password.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             pin = data[0]
         if self.changePinLineEdit.text() == pin:
