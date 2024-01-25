@@ -24,8 +24,8 @@
   <widget class="QLabel" name="splashScreenLabel">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>90</y>
+     <x>180</x>
+     <y>240</y>
      <width>491</width>
      <height>61</height>
     </rect>
@@ -39,37 +39,38 @@
     <string notr="true">color: rgb(33, 123, 88);</string>
    </property>
    <property name="text">
-    <string>Please wait for your order to finish</string>
+    <string>Please wait for your rice to fill</string>
    </property>
   </widget>
-  <widget class="QProgressBar" name="progressBar">
+  <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>180</y>
-     <width>301</width>
-     <height>71</height>
+     <x>120</x>
+     <y>20</y>
+     <width>551</width>
+     <height>231</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>18</pointsize>
-    </font>
-   </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(33, 123, 88);</string>
+    <string notr="true">background-image: url(:/newPrefix/ricemate.png);</string>
    </property>
-   <property name="value">
-    <number>45</number>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
    </property>
-   <property name="textVisible">
-    <bool>true</bool>
+   <property name="lineWidth">
+    <number>1</number>
    </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
+   <property name="text">
+    <string/>
    </property>
-   <property name="invertedAppearance">
+   <property name="pixmap">
+    <pixmap>../ricemate.png</pixmap>
+   </property>
+   <property name="scaledContents">
     <bool>false</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>

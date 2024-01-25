@@ -4,8 +4,6 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5 import QtWidgets, QtCore
 import csv
-# import RPi.GPIO as GPIO
-# from hx711 import HX711
 
 class Ui_MainWindow(QMainWindow):
 
@@ -149,7 +147,7 @@ class Ui_MainWindow(QMainWindow):
         self.orderPushButton1.setObjectName(u"orderPushButton1")
         self.orderPushButton1.setGeometry(QRect(60, 150, 141, 131))
         icon = QIcon()
-        icon.addFile(u"Graphics\Dinorado.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"Graphics/genRice.png", QSize(), QIcon.Normal, QIcon.Off)
         self.orderPushButton1.setIcon(icon)
         self.orderPushButton1.setIconSize(QSize(140, 140))
         self.orderPushButton1.hide()
@@ -159,7 +157,7 @@ class Ui_MainWindow(QMainWindow):
         self.orderPushButton2.setObjectName(u"orderPushButton2")
         self.orderPushButton2.setGeometry(QRect(240, 150, 141, 131))
         icon1 = QIcon()
-        icon1.addFile(u"Graphics\Sinandomeng.jpg", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u"Graphics/genRice.png", QSize(), QIcon.Normal, QIcon.Off)
         self.orderPushButton2.setIcon(icon1)
         self.orderPushButton2.setIconSize(QSize(181, 181))
         self.orderPushButton2.hide()
@@ -390,12 +388,25 @@ class Ui_MainWindow(QMainWindow):
         self.orderConfirmation.setTabletTracking(True)
         self.orderConfirmation.setStyleSheet(u"background-color: rgb(109, 109, 109); ""\n""color: rgb(241, 251, 249);")
         self.orderConfirmation.setFlat(False)
-        self.orderConfirmation.setText("Continue to Payment")
-        self.instructionLabel = QLabel(self.orderSummaryLabelgroupBox)
-        self.instructionLabel.setObjectName(u"instructionLabel")
-        self.instructionLabel.setGeometry(QRect(190, 250, 221, 16))
-        self.instructionLabel.setFont(font3)
-        self.instructionLabel.setText(u"Please insert the exact amount")
+        self.orderConfirmation.setText("Continue to Dispense")
+        self.orderConfirmation.clicked.connect(self.riceDispense)
+        self.instruction = QLabel(self.orderSummaryLabelgroupBox)
+        self.instruction.setObjectName(u"instruction")
+        self.instruction.setGeometry(QRect(185, 240, 221, 16))
+        self.instruction.setFont(font3)
+        self.instruction.setText(u"Please insert the exact amount")
+
+        self.amountPaid = QLabel(self.groupBox)
+        self.amountPaid.setObjectName(u"amountPaid")
+        self.amountPaid.setGeometry(QRect(60, 180, 161, 31))
+        self.amountPaid.setFont(font1)
+        self.amountPaidTextEdit = QTextEdit(self.groupBox)
+        self.amountPaidTextEdit.setObjectName(u"amountPaidTextEdit")
+        self.amountPaidTextEdit.setEnabled(True)
+        self.amountPaidTextEdit.setGeometry(QRect(350, 170, 181, 51))
+        self.amountPaidTextEdit.setFont(font2)
+        self.amountPaidTextEdit.setReadOnly(True)
+
         self.backPushButton = QPushButton(self.orderSummaryLabelgroupBox)
         self.backPushButton.setObjectName(u"pushButton")
         self.backPushButton.setGeometry(QRect(20, 20, 51, 24))
@@ -405,13 +416,64 @@ class Ui_MainWindow(QMainWindow):
         self.backPushButton.setFlat(True)
         self.backPushButton.clicked.connect(self.reminderMessage)
         
+        self.instruction.hide()
         self.orderSummaryLabel.hide()
         self.orderSummaryLabelgroupBox.hide()
         self.textEdit.hide()
         self.orderConfirmation.hide()
-        self.instructionLabel.hide()
         self.backPushButton.hide()
         self.totalLabel.hide()
+
+
+        #Thank you card
+        self.thankYoulabel = QLabel(MainWindow)
+        self.thankYoulabel.setObjectName(u"thankYoulabel")
+        self.thankYoulabel.setGeometry(QRect(260, 140, 261, 51))
+        font = QFont()
+        font.setPointSize(24)
+        self.thankYoulabel.setFont(font)
+        self.thankYoulabel.setStyleSheet(u"color: rgb(33, 123, 88)")
+        self.thankYoulabel.setText(u"Order is Complete")
+        self.thankYoulabel_2 = QLabel(MainWindow)
+        self.thankYoulabel_2.setObjectName(u"thankYoulabel_2")
+        self.thankYoulabel_2.setGeometry(QRect(300, 210, 171, 51))
+        self.thankYoulabel_2.setFont(font)
+        self.thankYoulabel_2.setStyleSheet(u"color: rgb(33, 123, 88);")
+        self.thankYoulabel_2.setText(u"You can now pick your order")
+        self.thankYoupushButton = QPushButton(MainWindow)
+        self.thankYoupushButton.setObjectName(u"thankYoupushButton")
+        self.thankYoupushButton.setGeometry(QRect(290, 300, 201, 51))
+        self.thankYoupushButton.clicked.connect(self.displayHomePage)
+
+        self.thankYoulabel.hide()
+        self.thankYoulabel_2.hide()
+        self.thankYoupushButton.hide()
+
+        #Loading and Dispensing
+        splashScreenfont = QFont()
+        splashScreenfont.setPointSize(18)
+        self.splashScreenLabel = QLabel(MainWindow)
+        self.splashScreenLabel.setObjectName(u"splashScreenLabel")
+        self.splashScreenLabel.setGeometry(QRect(160, 270, 491, 61))
+        self.splashScreenLabel.setText("Please wait for your rice to fill")
+        self.splashScreenLabel.setAlignment(Qt.AlignCenter)
+        splashScreenfont1 = QFont()
+        splashScreenfont1.setPointSize(24)
+        self.splashScreenLabel.setFont(splashScreenfont1)
+        self.splashScreenLabel.setStyleSheet(u"color: rgb(33, 123, 88);")
+        self.splashScreenLabel1 = QLabel(MainWindow)
+        self.splashScreenLabel1.setObjectName(u"splashScreenLabel1")
+        self.splashScreenLabel1.setGeometry(QRect(130, 60, 551, 231))
+        self.splashScreenLabel1.setPixmap(QPixmap(u"ricemate.png"))
+        self.splashScreenLabel1.setFrameShape(QFrame.NoFrame)
+        self.splashScreenLabel1.setLineWidth(1)
+        self.splashScreenLabel1.setScaledContents(False)
+        self.splashScreenLabel1.setAlignment(Qt.AlignCenter)
+
+        self.splashScreenLabel.hide()
+        self.splashScreenLabel1.hide()
+
+
 
 
         #Admin Landing Page
@@ -916,6 +978,11 @@ class Ui_MainWindow(QMainWindow):
         self.orderPushButton2.hide()
         self.orderPushButton3.hide()
         self.orderPushButton4.hide()
+        self.thankYoulabel.hide()
+        self.thankYoulabel_2.hide()
+        self.thankYoupushButton.hide()
+        self.splashScreenLabel.hide()
+        self.splashScreenLabel1.hide()
         
     
     def reminderMessage(self):
@@ -1066,7 +1133,6 @@ class Ui_MainWindow(QMainWindow):
         self.orderSummaryLabelgroupBox.hide()
         self.textEdit.hide()
         self.orderConfirmation.hide()
-        self.instructionLabel.hide()
         self.totalLabel.hide()
 
     def clearInputs(self):  # Clear Total and Amount fields 
@@ -1177,11 +1243,11 @@ class Ui_MainWindow(QMainWindow):
     def setOrderSummary(self):  #Order Summary going to Payment
         self.hideOrders()
         self.adminProductBackButton.hide()
+        self.instruction.show()
         self.orderSummaryLabel.show()
         self.orderSummaryLabelgroupBox.show()
         self.textEdit.show()
         self.orderConfirmation.show()
-        self.instructionLabel.show()
         self.backPushButton.show()
         self.totalLabel.show()
         self.pushButton_2.hide()
@@ -1191,6 +1257,39 @@ class Ui_MainWindow(QMainWindow):
         self.universalTextEdit.show()
         self.universalConfirmButton.show()
         self.universalCancelButton.show()  
+
+    def orderConfirmed(self): #Orders confirmed
+        print("confirmed order. waiting for payment")
+        self.orderSummaryLabelgroupBox.show()
+        self.orderSummaryLabel.show()
+        self.totalLabel.show()
+        self.textEdit.show()
+        self.instruction.show()
+
+
+        #run coin and bill methods
+        #if inputs == price, check plastic in the case. call ir, 
+        #then if plastic is present then rice dispense method 
+
+    def riceDispense(self):
+        #call ir method
+        #call beep
+        #call servo
+        self.orderSummaryLabelgroupBox.hide()
+        self.orderSummaryLabel.hide()
+        self.totalLabel.hide()
+        self.textEdit.hide()
+        self.instruction.hide()
+        self.splashScreenLabel.show()
+        self.splashScreenLabel1.show()
+        #if servo is closed, proceed to thankyoucard method
+        print("dispesing")
+
+    def thankYouCard(self):
+        self.thankYoulabel.show()
+        self.thankYoulabel_2.show()
+        self.thankYoupushButton.show()
+    
 
     def setAdminLandingPage(self):  #Admin Landing page UI
         self.label2.hide()
