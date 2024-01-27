@@ -51,7 +51,7 @@ class Ui_MainWindow(QMainWindow):
         font.setPointSize(24)
         self.orderLabel = QLabel(self.centralwidget)
         self.orderLabel.setObjectName(u"orderLabel")
-        self.orderLabel.setGeometry(QRect(290, 70, 231, 41))
+        self.orderLabel.setGeometry(QRect(300, 70, 231, 41))
         self.orderLabel.setStyleSheet(u"color: rgb(33, 123, 88);")
         self.orderLabel.setText("Select your Rice")
         self.orderLabel.setFont(font)
@@ -61,7 +61,7 @@ class Ui_MainWindow(QMainWindow):
         font1.setPointSize(18)
         self.orderLabel2 = QLabel(self.centralwidget)
         self.orderLabel2.setObjectName(u"orderLabel2")
-        self.orderLabel2.setGeometry(QRect(80, 290, 111, 41))
+        self.orderLabel2.setGeometry(QRect(170, 320, 111, 41))
         self.orderLabel2.setFont(font1)
         self.orderLabel2.setStyleSheet(u"color: rgb(33, 123, 88);")
         self.orderLabel2.setAlignment(Qt.AlignCenter)
@@ -70,7 +70,7 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel2.hide()
         self.orderLabel3 = QLabel(self.centralwidget)
         self.orderLabel3.setObjectName(u"orderLabel3")
-        self.orderLabel3.setGeometry(QRect(240, 290, 151, 41))
+        self.orderLabel3.setGeometry(QRect(340, 320, 151, 41))
         self.orderLabel3.setFont(font1)
         self.orderLabel3.setStyleSheet(u"color: rgb(33, 123, 88);")
         self.orderLabel3.setAlignment(Qt.AlignCenter)
@@ -79,23 +79,23 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel3.hide()
         self.orderLabel4 = QLabel(self.centralwidget)
         self.orderLabel4.setObjectName(u"orderLabel4")
-        self.orderLabel4.setGeometry(QRect(440, 290, 100, 41))
+        self.orderLabel4.setGeometry(QRect(540, 320, 100, 41))
         self.orderLabel4.setFont(font1)
         self.orderLabel4.setStyleSheet(u"color: rgb(33, 123, 88);")
         self.orderLabel4.setAlignment(Qt.AlignCenter)
         # self.orderLabel4.setText("Jasmine")
         self.orderLabel4.hide()
-        self.orderLabel5 = QLabel(self.centralwidget)
-        self.orderLabel5.setObjectName(u"orderLabel5")
-        self.orderLabel5.setGeometry(QRect(620, 290, 100, 41))
-        self.orderLabel5.setFont(font1)
-        self.orderLabel5.setStyleSheet(u"color: rgb(33, 123, 88);")
-        self.orderLabel5.setAlignment(Qt.AlignCenter)
-        # self.orderLabel5.setText("Red Rice")
-        self.orderLabel5.hide()
+        # self.orderLabel5 = QLabel(self.centralwidget)
+        # self.orderLabel5.setObjectName(u"orderLabel5")
+        # self.orderLabel5.setGeometry(QRect(620, 290, 100, 41))
+        # self.orderLabel5.setFont(font1)
+        # self.orderLabel5.setStyleSheet(u"color: rgb(33, 123, 88);")
+        # self.orderLabel5.setAlignment(Qt.AlignCenter)
+        # # self.orderLabel5.setText("Red Rice")
+        # self.orderLabel5.hide()
         self.orderLabel6 = QLabel(self.centralwidget)
         self.orderLabel6.setObjectName(u"orderLabel6")
-        self.orderLabel6.setGeometry(QRect(100, 340, 81, 21))
+        self.orderLabel6.setGeometry(QRect(180, 370, 81, 21))
         font2 = QFont()
         font2.setPointSize(10       )
         self.orderLabel6.setFont(font2)
@@ -105,7 +105,7 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel6.hide()
         self.orderLabel7 = QLabel(self.centralwidget)
         self.orderLabel7.setObjectName(u"orderLabel7")
-        self.orderLabel7.setGeometry(QRect(270, 340, 81, 21))
+        self.orderLabel7.setGeometry(QRect(370, 370, 81, 21))
         self.orderLabel7.setFont(font2)
         self.orderLabel7.setStyleSheet(u"color: rgb(33, 123, 88);")
         self.orderLabel7.setAlignment(Qt.AlignCenter)
@@ -113,20 +113,20 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel7.hide()
         self.orderLabel8 = QLabel(self.centralwidget)
         self.orderLabel8.setObjectName(u"orderLabel8")
-        self.orderLabel8.setGeometry(QRect(450, 340, 81, 21))
+        self.orderLabel8.setGeometry(QRect(550, 370, 81, 21))
         self.orderLabel8.setFont(font2)
         self.orderLabel8.setStyleSheet(u"color: rgb(33, 123, 88);")
         self.orderLabel8.setAlignment(Qt.AlignCenter)
         # self.orderLabel8.setText("P. 48.00")
         self.orderLabel8.hide()
-        self.orderLabel9 = QLabel(self.centralwidget)
-        self.orderLabel9.setObjectName(u"orderLabel9")
-        self.orderLabel9.setGeometry(QRect(640, 340, 81, 21))
-        self.orderLabel9.setFont(font2)
-        self.orderLabel9.setStyleSheet(u"color: rgb(33, 123, 88);")
-        self.orderLabel9.setAlignment(Qt.AlignCenter)
-        # self.orderLabel9.setText("P. 57.00")
-        self.orderLabel9.hide()
+        # self.orderLabel9 = QLabel(self.centralwidget)
+        # self.orderLabel9.setObjectName(u"orderLabel9")
+        # self.orderLabel9.setGeometry(QRect(720, 340, 81, 21))
+        # self.orderLabel9.setFont(font2)
+        # self.orderLabel9.setStyleSheet(u"color: rgb(33, 123, 88);")
+        # self.orderLabel9.setAlignment(Qt.AlignCenter)
+        # # self.orderLabel9.setText("P. 57.00")
+        # self.orderLabel9.hide()
         
         
         #OrderForm Buttons
@@ -145,7 +145,7 @@ class Ui_MainWindow(QMainWindow):
         #Product #1
         self.orderPushButton1 = QPushButton(self.centralwidget)
         self.orderPushButton1.setObjectName(u"orderPushButton1")
-        self.orderPushButton1.setGeometry(QRect(60, 150, 141, 131))
+        self.orderPushButton1.setGeometry(QRect(160, 150, 141, 131))
         icon = QIcon()
         icon.addFile(u"Graphics/genRice.png", QSize(), QIcon.Normal, QIcon.Off)
         self.orderPushButton1.setIcon(icon)
@@ -155,7 +155,7 @@ class Ui_MainWindow(QMainWindow):
         #Product#2
         self.orderPushButton2 = QPushButton(self.centralwidget)
         self.orderPushButton2.setObjectName(u"orderPushButton2")
-        self.orderPushButton2.setGeometry(QRect(240, 150, 141, 131))
+        self.orderPushButton2.setGeometry(QRect(340, 150, 141, 131))
         icon1 = QIcon()
         icon1.addFile(u"Graphics/genRice.png", QSize(), QIcon.Normal, QIcon.Off)
         self.orderPushButton2.setIcon(icon1)
@@ -165,25 +165,38 @@ class Ui_MainWindow(QMainWindow):
         #Product#3
         self.orderPushButton3 = QPushButton(self.centralwidget)
         self.orderPushButton3.setObjectName(u"orderPushButton3")
-        self.orderPushButton3.setGeometry(QRect(420, 150, 141, 131))
+        self.orderPushButton3.setGeometry(QRect(520, 150, 141, 131))
         icon2 = QIcon()
         icon2.addFile(u"Graphics\Jasmine.jpg", QSize(), QIcon.Normal, QIcon.Off)
         self.orderPushButton3.setIcon(icon2)
         self.orderPushButton3.setIconSize(QSize(194, 191))
         self.orderPushButton3.hide()
 
-        #Product#4
-        self.orderPushButton4 = QPushButton(self.centralwidget)
-        self.orderPushButton4.setObjectName(u"orderPushButton4")
-        self.orderPushButton4.setGeometry(QRect(600, 150, 141, 131))
-        icon3 = QIcon()
-        icon3.addFile(u"Graphics\Red rice.jpg", QSize(), QIcon.Normal, QIcon.Off)
-        self.orderPushButton4.setIcon(icon3)
-        self.orderPushButton4.setIconSize(QSize(195, 140))
-        self.orderPushButton4.hide()
+        #Product #1 Weight
+        self.orderWeight = QLabel(self.centralwidget)
+        self.orderWeight.setObjectName(u"orderWeight")
+        self.orderWeight.setGeometry(QRect(170, 290, 111, 41))
+        self.orderWeight.setFont(font2)
+        self.orderWeight.setStyleSheet(u"color: rgb(33, 123, 88);")
+        self.orderWeight.setAlignment(Qt.AlignCenter)
+        self.orderWeight.hide()
         
-        
+        #Product #2 Weight
+        self.orderWeight2 = QLabel(self.centralwidget)
+        self.orderWeight2.setObjectName(u"orderWeight2")
+        self.orderWeight2.setGeometry(QRect(360, 290, 111, 41))
+        self.orderWeight2.setFont(font2)
+        self.orderWeight2.setStyleSheet(u"color: rgb(33, 123, 88);")
+        self.orderWeight2.setAlignment(Qt.AlignCenter)
+        self.orderWeight2.hide()
 
+        self.orderWeight3 = QLabel(self.centralwidget)
+        self.orderWeight3.setObjectName(u"orderWeight3")
+        self.orderWeight3.setGeometry(QRect(535, 290, 111, 41))
+        self.orderWeight3.setFont(font2)
+        self.orderWeight3.setStyleSheet(u"color: rgb(33, 123, 88);")
+        self.orderWeight3.setAlignment(Qt.AlignCenter)
+        self.orderWeight3.hide()
 
         #Product 1 and General Formats
         self.productTitle1 = QLabel(self.centralwidget)
@@ -317,41 +330,6 @@ class Ui_MainWindow(QMainWindow):
         self.universalCancelButton.clicked.connect(self.setOrderPage)
         self.universalConfirmButton.clicked.connect(self.setOrderSummary)
 
-
-        #Product 4
-        self.productTitle4 = QLabel(self.centralwidget)
-        self.productTitle4.setObjectName(u"productTitle4")
-        self.productTitle4.setGeometry(QRect(350, 50, 131, 61))
-        self.productTitle4.setFont(font)
-        self.productTitle4.setStyleSheet(u"color: rgb(33, 123, 88);")
-        self.productLabel4 = QLabel(self.universalGroupBox)
-        self.productLabel4.setObjectName(u"productLabel4")
-        self.productLabel4.setGeometry(QRect(30, 20, 121, 31))
-        self.productLabel4.setFont(font1)
-        self.productPrice4 = QTextEdit(self.universalGroupBox)
-        self.productPrice4.setObjectName(u"productPrice4")
-        self.productPrice4.setGeometry(QRect(30, 50, 80, 31))
-        self.productPrice4.setFont(font2)
-        self.productPrice4.setReadOnly(True)
-        self.productPrice4.setEnabled(True)
-        self.productView4 = QGraphicsView(self.centralwidget)
-        self.productView4.setObjectName(u"productView4")
-        self.productView4.setGeometry(QRect(90, 130, 201, 201))
-        self.productSpinBox4 = QDoubleSpinBox(self.universalGroupBox)
-        self.productSpinBox4.setObjectName(u"productSpinBox4")
-        self.productSpinBox4.setFont(spinBoxFontSize)
-        self.productSpinBox4.setGeometry(QRect(30, 100, 81, 41))
-        self.productSpinBox4.setMaximum(10      )
-        self.productSpinBox4.hide()
-        self.productTitle4.hide()
-        self.productView4.hide()
-        self.productPrice4.hide()
-        self.productLabel4.hide()
-        self.universalCancelButton.clicked.connect(self.setOrderPage)
-        self.universalConfirmButton.clicked.connect(self.setOrderSummary)
-        self.productPrice4.textChanged.connect(self.priceToAmount4)  
-        self.productSpinBox4.valueChanged.connect(self.displayToTotal4)
-
         #OrderSummary
         self.orderSummaryLabelgroupBox = QGroupBox(self.centralwidget)
         self.orderSummaryLabelgroupBox.setObjectName(u"groupBox")
@@ -365,12 +343,12 @@ class Ui_MainWindow(QMainWindow):
         self.orderSummaryLabel.setText(u"Order Summary")
         self.totalLabel = QLabel(self.orderSummaryLabelgroupBox)
         self.totalLabel.setObjectName(u"totalLabel")
-        self.totalLabel.setGeometry(QRect(60, 120, 91, 31))
+        self.totalLabel.setGeometry(QRect(20, 120, 131, 31))
         font1 = QFont()
         font1.setPointSize(20)
         self.totalLabel.setFont(font1)
         self.totalLabel.setText("Total")
-        self.textEdit = QTextEdit(self.orderSummaryLabelgroupBox)
+        self.textEdit = QLineEdit(self.orderSummaryLabelgroupBox)
         self.textEdit.setObjectName(u"textEdit")
         self.textEdit.setEnabled(True)
         self.textEdit.setGeometry(QRect(350, 110, 181, 61))
@@ -378,34 +356,89 @@ class Ui_MainWindow(QMainWindow):
         font2.setPointSize(22)
         self.textEdit.setFont(font2)
         self.textEdit.setReadOnly(True)
-        self.orderConfirmation = QPushButton(self.orderSummaryLabelgroupBox)
-        self.orderConfirmation.setObjectName(u"orderConfirmation")
-        self.orderConfirmation.setGeometry(QRect(100, 280, 381, 41))
+        self.orderConfirmationToCoins = QPushButton(self.orderSummaryLabelgroupBox)
+        self.orderConfirmationToCoins.setObjectName(u"orderConfirmation")
+        self.orderConfirmationToCoins.setGeometry(QRect(100, 280, 381, 41))
         font3 = QFont()
         font3.setPointSize(10)
-        self.orderConfirmation.setFont(font3)
-        self.orderConfirmation.setMouseTracking(True)
-        self.orderConfirmation.setTabletTracking(True)
-        self.orderConfirmation.setStyleSheet(u"background-color: rgb(109, 109, 109); ""\n""color: rgb(241, 251, 249);")
-        self.orderConfirmation.setFlat(False)
-        self.orderConfirmation.setText("Continue to Dispense")
-        self.orderConfirmation.clicked.connect(self.riceDispense)
+
+        font3instruction = QFont()
+        font3instruction.setPointSize(15)
+        self.orderConfirmationToCoins.setFont(font3)
+        self.orderConfirmationToCoins.setMouseTracking(True)
+        self.orderConfirmationToCoins.setTabletTracking(True)
+        self.orderConfirmationToCoins.setStyleSheet(u"background-color: rgb(109, 109, 109); ""\n""color: rgb(241, 251, 249);")
+        self.orderConfirmationToCoins.setFlat(False)
+        self.orderConfirmationToCoins.setText("Tap to proceed to coins")
+        self.orderConfirmationToCoins.clicked.connect(self.coins)
         self.instruction = QLabel(self.orderSummaryLabelgroupBox)
         self.instruction.setObjectName(u"instruction")
-        self.instruction.setGeometry(QRect(185, 240, 221, 16))
-        self.instruction.setFont(font3)
-        self.instruction.setText(u"Please insert the exact amount")
+        self.instruction.setGeometry(QRect(185, 240, 270, 16))
+        self.instruction.setFont(font3instruction)
+        self.instruction.setText(u"Please insert the bills first")
 
         self.amountPaid = QLabel(self.orderSummaryLabelgroupBox)
         self.amountPaid.setObjectName(u"amountPaid")
-        self.amountPaid.setGeometry(QRect(60, 180, 161, 31))
+        self.amountPaid.setGeometry(QRect(20, 180, 321, 31))
         self.amountPaid.setFont(font1)
+        self.amountPaid.setText(u"Amount Paid in Bills")
         self.amountPaidTextEdit = QTextEdit(self.orderSummaryLabelgroupBox)
         self.amountPaidTextEdit.setObjectName(u"amountPaidTextEdit")
         self.amountPaidTextEdit.setEnabled(True)
         self.amountPaidTextEdit.setGeometry(QRect(350, 170, 181, 51))
         self.amountPaidTextEdit.setFont(font2)
         self.amountPaidTextEdit.setReadOnly(True)
+
+        self.instruction1 = QLabel(self.orderSummaryLabelgroupBox)
+        self.instruction1.setObjectName(u"instruction1")
+        self.instruction1.setGeometry(QRect(185, 240, 270, 16))
+        self.instruction1.setFont(font3instruction)
+        self.instruction1.setText(u"Please insert the coins")
+        self.amountCoinPaid = QLabel(self.orderSummaryLabelgroupBox)
+        self.amountCoinPaid.setObjectName(u"amountPaid")
+        self.amountCoinPaid.setGeometry(QRect(20, 180, 321, 31))
+        self.amountCoinPaid.setFont(font1)
+        self.amountCoinPaid.setText(u"Amount Paid in Coins")
+        self.amountCoinPaidTextEdit = QTextEdit(self.orderSummaryLabelgroupBox)
+        self.amountCoinPaidTextEdit.setObjectName(u"amountPaidTextEdit")
+        self.amountCoinPaidTextEdit.setEnabled(True)
+        self.amountCoinPaidTextEdit.setGeometry(QRect(350, 170, 181, 51))
+        self.amountCoinPaidTextEdit.setFont(font2)
+        self.amountCoinPaidTextEdit.setReadOnly(True)
+        self.amountCoinPaid.hide()
+        self.amountCoinPaidTextEdit.hide()
+
+        self.orderConfirmation = QPushButton(self.orderSummaryLabelgroupBox)
+        self.orderConfirmation.setObjectName(u"orderConfirmation")
+        self.orderConfirmation.setGeometry(QRect(100, 280, 381, 41))
+        self.orderConfirmation.setFont(font3)
+        self.orderConfirmation.setStyleSheet(u"background-color: rgb(109, 109, 109); ""\n""color: rgb(241, 251, 249);")
+        self.orderConfirmation.setText("Click to Continue")
+        self.orderConfirmation.clicked.connect(self.displayTotalInserted)
+
+        #total amount inserted
+        self.amountTotalPaid = QLabel(self.orderSummaryLabelgroupBox)
+        self.amountTotalPaid.setObjectName(u"amountTotalPaid")
+        self.amountTotalPaid.setGeometry(QRect(20, 180, 321, 31))
+        self.amountTotalPaid.setFont(font1)
+        self.amountTotalPaid.setText(u"Amount Paid by User")
+        self.amountTotalPaidTextEdit = QLineEdit(self.orderSummaryLabelgroupBox)
+        self.amountTotalPaidTextEdit.setObjectName(u"amountTotalPaidTextEdit")
+        self.amountTotalPaidTextEdit.setEnabled(True)
+        self.amountTotalPaidTextEdit.setGeometry(QRect(350, 170, 181, 51))
+        self.amountTotalPaidTextEdit.setFont(font2)
+        self.amountTotalPaidTextEdit.setReadOnly(False)
+        self.amountTotalPaid.hide()
+        self.amountTotalPaidTextEdit.hide()
+        self.verifyOrderConfirmation = QPushButton(self.orderSummaryLabelgroupBox)
+        self.verifyOrderConfirmation.setObjectName(u"verifyOrderConfirmation")
+        self.verifyOrderConfirmation.setGeometry(QRect(100, 280, 381, 41))
+        self.verifyOrderConfirmation.setFont(font3)
+        self.verifyOrderConfirmation.setStyleSheet(u"background-color: rgb(109, 109, 109); ""\n""color: rgb(241, 251, 249);")
+        self.verifyOrderConfirmation.setText("Click to continue")
+        self.verifyOrderConfirmation.clicked.connect(self.verifyInputPrice)
+        self.verifyOrderConfirmation.hide()
+
 
         self.backPushButton = QPushButton(self.orderSummaryLabelgroupBox)
         self.backPushButton.setObjectName(u"pushButton")
@@ -423,6 +456,8 @@ class Ui_MainWindow(QMainWindow):
         self.orderConfirmation.hide()
         self.backPushButton.hide()
         self.totalLabel.hide()
+        self.orderConfirmationToCoins.hide()
+        self.instruction1.hide()
 
 
         #Thank you card
@@ -630,7 +665,7 @@ class Ui_MainWindow(QMainWindow):
         # self.backBUtton.setFlat(True)
         self.adminProduct1Label = QLabel(MainWindow)
         self.adminProduct1Label.setObjectName(u"adminProduct1Label")
-        self.adminProduct1Label.setGeometry(QRect(210, 169, 141, 41))
+        self.adminProduct1Label.setGeometry(QRect(210, 160, 141, 41))
         self.adminProduct1Label.setText("Product")
         font2 = QFont()
         font2.setPointSize(20)
@@ -639,46 +674,63 @@ class Ui_MainWindow(QMainWindow):
         adminfont3.setPointSize(15)
         self.adminProduct1Label.setFont(font2)
         self.adminProduct1Label.setStyleSheet(u"color: rgb(30, 114, 81)")
+        self.spinBox = QSpinBox(MainWindow)
+        self.spinBox.setObjectName(u"spinBox")
+        self.spinBox.setGeometry(QRect(510, 160, 51, 41))
+        self.spinBox.setFont(adminfont3)
+        self.spinBox.setMinimum(0)
+        self.spinBox.setMaximum(4)        
         self.updateProductName1LineEdit = QLineEdit(MainWindow)
         self.updateProductName1LineEdit.setObjectName(u"updateProductName1LineEdit")
-        self.updateProductName1LineEdit.setGeometry(QRect(360, 219, 201, 41))
+        self.updateProductName1LineEdit.setGeometry(QRect(360, 269, 201, 41))
         self.updateProductName1LineEdit.setFont(adminfont3)
         self.updateProductName1LineEdit.setFrame(True)
         self.updateProductName1LineEdit.setPlaceholderText(u"Enter Product Name")
         self.updateProductPrice1LineEdit = QLineEdit(MainWindow)
         self.updateProductPrice1LineEdit.setObjectName(u"updateProductPrice1LineEdit")
-        self.updateProductPrice1LineEdit.setGeometry(QRect(360, 279, 201, 41))
+        self.updateProductPrice1LineEdit.setGeometry(QRect(360, 329, 201, 41))
         self.updateProductPrice1LineEdit.setFont(adminfont3)
         self.updateProductPrice1LineEdit.setPlaceholderText(u"Enter Product Price")
         self.adminUpdateProductName1Label = QLabel(MainWindow)
         self.adminUpdateProductName1Label.setObjectName(u"adminUpdateProductName1Label")
-        self.adminUpdateProductName1Label.setGeometry(QRect(210, 229, 131, 20))
+        self.adminUpdateProductName1Label.setGeometry(QRect(210, 279, 131, 20))
         self.adminUpdateProductName1Label.setFont(adminfont3)
         self.adminUpdateProductName1Label.setStyleSheet(u"color: rgb(30, 114, 81)")
         self.adminUpdateProductName1Label.setText("Product Name")
         self.adminUpdateProductPrice1Label = QLabel(MainWindow)
         self.adminUpdateProductPrice1Label.setObjectName(u"adminUpdateProductPrice1Label")
-        self.adminUpdateProductPrice1Label.setGeometry(QRect(210, 289, 121, 21))
+        self.adminUpdateProductPrice1Label.setGeometry(QRect(210, 339, 121, 21))
         self.adminUpdateProductPrice1Label.setText("Product Price")
         self.adminUpdateProductPrice1Label.setFont(adminfont3)
         self.adminUpdateProductPrice1Label.setStyleSheet(u"color:rgb(30, 114, 81)")
         self.saveButton = QPushButton(MainWindow)
         self.saveButton.setObjectName(u"saveButton")
-        self.saveButton.setGeometry(QRect(480, 339, 75, 24))
+        self.saveButton.setGeometry(QRect(480, 390, 75, 31))
         self.saveButton.setStyleSheet(u"background-color: rgb(74, 188, 150);")
         self.saveButton.setText(u"Save")
         self.saveButton.clicked.connect(self.productRiceLabel)
         self.cancelButton = QPushButton(MainWindow)
         self.cancelButton.setObjectName(u"cancelButton")
-        self.cancelButton.setGeometry(QRect(390, 339, 75, 24))
+        self.cancelButton.setGeometry(QRect(390, 390, 75, 31))
         self.cancelButton.setText(u"Cancel")
-        self.spinBox = QSpinBox(MainWindow)
-        self.spinBox.setObjectName(u"spinBox")
-        self.spinBox.setGeometry(QRect(510, 170, 51, 41))
-        self.spinBox.setFont(adminfont3)
-        self.spinBox.setMinimum(0)
-        self.spinBox.setMaximum(4)
-                                    
+      
+
+        self.adminUpdateProductName1Label_2 = QLabel(MainWindow)
+        self.adminUpdateProductName1Label_2.setObjectName(u"adminUpdateProductName1Label_2")
+        self.adminUpdateProductName1Label_2.setGeometry(QRect(210, 219, 151, 31))
+        self.adminUpdateProductName1Label_2.setFont(adminfont3)
+        self.adminUpdateProductName1Label_2.setStyleSheet(u"color: rgb(30, 114, 81)")
+        self.adminUpdateProductName1Label_2.setText("Product Weight")
+        self.spinBox_2 = QSpinBox(MainWindow)
+        self.spinBox_2.setObjectName(u"spinBox_2")
+        self.spinBox_2.setGeometry(QRect(510, 210, 51, 41))
+        self.spinBox_2.setFont(adminfont3)
+        self.spinBox_2.setMinimum(1)
+        self.spinBox_2.setMaximum(12)
+
+
+        self.spinBox_2.hide()
+        self.adminUpdateProductName1Label_2.hide()                            
         self.spinBox.hide()
         self.adminProduct1Label.hide()
         self.updateProductName1LineEdit.hide()
@@ -918,10 +970,10 @@ class Ui_MainWindow(QMainWindow):
         priceValue = priceBox.toPlainText()
         self.userPrice3 = float(priceValue)
 
-    def priceToAmount4(self): #price of the product#4
-        priceBox = self.sender()
-        priceValue = priceBox.toPlainText()
-        self.userPrice4 = float(priceValue)
+    # def priceToAmount4(self): #price of the product#4
+    #     priceBox = self.sender()
+    #     priceValue = priceBox.toPlainText()
+    #     self.userPrice4 = float(priceValue)
 
     def displayToTotal1(self): #amount bought by the buyer in product#1
         spinbox1 = self.sender()
@@ -941,11 +993,11 @@ class Ui_MainWindow(QMainWindow):
         self.universalTextEdit.setText(str(int(value)))
         self.textEdit.setText(str(int(value)))
 
-    def displayToTotal4(self): #amount bought by the buyer in product#4
-        spinbox4 = self.sender()
-        value = spinbox4.value() * self.userPrice4
-        self.universalTextEdit.setText(str(int(value)))
-        self.textEdit.setText(str(int(value)))
+    # def displayToTotal4(self): #amount bought by the buyer in product#4
+    #     spinbox4 = self.sender()
+    #     value = spinbox4.value() * self.userPrice4
+    #     self.universalTextEdit.setText(str(int(value)))
+    #     self.textEdit.setText(str(int(value)))
 
     def displayHomePage(self):
         self.hideOrders()
@@ -977,22 +1029,24 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel2.hide()
         self.orderLabel3.hide()
         self.orderLabel4.hide()
-        self.orderLabel5.hide()
         self.orderLabel6.hide()
         self.orderLabel7.hide()
         self.orderLabel8.hide()
-        self.orderLabel9.hide()
         self.orderPushButton1.hide()
         self.orderPushButton2.hide()
         self.orderPushButton3.hide()
-        self.orderPushButton4.hide()
         self.thankYoulabel.hide()
         self.thankYoulabel_2.hide()
         self.thankYoupushButton.hide()
         self.splashScreenLabel.hide()
         self.splashScreenLabel1.hide()
+        self.amountTotalPaid.hide()
+        self.amountCoinPaid.hide()
+        self.instruction.show()
+        self.orderWeight.hide()
+        self.orderWeight2.hide()
+        self.orderWeight3.hide()
         
-    
     def reminderMessage(self):
         reminder = QMessageBox(self)
         reminder.setWindowTitle("Notice")
@@ -1037,7 +1091,6 @@ class Ui_MainWindow(QMainWindow):
         self.productSpinBox1.hide()
         self.productSpinBox2.hide()
         self.productSpinBox3.hide()
-        self.productSpinBox4.hide()
         self.universalTextEdit.hide()
         self.universalConfirmButton.hide()
         self.universalCancelButton.hide()
@@ -1046,10 +1099,6 @@ class Ui_MainWindow(QMainWindow):
         self.productLabel3.hide()
         self.productView3.hide()
         self.productPrice3.hide()
-        self.productTitle4.hide()
-        self.productView4.hide()
-        self.productPrice4.hide()
-        self.productLabel4.hide()
         self.orderSummaryLabelgroupBox.hide()
 
         self.adminUpdateButton.hide()
@@ -1077,28 +1126,30 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel2.show()
         self.orderLabel3.show()
         self.orderLabel4.show()
-        self.orderLabel5.show()
         self.orderLabel6.show()
         self.orderLabel7.show()
         self.orderLabel8.show()
-        self.orderLabel9.show()
         self.orderPushButton1.show()
         self.orderPushButton2.show()
         self.orderPushButton3.show()
-        self.orderPushButton4.show()
         self.clearInputs()
         self.orderPushButton1.clicked.connect(self.setProduct1)
         self.orderPushButton2.clicked.connect(self.setProduct2)
         self.orderPushButton3.clicked.connect(self.setProduct3)
-        self.orderPushButton4.clicked.connect(self.setProduct4)
+        self.orderWeight.show()
+        self.orderWeight2.show()
+        self.orderWeight3.show()
+
 
         #Read CSV
         with open('PythonNiUI\CSVFiles\product#1NameAndPrice.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             # print(data)
-            loadProductLabel1 = data[0]
-            loadProductPrice1 = data[1]
+            loadProductWeight1 = data[0]
+            loadProductLabel1 = data[1]
+            loadProductPrice1 = data[2]
             print(loadProductLabel1, loadProductPrice1)
+            self.orderWeight.setText(loadProductWeight1 + " KG")
             self.orderLabel2.setText(loadProductLabel1)
             self.orderLabel6.setText(loadProductPrice1)
             self.productPrice1.setText(loadProductPrice1)
@@ -1107,8 +1158,10 @@ class Ui_MainWindow(QMainWindow):
 
         with open('PythonNiUI\CSVFiles\product#2NameAndPrice.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
-            loadProductLabel2 = data[0]
-            loadProductPrice2 = data[1]
+            loadProductWeight2 = data[0]
+            loadProductLabel2 = data[1]
+            loadProductPrice2 = data[2]
+            self.orderWeight2.setText(loadProductWeight2 + " KG")
             self.productPrice2.setText(loadProductPrice2)
             self.orderLabel3.setText(loadProductLabel2)
             self.orderLabel7.setText(loadProductPrice2)
@@ -1117,30 +1170,33 @@ class Ui_MainWindow(QMainWindow):
 
         with open('PythonNiUI\CSVFiles\product#3NameAndPrice.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
-            loadProductLabel3 = data[0]
-            loadProductPrice3 = data[1]
+            loadProductWeight3 = data[0]
+            loadProductLabel3 = data[1]
+            loadProductPrice3 = data[2]
+            self.orderWeight3.setText(loadProductWeight3 + " KG")
             self.productPrice3.setText(loadProductPrice3)
             self.orderLabel4.setText(loadProductLabel3)
             self.orderLabel8.setText(loadProductPrice3)
             self.productTitle3.setText(loadProductLabel3)
             self.productLabel3.setText(loadProductLabel3)
 
-        with open('PythonNiUI\CSVFiles\product#4NameAndPrice.csv', 'r') as csv:
-            data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
-            loadProductLabel4 = data[0]
-            loadProductPrice4 = data[1]
-            self.productPrice4.setText(loadProductPrice4)
-            self.orderLabel5.setText(loadProductLabel4)
-            self.orderLabel9.setText(loadProductPrice4)
-            self.productTitle4.setText(loadProductLabel4)
-            self.productLabel4.setText(loadProductLabel4)
-        #     print(data)
+        # with open('PythonNiUI\CSVFiles\product#4NameAndPrice.csv', 'r') as csv:
+        #     data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
+        #     loadProductLabel4 = data[0]
+        #     loadProductPrice4 = data[1]
+        #     self.productPrice4.setText(loadProductPrice4)
+        #     self.orderLabel5.setText(loadProductLabel4)
+        #     self.orderLabel9.setText(loadProductPrice4)
+        #     self.productTitle4.setText(loadProductLabel4)
+        #     self.productLabel4.setText(loadProductLabel4)
+        # #     print(data)
         
         #Order Summary
         self.orderSummaryLabel.hide()
         self.orderSummaryLabelgroupBox.hide()
         self.textEdit.hide()
         self.orderConfirmation.hide()
+        self.orderConfirmationToCoins.hide()
         self.totalLabel.hide()
 
     def clearInputs(self):  # Clear Total and Amount fields 
@@ -1148,8 +1204,9 @@ class Ui_MainWindow(QMainWindow):
         self.productSpinBox1.clear()
         self.productSpinBox2.clear()
         self.productSpinBox3.clear()
-        self.productSpinBox4.clear()
+        #self.productSpinBox4.clear()
         self.textEdit.clear()
+        self.amountTotalPaidTextEdit.clear()
 
     def setProduct1(self): # UI_2.Product1
         self.label2.hide()
@@ -1158,15 +1215,15 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel2.hide()
         self.orderLabel3.hide()
         self.orderLabel4.hide()
-        self.orderLabel5.hide()
+        #hide()
         self.orderLabel6.hide()
         self.orderLabel7.hide()
         self.orderLabel8.hide()
-        self.orderLabel9.hide()
+        #self.orderLabel9.hide()
         self.orderPushButton1.hide()
         self.orderPushButton2.hide()
         self.orderPushButton3.hide()
-        self.orderPushButton4.hide()
+        #self.orderPushButton4.hide()
         self.productTitle1.show()
         self.productView1.show()
         self.productLabel1.show()
@@ -1174,6 +1231,9 @@ class Ui_MainWindow(QMainWindow):
         self.productView1.show()
         self.productSpinBox1.show()
         self.showUniversalGroupBox()
+        self.orderWeight.hide()
+        self.orderWeight2.hide()
+        self.orderWeight3.hide()
         self.pushButton_2.hide()
           
     def setProduct2(self): # UI_2.Product2
@@ -1183,15 +1243,15 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel2.hide()
         self.orderLabel3.hide()
         self.orderLabel4.hide()
-        self.orderLabel5.hide()
         self.orderLabel6.hide()
         self.orderLabel7.hide()
         self.orderLabel8.hide()
-        self.orderLabel9.hide()
         self.orderPushButton1.hide()
         self.orderPushButton2.hide()
         self.orderPushButton3.hide()
-        self.orderPushButton4.hide()
+        self.orderWeight.hide()
+        self.orderWeight2.hide()
+        self.orderWeight3.hide()    
         self.productTitle2.show()
         self.productView2.show()
         self.productLabel2.show()
@@ -1213,40 +1273,17 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel2.hide()
         self.orderLabel3.hide()
         self.orderLabel4.hide()
-        self.orderLabel5.hide()
         self.orderLabel6.hide()
         self.orderLabel7.hide()
         self.orderLabel8.hide()
-        self.orderLabel9.hide()
         self.orderPushButton1.hide()
         self.orderPushButton2.hide()
         self.orderPushButton3.hide()
-        self.orderPushButton4.hide()
+        self.orderWeight.hide()
+        self.orderWeight2.hide()
+        self.orderWeight3.hide()
         self.pushButton_2.hide()
-        
-    def setProduct4(self): # UI_2.Product4
-        self.label2.hide()
-        self.pushButton.hide()
-        self.orderLabel.hide()
-        self.orderLabel2.hide()
-        self.orderLabel3.hide()
-        self.orderLabel4.hide()
-        self.orderLabel5.hide()
-        self.orderLabel6.hide()
-        self.orderLabel7.hide()
-        self.orderLabel8.hide()
-        self.orderLabel9.hide()
-        self.orderPushButton1.hide()
-        self.orderPushButton2.hide()
-        self.orderPushButton3.hide()
-        self.orderPushButton4.hide()
-        self.productTitle4.show()
-        self.productView4.show()
-        self.productLabel4.show()
-        self.productPrice4.show()
-        self.productSpinBox4.show()
-        self.showUniversalGroupBox()
-        self.pushButton_2.hide()
+    
 
     def setOrderSummary(self):  #Order Summary going to Payment
         self.hideOrders()
@@ -1255,7 +1292,7 @@ class Ui_MainWindow(QMainWindow):
         self.orderSummaryLabel.show()
         self.orderSummaryLabelgroupBox.show()
         self.textEdit.show()
-        self.orderConfirmation.show()
+        self.orderConfirmationToCoins.show()
         self.backPushButton.show()
         self.totalLabel.show()
         self.pushButton_2.hide()
@@ -1273,25 +1310,81 @@ class Ui_MainWindow(QMainWindow):
         self.totalLabel.show()
         self.textEdit.show()
         self.instruction.show()
-
+        self.amountTotalPaid.hide()
 
         #run coin and bill methods
         #if inputs == price, check plastic in the case. call ir, 
         #then if plastic is present then rice dispense method 
 
-    def riceDispense(self):
+    def coins(self):
+        self.splashScreenLabel.hide()
+        self.splashScreenLabel1.hide()
+        self.splashButton.hide()
+        self.amountPaid.hide()
+        self.amountPaidTextEdit.hide()
+        self.instruction.hide()
+        self.instruction1.show()
+        self.amountCoinPaid.show()
+        self.orderSummaryLabelgroupBox.show()
+        self.orderSummaryLabel.show()
+        self.totalLabel.show()
+        self.textEdit.show()
+        self.orderConfirmation.show()
+        self.amountCoinPaidTextEdit.show()
+        self.amountTotalPaid.hide()
+
+    
+    def displayTotalInserted(self):
+        self.splashScreenLabel.hide()
+        self.splashScreenLabel1.hide()
+        self.splashButton.hide()
+        self.amountPaid.hide()
+        self.amountPaidTextEdit.hide()
+        self.instruction.hide()
+        self.instruction1.hide()
+        self.amountCoinPaid.hide()
+        self.orderConfirmation.hide()
+        self.orderSummaryLabelgroupBox.show()
+        self.orderSummaryLabel.show()
+        self.totalLabel.show()
+        self.textEdit.show() #To Pay Amount
+        self.verifyOrderConfirmation.show()
+        self.amountTotalPaid.show()
+        self.amountTotalPaidTextEdit.show()
+        
+        self.amountCoinPaidTextEdit.hide()
+        
+    def verifyInputPrice(self):
+        toPayAmount = self.sender()
+        toPayAmount = self.textEdit.text()
+        PayedAmount = self.sender()
+        PayedAmount = self.amountTotalPaidTextEdit.text()
+        if toPayAmount == PayedAmount:
+            self.riceDispensing()
+        else:
+            print("Failed to Pay amount")
+        
+
+
+       
+
+    def riceDispensing(self):
         #call ir method
         #call beep
         #call servo
+        self.verifyOrderConfirmation.hide()
+        self.orderConfirmation.hide()
         self.orderSummaryLabelgroupBox.hide()
         self.orderSummaryLabel.hide()
         self.totalLabel.hide()
-        self.textEdit.hide()
-        self.instruction.hide()
+        self.textEdit.hide() #To Pay Amount
+        self.orderConfirmation.hide()
+        self.amountTotalPaid.hide()
+        self.amountTotalPaidTextEdit.hide()
         self.splashScreenLabel.show()
         self.splashScreenLabel1.show()
         self.splashButton.show()
-        #if servo is closed, proceed to thankyoucard method
+         #if servo is closed, proceed to thankyoucard method
         print("dispesing")
 
     def thankYouCard(self):
@@ -1351,9 +1444,6 @@ class Ui_MainWindow(QMainWindow):
         self.updatePinLogo.hide()
         self.hideAlertSettings()
 
-
-        
-    
     def adminReminderMessage(self): #To Back to Admin Landing Page - login form
         adminReminder = QMessageBox(self)
         adminReminder.setWindowTitle("Notice")
@@ -1411,6 +1501,8 @@ class Ui_MainWindow(QMainWindow):
         self.securityLabel.hide()
         self.updatePinLogo.show()
         self.adminLogoLabel.hide()
+        self.spinBox_2.show()
+        self.adminUpdateProductName1Label_2.show()    
 
         # self.adminAccountButton.hide()
 
@@ -1438,7 +1530,8 @@ class Ui_MainWindow(QMainWindow):
         self.updatePinConfirmLineEdit.hide()
         self.updatePinNewPinLabel.hide()
         self.updatePinConfirmPinLabel.hide()
-
+        self.spinBox_2.hide()
+        self.adminUpdateProductName1Label_2.hide()    
 
     def setSalesData(self): #Show the contents of the Sales Data UI
         self.hideAdminMainMenu()
@@ -1453,25 +1546,30 @@ class Ui_MainWindow(QMainWindow):
         
     def productRiceLabel(self): #Calls UpdateProductFunctions in every spinbox
         if self.spinBox.value() == 1:
+           
             self.getItemInProduct1DetailCSV()
 
         elif self.spinBox.value() == 2:
+            product2Weight = self.sender()
+            product2Weight = self.spinBox_2.value()
+            self.orderWeight2.setText(product2Weight + " KG")
             self.getItemInProduct2DetailCSV()
 
         elif self.spinBox.value() == 3:
+            product3Weight = self.sender()
+            product3Weight = self.spinBox_2.value()
+            self.orderWeight2.setText(product3Weight + " KG")
             self.getItemInProduct3DetailCSV()
-
-        elif self.spinBox.value() == 4:
-            self.getItemInProduct4DetailCSV()
-
 
     def getItemInProduct1DetailCSV(self): #Product#1
             updatedProductLabel = self.sender()
             updatedProductLabel = self.updateProductName1LineEdit.text()
             updatedProductPrice = self.sender()
             updatedProductPrice = self.updateProductPrice1LineEdit.text()
+            product1Weight = self.sender()
+            product1Weight = self.spinBox_2.value()
             data_to_append = [
-                [updatedProductLabel, updatedProductPrice],
+                [product1Weight, updatedProductLabel, updatedProductPrice],
             ]
 
             file = open('PythonNiUI\CSVFiles\product#1NameAndPrice.csv', 'a', newline='')
@@ -1506,20 +1604,6 @@ class Ui_MainWindow(QMainWindow):
         writer = csv.writer(file)
         writer.writerows(data_to_append)
         file.close()
-
-    def getItemInProduct4DetailCSV(self): #Product#4
-            updatedProductLabel = self.sender()
-            updatedProductLabel = self.updateProductName1LineEdit.text()
-            updatedProductPrice = self.sender()
-            updatedProductPrice = self.updateProductPrice1LineEdit.text()
-            data_to_append = [
-                [updatedProductLabel, updatedProductPrice],
-            ]
-
-            file = open('PythonNiUI\CSVFiles\product#4NameAndPrice.csv', 'a', newline='')
-            writer = csv.writer(file)
-            writer.writerows(data_to_append)
-            file.close()
 
     def setPinVerification(self):
         self.changePinConfirmButton.show()
