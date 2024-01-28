@@ -12,7 +12,7 @@ class Ui_MainWindow(QMainWindow):
         #Launching the Main Window
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        self.setWindowTitle("Grainmate")
+        self.setWindowTitle("GrainMate")
         MainWindow.resize(800, 480)
         MainWindow.setTabletTracking(True)
         MainWindow.setAutoFillBackground(False)
@@ -208,7 +208,7 @@ class Ui_MainWindow(QMainWindow):
         self.universalGroupBox.setObjectName(u"productGroupBox1")
         self.universalGroupBox.setGeometry(QRect(281, 130, 431, 201))
         self.universalGroupBox.hide()
-        self.universalTextEdit = QTextEdit(self.universalGroupBox)
+        self.universalTextEdit = QLineEdit(self.universalGroupBox)
         self.universalTextEdit.setObjectName(u"productTextEdit1")
         self.universalTextEdit.setEnabled(True)
         self.universalTextEdit.setGeometry(QRect(290, 40, 104, 51))
@@ -256,7 +256,7 @@ class Ui_MainWindow(QMainWindow):
         spinBoxFontSize.setPointSize(15)
         self.productSpinBox1.setFont(spinBoxFontSize)
         self.productSpinBox1.setGeometry(QRect(30, 100, 81, 41))
-        self.productSpinBox1.setMaximum(10)
+        self.productSpinBox1.setMaximum(5)
         self.productSpinBox1.hide()
 
         self.productSpinBox1.valueChanged.connect(self.displayToTotal1)
@@ -294,7 +294,7 @@ class Ui_MainWindow(QMainWindow):
         self.productPrice2.textChanged.connect(self.priceToAmount2)  
         self.productSpinBox2.valueChanged.connect(self.displayToTotal2)
         self.universalCancelButton.clicked.connect(self.setOrderPage)
-        self.universalConfirmButton.clicked.connect(self.setOrderSummary)
+        #self.universalConfirmButton.clicked.connect(self.setOrderSummary)
         
         #Product 3
         self.productTitle3 = QLabel(self.centralwidget)
@@ -328,7 +328,7 @@ class Ui_MainWindow(QMainWindow):
         self.productPrice3.textChanged.connect(self.priceToAmount3)  
         self.productSpinBox3.valueChanged.connect(self.displayToTotal3)
         self.universalCancelButton.clicked.connect(self.setOrderPage)
-        self.universalConfirmButton.clicked.connect(self.setOrderSummary)
+        #self.universalConfirmButton.clicked.connect(self.setOrderSummary)
 
         #OrderSummary
         self.orderSummaryLabelgroupBox = QGroupBox(self.centralwidget)
@@ -648,7 +648,7 @@ class Ui_MainWindow(QMainWindow):
         self.adminUpdateBackButton.setGeometry(QRect(20, 30, 61, 31))
         self.adminUpdateBackButton.setIcon(backIcon)
         self.adminUpdateBackButton.setFlat(True)
-        self.adminUpdateBackButton.clicked.connect(self.adminReminderMessage)
+        self.adminUpdateBackButton.clicked.connect(self.adminBackButtonLang)
         
         #Update Product Template
         # self.backBUtton = QPushButton(MainWindow)
@@ -946,7 +946,7 @@ class Ui_MainWindow(QMainWindow):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", u"MainWindow", None))
+        MainWindow.setWindowTitle(_translate("MainWindow", u"Grainmate", None))
         self.label2.setText("")
         self.pushButton.setText(_translate("MainWindow", u"Tap to order", None))
         self.pushButton.setText("Tap to Order")
@@ -970,11 +970,6 @@ class Ui_MainWindow(QMainWindow):
         priceValue = priceBox.toPlainText()
         self.userPrice3 = float(priceValue)
 
-    # def priceToAmount4(self): #price of the product#4
-    #     priceBox = self.sender()
-    #     priceValue = priceBox.toPlainText()
-    #     self.userPrice4 = float(priceValue)
-
     def displayToTotal1(self): #amount bought by the buyer in product#1
         spinbox1 = self.sender()
         value = spinbox1.value() * self.userPrice1
@@ -992,12 +987,6 @@ class Ui_MainWindow(QMainWindow):
         value = spinbox3.value() * self.userPrice3
         self.universalTextEdit.setText(str(int(value)))
         self.textEdit.setText(str(int(value)))
-
-    # def displayToTotal4(self): #amount bought by the buyer in product#4
-    #     spinbox4 = self.sender()
-    #     value = spinbox4.value() * self.userPrice4
-    #     self.universalTextEdit.setText(str(int(value)))
-    #     self.textEdit.setText(str(int(value)))
 
     def displayHomePage(self):
         self.hideOrders()
@@ -1138,18 +1127,24 @@ class Ui_MainWindow(QMainWindow):
         self.orderPushButton3.clicked.connect(self.setProduct3)
         self.orderWeight.show()
         self.orderWeight2.show()
-        self.orderWeight3.show()
 
 
         #Read CSV
+        with open('PythonNiUI\CSVFiles\product1Weight.csv', 'r') as csv:
+            data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
+            loadProductWeight1 = data[0]
+            print(loadProductWeight1)
+            self.orderWeight.setText(loadProductWeight1 + " KG")
+
+
         with open('PythonNiUI\CSVFiles\product#1NameAndPrice.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             # print(data)
-            loadProductWeight1 = data[0]
-            loadProductLabel1 = data[1]
-            loadProductPrice1 = data[2]
+            
+            loadProductLabel1 = data[0]
+            loadProductPrice1 = data[1]
             print(loadProductLabel1, loadProductPrice1)
-            self.orderWeight.setText(loadProductWeight1 + " KG")
+
             self.orderLabel2.setText(loadProductLabel1)
             self.orderLabel6.setText(loadProductPrice1)
             self.productPrice1.setText(loadProductPrice1)
@@ -1204,7 +1199,6 @@ class Ui_MainWindow(QMainWindow):
         self.productSpinBox1.clear()
         self.productSpinBox2.clear()
         self.productSpinBox3.clear()
-        #self.productSpinBox4.clear()
         self.textEdit.clear()
         self.amountTotalPaidTextEdit.clear()
 
@@ -1296,6 +1290,24 @@ class Ui_MainWindow(QMainWindow):
         self.backPushButton.show()
         self.totalLabel.show()
         self.pushButton_2.hide()
+        
+
+        #Calculate the reduced weight
+        orderedAmount = self.sender()
+        orderedAmount = self.productSpinBox1.value()
+        #print(int(orderedAmount))
+
+        with open('PythonNiUI\CSVFiles\product1Weight.csv', 'w') as csv:
+            data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
+            loadProductWeight1 = data[0]
+            minusWeight = int(orderedAmount)
+
+            totalWeight = int(loadProductWeight1)- minusWeight
+            #self.orderWeight.setText(totalWeight + " KG")
+        
+        print(totalWeight)
+
+
 
     def showUniversalGroupBox(self):    #Orders universal group box
         self.universalGroupBox.show()
@@ -1385,7 +1397,7 @@ class Ui_MainWindow(QMainWindow):
         self.splashScreenLabel1.show()
         self.splashButton.show()
          #if servo is closed, proceed to thankyoucard method
-        print("dispesing")
+        print("dispensing")
 
     def thankYouCard(self):
         self.orderSummaryLabelgroupBox.hide()
@@ -1447,7 +1459,7 @@ class Ui_MainWindow(QMainWindow):
     def adminReminderMessage(self): #To Back to Admin Landing Page - login form
         adminReminder = QMessageBox(self)
         adminReminder.setWindowTitle("Notice")
-        adminReminder.setText("Pressing YES will return you to login form. Everything will not be saved.")
+        adminReminder.setText("Pressing YES will return you to login form.")
         adminReminder.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         adminReminder.setIcon(QMessageBox.Warning)
         adminButton = adminReminder.exec()
@@ -1457,6 +1469,9 @@ class Ui_MainWindow(QMainWindow):
             self.setAdminLandingPage()
         else:
             print("No!")
+    
+    def adminBackButtonLang(self):
+        self.setAdminMainMenu()
         
     def setAdminMainMenu(self): #Admin Main Menu (Update Products, Unregistered Sales, Sales Data)
         self.adminUpdateButton.show()
@@ -1472,21 +1487,33 @@ class Ui_MainWindow(QMainWindow):
         self.adminPasswordLabel2.hide()
         self.adminLogoLabel.show()
         self.adminTitleLabel.hide()
-        self.adminUpdateBackButton.show()
         self.adminCreateNewAccount.hide()
         self.changePinConfirmButton.hide()
         self.changePinLineEdit.hide()
         self.changePinLabel.hide()
         self.updatePinLogo.hide()
+        self.spinBox_2.hide()
+        self.adminUpdateProductName1Label_2.hide()                            
+        self.spinBox.hide()
+        self.adminProduct1Label.hide()
+        self.updateProductName1LineEdit.hide()
+        self.updateProductPrice1LineEdit.hide()
+        self.adminUpdateProductName1Label.hide()
+        self.adminUpdateProductPrice1Label.hide()
+        self.saveButton.hide()
+        self.cancelButton.hide()
+        self.adminToLandingPageButton.show()
+        self.adminUpdateBackButton.hide()
 
 
     def adminUpdateProductDetails(self):    #Update Products
+        self.adminUpdateBackButton.show()
         self.adminProduct1Label.show()
         self.updateProductName1LineEdit.show()
         self.updateProductPrice1LineEdit.show()
         self.adminUpdateProductName1Label.show()
         self.adminUpdateProductPrice1Label.show()
-        self.adminLogoLabel.show()
+        #self.adminLogoLabel.show()
         self.saveButton.show()
         self.cancelButton.show()
         self.spinBox.show()
@@ -1517,7 +1544,7 @@ class Ui_MainWindow(QMainWindow):
         self.adminAccountButton.hide()
         self.adminPasswordLineEdit2.hide()
         self.adminPasswordLabel2.hide()
-        self.adminLogoLabel.show()
+        #self.adminLogoLabel.show()
         self.adminTitleLabel.hide()
         self.adminBackButton.show()
         self.adminCreateNewAccount.hide()
@@ -1546,7 +1573,7 @@ class Ui_MainWindow(QMainWindow):
         
     def productRiceLabel(self): #Calls UpdateProductFunctions in every spinbox
         if self.spinBox.value() == 1:
-           
+            self.getWeightFromAdmin()
             self.getItemInProduct1DetailCSV()
 
         elif self.spinBox.value() == 2:
@@ -1562,14 +1589,13 @@ class Ui_MainWindow(QMainWindow):
             self.getItemInProduct3DetailCSV()
 
     def getItemInProduct1DetailCSV(self): #Product#1
+
             updatedProductLabel = self.sender()
             updatedProductLabel = self.updateProductName1LineEdit.text()
             updatedProductPrice = self.sender()
             updatedProductPrice = self.updateProductPrice1LineEdit.text()
-            product1Weight = self.sender()
-            product1Weight = self.spinBox_2.value()
             data_to_append = [
-                [product1Weight, updatedProductLabel, updatedProductPrice],
+                [updatedProductLabel, updatedProductPrice],
             ]
 
             file = open('PythonNiUI\CSVFiles\product#1NameAndPrice.csv', 'a', newline='')
@@ -1603,6 +1629,18 @@ class Ui_MainWindow(QMainWindow):
         file = open('PythonNiUI\CSVFiles\product#3NameAndPrice.csv', 'a', newline='')
         writer = csv.writer(file)
         writer.writerows(data_to_append)
+        file.close()
+    
+    def getWeightFromAdmin(self):
+        product1Weight = self.sender()
+        product1Weight = self.spinBox_2.value()
+        weightAppend = [
+            [product1Weight,],
+            ]
+
+        file = open('PythonNiUI\CSVFiles\product1Weight.csv', 'a', newline = '')
+        writer = csv.writer(file)
+        writer.writerows(weightAppend)
         file.close()
 
     def setPinVerification(self):
