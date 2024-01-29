@@ -562,7 +562,7 @@ class Ui_MainWindow(QMainWindow):
         adminBackButtonFont3.setPointSize(12)
         self.adminCreateNewAccount = QPushButton(self.centralwidget)
         self.adminCreateNewAccount.setObjectName(u"adminCreateNewAccount")
-        self.adminCreateNewAccount.setGeometry(QRect(230, 330, 371, 54))
+        self.adminCreateNewAccount.setGeometry(QRect(230, 400, 371, 54))
         self.adminCreateNewAccount.setFont(adminBackButtonFont3)
         self.adminCreateNewAccount.setStyleSheet(u"color: rgb(31, 115, 82);")
         self.adminCreateNewAccount.setFlat(False)
@@ -725,7 +725,7 @@ class Ui_MainWindow(QMainWindow):
         self.spinBox_2.setObjectName(u"spinBox_2")
         self.spinBox_2.setGeometry(QRect(510, 210, 51, 41))
         self.spinBox_2.setFont(adminfont3)
-        self.spinBox_2.setMinimum(1)
+        self.spinBox_2.setMinimum(0)
         self.spinBox_2.setMaximum(12)
 
 
@@ -958,7 +958,7 @@ class Ui_MainWindow(QMainWindow):
     def priceToAmount1(self): #price of the product#1
         priceBox = self.sender()
         priceValue = priceBox.toPlainText()
-        self.userPrice1 = float(priceValue)
+        self.userPrice1 = int(priceValue)
     
     def priceToAmount2(self): #price of the product#2
         priceBox = self.sender()
@@ -1153,10 +1153,9 @@ class Ui_MainWindow(QMainWindow):
 
         with open('PythonNiUI\CSVFiles\product#2NameAndPrice.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
-            loadProductWeight2 = data[0]
-            loadProductLabel2 = data[1]
-            loadProductPrice2 = data[2]
-            self.orderWeight2.setText(loadProductWeight2 + " KG")
+            loadProductLabel2 = data[0]
+            loadProductPrice2 = data[1]
+            # self.orderWeight2.setText(loadProductWeight2 + " KG")
             self.productPrice2.setText(loadProductPrice2)
             self.orderLabel3.setText(loadProductLabel2)
             self.orderLabel7.setText(loadProductPrice2)
@@ -1165,26 +1164,15 @@ class Ui_MainWindow(QMainWindow):
 
         with open('PythonNiUI\CSVFiles\product#3NameAndPrice.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
-            loadProductWeight3 = data[0]
-            loadProductLabel3 = data[1]
-            loadProductPrice3 = data[2]
-            self.orderWeight3.setText(loadProductWeight3 + " KG")
+            # loadProductWeight3 = data[0]
+            loadProductLabel3 = data[0]
+            loadProductPrice3 = data[1]
+            # self.orderWeight3.setText(loadProductWeight3 + " KG")
             self.productPrice3.setText(loadProductPrice3)
             self.orderLabel4.setText(loadProductLabel3)
             self.orderLabel8.setText(loadProductPrice3)
             self.productTitle3.setText(loadProductLabel3)
             self.productLabel3.setText(loadProductLabel3)
-
-        # with open('PythonNiUI\CSVFiles\product#4NameAndPrice.csv', 'r') as csv:
-        #     data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
-        #     loadProductLabel4 = data[0]
-        #     loadProductPrice4 = data[1]
-        #     self.productPrice4.setText(loadProductPrice4)
-        #     self.orderLabel5.setText(loadProductLabel4)
-        #     self.orderLabel9.setText(loadProductPrice4)
-        #     self.productTitle4.setText(loadProductLabel4)
-        #     self.productLabel4.setText(loadProductLabel4)
-        # #     print(data)
         
         #Order Summary
         self.orderSummaryLabel.hide()
@@ -1209,15 +1197,12 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel2.hide()
         self.orderLabel3.hide()
         self.orderLabel4.hide()
-        #hide()
         self.orderLabel6.hide()
         self.orderLabel7.hide()
         self.orderLabel8.hide()
-        #self.orderLabel9.hide()
         self.orderPushButton1.hide()
         self.orderPushButton2.hide()
         self.orderPushButton3.hide()
-        #self.orderPushButton4.hide()
         self.productTitle1.show()
         self.productView1.show()
         self.productLabel1.show()
@@ -1293,19 +1278,29 @@ class Ui_MainWindow(QMainWindow):
         
 
         #Calculate the reduced weight
-        orderedAmount = self.sender()
-        orderedAmount = self.productSpinBox1.value()
+        
         #print(int(orderedAmount))
+        totalWeight = self.readOriginalWeight()
+        updatedWeight = totalWeight
+        with open('PythonNiUI\CSVFiles\product1Weight.csv', 'w', newline= '') as file:
+            newWeight = updatedWeight
+            writer = csv.writer(file)
+            writer.writerow(["Product weight"])
+            writer.writerow([newWeight])
+        
+            print(updatedWeight)
 
-        with open('PythonNiUI\CSVFiles\product1Weight.csv', 'w') as csv:
+    def readOriginalWeight(self):
+        with open('PythonNiUI\CSVFiles\product1Weight.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
+            orderedAmount = self.sender()
+            orderedAmount = self.productSpinBox1.value()
             loadProductWeight1 = data[0]
             minusWeight = int(orderedAmount)
 
             totalWeight = int(loadProductWeight1)- minusWeight
+            return totalWeight
             #self.orderWeight.setText(totalWeight + " KG")
-        
-        print(totalWeight)
 
 
 
@@ -1472,6 +1467,10 @@ class Ui_MainWindow(QMainWindow):
     
     def adminBackButtonLang(self):
         self.setAdminMainMenu()
+        self.salesListView.hide()
+        self.salesDataLabel2.hide()
+        self.adminUpdateBackButton.hide()
+        
         
     def setAdminMainMenu(self): #Admin Main Menu (Update Products, Unregistered Sales, Sales Data)
         self.adminUpdateButton.show()
@@ -1502,8 +1501,9 @@ class Ui_MainWindow(QMainWindow):
         self.adminUpdateProductPrice1Label.hide()
         self.saveButton.hide()
         self.cancelButton.hide()
-        self.adminToLandingPageButton.show()
+        self.adminToLandingPageButton.hide()
         self.adminUpdateBackButton.hide()
+        self.hideAlertSettingsButton() #hide alert settings button
 
 
     def adminUpdateProductDetails(self):    #Update Products
@@ -1572,76 +1572,72 @@ class Ui_MainWindow(QMainWindow):
         self.updateLabel.hide ()
         
     def productRiceLabel(self): #Calls UpdateProductFunctions in every spinbox
+        productLabel= self.sender()
+        productLabel = self.updateProductName1LineEdit.text()
+        productWeight = self.sender()
+        productWeight = self.spinBox_2.value()
+
+        print("productLabel = ", productLabel)
+        print("productWeight = ", productWeight)
         if self.spinBox.value() == 1:
-            self.getWeightFromAdmin()
-            self.getItemInProduct1DetailCSV()
+            if productLabel == None:
+                print("pasok baby")
+                self.getWeightFromAdmin()
+            else:
+                self.getWeightFromAdmin()
+                self.getItemInProduct1DetailCSV()
 
         elif self.spinBox.value() == 2:
-            product2Weight = self.sender()
-            product2Weight = self.spinBox_2.value()
-            self.orderWeight2.setText(product2Weight + " KG")
             self.getItemInProduct2DetailCSV()
 
         elif self.spinBox.value() == 3:
-            product3Weight = self.sender()
-            product3Weight = self.spinBox_2.value()
-            self.orderWeight2.setText(product3Weight + " KG")
             self.getItemInProduct3DetailCSV()
 
     def getItemInProduct1DetailCSV(self): #Product#1
-
+        with open('PythonNiUI\CSVFiles\product#1NameAndPrice.csv', 'w', newline='') as file:
             updatedProductLabel = self.sender()
             updatedProductLabel = self.updateProductName1LineEdit.text()
             updatedProductPrice = self.sender()
             updatedProductPrice = self.updateProductPrice1LineEdit.text()
-            data_to_append = [
-                [updatedProductLabel, updatedProductPrice],
-            ]
-
-            file = open('PythonNiUI\CSVFiles\product#1NameAndPrice.csv', 'a', newline='')
             writer = csv.writer(file)
-            writer.writerows(data_to_append)
-            file.close()
+            writer.writerow(["Product name", "Product price"])
+            writer.writerow([updatedProductLabel, updatedProductPrice])
 
     def getItemInProduct2DetailCSV(self): #Product#2
         updatedProductLabel = self.sender()
         updatedProductLabel = self.updateProductName1LineEdit.text()
         updatedProductPrice = self.sender()
         updatedProductPrice = self.updateProductPrice1LineEdit.text()
-        data_to_append = [
-            [updatedProductLabel, updatedProductPrice],
-        ]
-
-        file = open('PythonNiUI\CSVFiles\product#2NameAndPrice.csv', 'a', newline='')
-        writer = csv.writer(file)
-        writer.writerows(data_to_append)
-        file.close()
+        with open('PythonNiUI\CSVFiles\product#2NameAndPrice.csv', 'w', newline='') as file:
+            updatedProductLabel = self.sender()
+            updatedProductLabel = self.updateProductName1LineEdit.text()
+            updatedProductPrice = self.sender()
+            updatedProductPrice = self.updateProductPrice1LineEdit.text()
+            writer = csv.writer(file)
+            writer.writerow(["Product name", "Product price"])
+            writer.writerow([updatedProductLabel, updatedProductPrice])
 
     def getItemInProduct3DetailCSV(self): #Product#3
         updatedProductLabel = self.sender()
         updatedProductLabel = self.updateProductName1LineEdit.text()
         updatedProductPrice = self.sender()
         updatedProductPrice = self.updateProductPrice1LineEdit.text()
-        data_to_append = [
-            [updatedProductLabel, updatedProductPrice],
-        ]
-
-        file = open('PythonNiUI\CSVFiles\product#3NameAndPrice.csv', 'a', newline='')
-        writer = csv.writer(file)
-        writer.writerows(data_to_append)
-        file.close()
+        with open('PythonNiUI\CSVFiles\product#3NameAndPrice.csv', 'w', newline='') as file:
+            updatedProductLabel = self.sender()
+            updatedProductPrice = self.sender()
+            updatedProductLabel = self.updateProductName1LineEdit.text()
+            updatedProductPrice = self.updateProductPrice1LineEdit.text()
+            writer = csv.writer(file)
+            writer.writerow(["Product name", "Product price"])
+            writer.writerow([updatedProductLabel, updatedProductPrice])
     
     def getWeightFromAdmin(self):
-        product1Weight = self.sender()
-        product1Weight = self.spinBox_2.value()
-        weightAppend = [
-            [product1Weight,],
-            ]
-
-        file = open('PythonNiUI\CSVFiles\product1Weight.csv', 'a', newline = '')
-        writer = csv.writer(file)
-        writer.writerows(weightAppend)
-        file.close()
+        with open('PythonNiUI\CSVFiles\product1Weight.csv', 'w', newline='') as file:
+            product1Weight = self.sender()
+            product1Weight = self.spinBox_2.value()
+            writer = csv.writer(file)
+            writer.writerow(["Product name",])
+            writer.writerow([product1Weight,])
 
     def setPinVerification(self):
         self.changePinConfirmButton.show()
@@ -1656,7 +1652,9 @@ class Ui_MainWindow(QMainWindow):
         self.salesDataLabel.hide()
         self.securityLabel.hide()
         self.adminAccountButton.hide()
-        self.adminToLandingPageButton.hide()
+        self.adminUpdateBackButton.show()
+        #self.adminToLandingPageButton.show()
+
 
     def setUpdatePinPassword(self):
         self.updatePinPushButton.show()
@@ -1701,6 +1699,25 @@ class Ui_MainWindow(QMainWindow):
             # updatedPinPassword = self.sender()
             # updatedPinPassword = self.changePinLineEdit.text()
 
+    def hideAlertSettingsButton(self):
+        self.alertSettingLabel.hide()
+        self.alertSettingItem1.hide()
+        self.alertSettingItem2.hide()
+        self.alertSettingItem3.hide()
+        self.alertSettingItem4.hide()
+        self.alertSettingItem5.hide()
+        self.alertSettingItem6.hide()
+        self.alertSettingItem7.hide()
+        self.checkBoxItem1.hide()
+        self.checkBoxItem2.hide()
+        self.checkBoxItem3.hide()
+        self.checkBoxItem4.hide()
+        self.checkBoxItem5.hide()
+        self.checkBoxItem6.hide()
+        self.checkBoxItem7.hide()
+        self.comboBoxItem2.hide()
+        self.comboBoxItem6.hide()
+
     def setAlertSettings(self): #Notifications
         self.alertSettingLabel.show()
         self.alertSettingItem1.show()
@@ -1720,6 +1737,7 @@ class Ui_MainWindow(QMainWindow):
         self.comboBoxItem2.show()
         self.comboBoxItem6.show()
         self.hideAdminMainMenu()
+        self.adminUpdateBackButton.show()
         self.adminLogoLabel.hide()
         self.label2.hide()
         self.pushButton.hide()
