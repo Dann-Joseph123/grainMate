@@ -1,34 +1,52 @@
 import sys
+import csv
+import gpiozero
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5 import QtWidgets, QtCore
-import csv
+from  gpiozero.pins.pigpio import PiGPIOFactory
+from gpiozero import AngularServo
+from time import sleep
+import RPi.GPIO as GPIO
+
+from coin_acceptor import setup, loop
+#from TempSensor import read_temp
+
 
 class Ui_MainWindow(QMainWindow):
 
     def setupUi(self, MainWindow):
 
+
+                
         #Launching the Main Window
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        self.setWindowTitle("GrainMate")
+        self.setWindowTitle("GrainMate")   
         MainWindow.resize(800, 480)
+        MainWindow.setTabletTracking(True)
+        MainWindow.setAutoFillBackground(False)
         MainWindow.setStyleSheet(u"background-color:rgb(241, 251, 249)")
         MainWindow.setAnimated(True)
-
+        
+        #variable for the previous value of coin
+        self.previousValue = 0
+        self.coinsValue = 0
+        
         #Landing Page
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.label2 = QLabel(self.centralwidget)
-        titleFont = QFont()
-        titleFont.setPointSize(70)
         self.label2.setObjectName(u"label2")
-        self.label2.setGeometry(QRect(50, 10, 631, 401))
+        self.label2.setGeometry(QRect(90, -50, 631, 401))
+        titleFont = QFont()
+        titleFont.setPointSize(80)
+        titleFont.setBold(True)
         self.label2.setFont(titleFont)
         self.label2.setAlignment(Qt.AlignCenter)
-        self.label2.setText(u"Ricemate")
-        self.label2.setStyleSheet(u"background-image: url(ricemate.png)")
+        self.label2.setText("Ricemate")
+        self.label2.setStyleSheet("color: rgb(33,123,88)")   
         self.pushButton = QtWidgets.QPushButton(parent = self.centralwidget)
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setText("Tap to continue:")
@@ -45,6 +63,7 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_2.setObjectName(u"pushButton_2")
         self.pushButton_2.setGeometry(QRect(720, 70, 51, 41))
         self.pushButton_2.setStyleSheet(u"image: url(home.png)")
+        self.pushButton_2.setText("Home")
         self.pushButton_2.setFlat(True)
         self.pushButton_2.clicked.connect(self.setAdminLandingPage)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -131,16 +150,7 @@ class Ui_MainWindow(QMainWindow):
         # # self.orderLabel9.setText("P. 57.00")
         # self.orderLabel9.hide()
         
-        #Temperature UI
-        self.temperatureSensor = QLabel(MainWindow)
-        self.temperatureSensor.setObjectName(u"temperatureSensor")
-        self.temperatureSensor.setGeometry(QRect(100, 90, 51, 21))
-        self.temperatureSensor.setFont(font2)
-        self.temperatureSensor.setStyleSheet(u"color: rgb(33, 123, 88);")
-        self.temperatureSensor.setAlignment(Qt.AlignCenter)
-        self.temperatureSensor.hide()
-
-
+        
         #OrderForm Buttons
 
         backIcon = QIcon()
@@ -149,6 +159,7 @@ class Ui_MainWindow(QMainWindow):
         self.adminProductBackButton.setObjectName(u"adminProductBackButton")
         self.adminProductBackButton.setGeometry(QRect(20, 30, 61, 31))
         self.adminProductBackButton.setIcon(backIcon)
+        self.adminProductBackButton.setText(" <<< ")
         self.adminProductBackButton.setFlat(True)
         self.adminProductBackButton.clicked.connect(self.displayHomePage)
         adminProductBackButtonFont3 = QFont()
@@ -261,7 +272,7 @@ class Ui_MainWindow(QMainWindow):
         self.productView1.setGeometry(QRect(80, 130, 201, 201))
         self.productView1.hide()
         self.universalCancelButton.clicked.connect(self.setOrderPage)
-        self.universalConfirmButton.clicked.connect(self.setOrderSummary)
+        self.universalConfirmButton.clicked.connect(self.coins)
         self.productSpinBox1 = QDoubleSpinBox(self.universalGroupBox)
         self.productSpinBox1.setObjectName(u"productSpinBox1")
         spinBoxFontSize = QFont()
@@ -270,6 +281,13 @@ class Ui_MainWindow(QMainWindow):
         self.productSpinBox1.setGeometry(QRect(30, 100, 81, 41))
         self.productSpinBox1.setMaximum(5)
         self.productSpinBox1.hide()
+        self.temperatureSensor = QLabel(MainWindow)
+        self.temperatureSensor.setObjectName(u"temperatureSensor")
+        self.temperatureSensor.setGeometry(QRect(185, 120, 100, 21))
+        self.temperatureSensor.setFont(font2)
+        self.temperatureSensor.setStyleSheet(u"color: rgb(33, 123, 88);")
+        self.temperatureSensor.setAlignment(Qt.AlignCenter)
+        self.temperatureSensor.hide()
 
         self.productSpinBox1.valueChanged.connect(self.displayToTotal1)
         self.productPrice1.textChanged.connect(self.priceToAmount1)
@@ -394,13 +412,13 @@ class Ui_MainWindow(QMainWindow):
         self.amountPaid.setGeometry(QRect(20, 180, 321, 31))
         self.amountPaid.setFont(font1)
         self.amountPaid.setText(u"Amount Paid in Bills")
-        self.amountPaidTextEdit = QLineEdit(self.orderSummaryLabelgroupBox)
+        self.amountPaidTextEdit = QTextEdit(self.orderSummaryLabelgroupBox)
         self.amountPaidTextEdit.setObjectName(u"amountPaidTextEdit")
         self.amountPaidTextEdit.setEnabled(True)
         self.amountPaidTextEdit.setGeometry(QRect(350, 170, 181, 51))
         self.amountPaidTextEdit.setFont(font2)
         self.amountPaidTextEdit.setReadOnly(True)
-
+        #Coins
         self.instruction1 = QLabel(self.orderSummaryLabelgroupBox)
         self.instruction1.setObjectName(u"instruction1")
         self.instruction1.setGeometry(QRect(185, 240, 270, 16))
@@ -411,7 +429,7 @@ class Ui_MainWindow(QMainWindow):
         self.amountCoinPaid.setGeometry(QRect(20, 180, 321, 31))
         self.amountCoinPaid.setFont(font1)
         self.amountCoinPaid.setText(u"Amount Paid in Coins")
-        self.amountCoinPaidTextEdit = QTextEdit(self.orderSummaryLabelgroupBox)
+        self.amountCoinPaidTextEdit = QLineEdit(self.orderSummaryLabelgroupBox)
         self.amountCoinPaidTextEdit.setObjectName(u"amountPaidTextEdit")
         self.amountCoinPaidTextEdit.setEnabled(True)
         self.amountCoinPaidTextEdit.setGeometry(QRect(350, 170, 181, 51))
@@ -419,14 +437,13 @@ class Ui_MainWindow(QMainWindow):
         self.amountCoinPaidTextEdit.setReadOnly(True)
         self.amountCoinPaid.hide()
         self.amountCoinPaidTextEdit.hide()
-
         self.orderConfirmation = QPushButton(self.orderSummaryLabelgroupBox)
         self.orderConfirmation.setObjectName(u"orderConfirmation")
         self.orderConfirmation.setGeometry(QRect(100, 280, 381, 41))
         self.orderConfirmation.setFont(font3)
         self.orderConfirmation.setStyleSheet(u"background-color: rgb(109, 109, 109); ""\n""color: rgb(241, 251, 249);")
         self.orderConfirmation.setText("Click to Continue")
-        self.orderConfirmation.clicked.connect(self.displayTotalInserted)
+        #self.orderConfirmation.clicked.connect(self.riceDispensing)
 
         #total amount inserted
         self.amountTotalPaid = QLabel(self.orderSummaryLabelgroupBox)
@@ -458,6 +475,7 @@ class Ui_MainWindow(QMainWindow):
         backIcon = QIcon()
         backIcon.addFile(u"Graphics/previous.png", QSize(), QIcon.Normal, QIcon.Off)
         self.backPushButton.setIcon(backIcon)
+        self.backPushButton.setText(" <<< ")
         self.backPushButton.setFlat(True)
         self.backPushButton.clicked.connect(self.reminderMessage)
         
@@ -511,18 +529,14 @@ class Ui_MainWindow(QMainWindow):
         splashScreenfont1.setPointSize(24)
         self.splashScreenLabel.setFont(splashScreenfont1)
         self.splashScreenLabel.setStyleSheet(u"color: rgb(33, 123, 88);")
-        self.splashScreenLabel1 = QLabel(MainWindow)
+        self.splashScreenLabel1 = QLineEdit(MainWindow)
         self.splashScreenLabel1.setObjectName(u"splashScreenLabel1")
-        self.splashScreenLabel1.setGeometry(QRect(130, 60, 551, 231))
-        self.splashScreenLabel1.setPixmap(QPixmap(u"ricemate.png"))
-        self.splashScreenLabel1.setFrameShape(QFrame.NoFrame)
-        self.splashScreenLabel1.setLineWidth(1)
-        self.splashScreenLabel1.setScaledContents(False)
+        self.splashScreenLabel1.setGeometry(QRect(130, 60, 551, 181))
         self.splashScreenLabel1.setAlignment(Qt.AlignCenter)
         self.splashButton = QPushButton(MainWindow)
         self.splashButton.setGeometry(QRect(230, 330, 371, 54))
         self.splashButton.setText("Proceed")
-        self.splashButton.clicked.connect(self.thankYouCard)
+        #self.splashButton.clicked.connect(self.thankYouCard)
 
         self.splashButton.hide()
         self.splashScreenLabel.hide()
@@ -532,14 +546,16 @@ class Ui_MainWindow(QMainWindow):
 
 
         #Admin Landing Page
+        AdminLogo = QFont()
+        AdminLogo.setPointSize(60)
+        AdminLogo.setBold(True)
         self.adminLogoLabel = QLabel(self.centralwidget)
         self.adminLogoLabel.setObjectName(u"adminLogoLabel")
         self.adminLogoLabel.setGeometry(QRect(50, -60, 701, 291))
-        self.adminLogoLabel.setStyleSheet(u"background-image: url(:/newPrefix/ricemate.png);")
-        self.adminLogoLabel.setFrameShape(QFrame.NoFrame)
-        self.adminLogoLabel.setLineWidth(1)
-        self.adminLogoLabel.setPixmap(QPixmap(u"ricemate.png"))
-        self.adminLogoLabel.setScaledContents(False)
+        self.adminLogoLabel.setFont(AdminLogo)
+        self.adminLogoLabel.setText("Ricemate")
+        self.adminLogoLabel.setStyleSheet(u"color: rgb(30, 112, 80);")
+        self.adminLogoLabel.setAlignment(Qt.AlignCenter)
         adminTextEditFont = QFont()
         adminTextEditFont.setPointSize(12)
         self.adminPasswordLineEdit2 = QLineEdit(self.centralwidget)
@@ -557,7 +573,7 @@ class Ui_MainWindow(QMainWindow):
 
         self.adminTitleLabel = QLabel(self.centralwidget)
         self.adminTitleLabel.setObjectName(u"adminTitleLabel")
-        self.adminTitleLabel.setGeometry(QRect(270, 180, 241, 21))
+        self.adminTitleLabel.setGeometry(QRect(300, 180, 241, 21))
         self.adminTitleLabel.setText("Administrator Mode")
         adminLabelFont2 = QFont()
         adminLabelFont2.setPointSize(15)
@@ -568,11 +584,20 @@ class Ui_MainWindow(QMainWindow):
         self.adminBackButton.setObjectName(u"adminBackButton")
         self.adminBackButton.setGeometry(QRect(20, 30, 61, 31))
         self.adminBackButton.setIcon(backIcon)
+        self.adminBackButton.setText(" <<< ")
         self.adminBackButton.setFlat(True)
         self.adminBackButton.clicked.connect(self.displayHomePage)
         adminBackButtonFont3 = QFont()
         adminBackButtonFont3.setPointSize(12)
-
+        self.adminCreateNewAccount = QPushButton(self.centralwidget)
+        self.adminCreateNewAccount.setObjectName(u"adminCreateNewAccount")
+        self.adminCreateNewAccount.setGeometry(QRect(200, 420, 371, 41))
+        self.adminCreateNewAccount.setFont(adminBackButtonFont3)
+        self.adminCreateNewAccount.setStyleSheet(u"color: rgb(31, 115, 82);")
+        self.adminCreateNewAccount.setFlat(False)
+        self.adminCreateNewAccount.setText("Sign in")
+        self.adminCreateNewAccount.clicked.connect(self.verifyAccount)
+        
         self.icon1pushButton = QPushButton(MainWindow)
         self.icon1pushButton.setObjectName(u"icon1pushButton")
         self.icon1pushButton.setGeometry(QRect(280, 300, 41, 41))
@@ -629,18 +654,6 @@ class Ui_MainWindow(QMainWindow):
         self.icon6pushButton.hide()
         self.icon7pushButton.hide()
         self.icon8pushButton.hide()
-
-        
-
-
-        self.adminCreateNewAccount = QPushButton(self.centralwidget)
-        self.adminCreateNewAccount.setObjectName(u"adminCreateNewAccount")
-        self.adminCreateNewAccount.setGeometry(QRect(200, 420, 371, 41))
-        self.adminCreateNewAccount.setFont(adminBackButtonFont3)
-        self.adminCreateNewAccount.setStyleSheet(u"color: rgb(31, 115, 82);")
-        self.adminCreateNewAccount.setFlat(False)
-        self.adminCreateNewAccount.setText("Sign in")
-        self.adminCreateNewAccount.clicked.connect(self.verifyAccount)
 
         self.adminPasswordLineEdit2.hide()
         self.adminPasswordLabel2.hide()
@@ -855,64 +868,6 @@ class Ui_MainWindow(QMainWindow):
         self.changePinLabel.setText("Pin: ")
         self.changePinLabel.setFont(adminTextEditFont)
 
-        self.icon1pushButtonChangePin = QPushButton(MainWindow)
-        self.icon1pushButtonChangePin.setObjectName(u"icon1pushButtonChangePin")
-        self.icon1pushButtonChangePin.setGeometry(QRect(280, 300, 41, 41))
-        self.icon2pushButtonChangePin = QPushButton(MainWindow)
-        self.icon2pushButtonChangePin.setObjectName(u"icon2pushButtonChangePin")
-        self.icon2pushButtonChangePin.setGeometry(QRect(340, 300, 41, 41))
-        self.icon3pushButtonChangePin = QPushButton(MainWindow)
-        self.icon3pushButtonChangePin.setObjectName(u"icon3pushButtonChangePin")
-        self.icon3pushButtonChangePin.setGeometry(QRect(460, 300, 41, 41))
-        self.icon4pushButtonChangePin = QPushButton(MainWindow)
-        self.icon4pushButtonChangePin.setObjectName(u"icon4pushButtonChangePin")
-        self.icon4pushButtonChangePin.setGeometry(QRect(400, 300, 41, 41))
-        self.icon5pushButtonChangePin = QPushButton(MainWindow)
-        self.icon5pushButtonChangePin.setObjectName(u"icon5pushButtonChangePin")
-        self.icon5pushButtonChangePin.setGeometry(QRect(340, 350, 41, 41))
-        self.icon6pushButtonChangePin = QPushButton(MainWindow)
-        self.icon6pushButtonChangePin.setObjectName(u"icon6pushButtonChangePin")
-        self.icon6pushButtonChangePin.setGeometry(QRect(400, 350, 41, 41))
-        self.icon7pushButtonChangePin = QPushButton(MainWindow)
-        self.icon7pushButtonChangePin.setObjectName(u"icon7pushButtonChangePin")
-        self.icon7pushButtonChangePin.setGeometry(QRect(280, 350, 41, 41))
-        self.icon8pushButtonChangePin = QPushButton(MainWindow)
-        self.icon8pushButtonChangePin.setObjectName(u"icon8pushButtonChangePin")
-        self.icon8pushButtonChangePin.setGeometry(QRect(460, 350, 41, 41))
-        self.icon1pushButtonChangePin.clicked.connect(self.icon1Button)
-        self.icon2pushButtonChangePin.clicked.connect(self.icon2Button)
-        self.icon3pushButtonChangePin.clicked.connect(self.icon3Button)
-        self.icon4pushButtonChangePin.clicked.connect(self.icon4Button)
-        self.icon5pushButtonChangePin.clicked.connect(self.icon5Button)
-        self.icon6pushButtonChangePin.clicked.connect(self.icon6Button)
-        self.icon7pushButtonChangePin.clicked.connect(self.icon7Button)
-        self.icon8pushButtonChangePin.clicked.connect(self.pushButton_erase_clicked)
-        self.icon1pushButtonChangePin.setText("1")
-        self.icon2pushButtonChangePin.setText("2")
-        self.icon3pushButtonChangePin.setText("3")
-        self.icon4pushButtonChangePin.setText("4")
-        self.icon5pushButtonChangePin.setText("5")
-        self.icon6pushButtonChangePin.setText("6")   
-        self.icon7pushButtonChangePin.setText("7")
-        self.icon8pushButtonChangePin.setText("del")
-        self.icon1pushButtonChangePin.setStyleSheet(u"color: rgb(31, 115, 82);")
-        self.icon2pushButtonChangePin.setStyleSheet(u"color: rgb(31, 115, 82);")
-        self.icon3pushButtonChangePin.setStyleSheet(u"color: rgb(31, 115, 82);")
-        self.icon4pushButtonChangePin.setStyleSheet(u"color: rgb(31, 115, 82);")
-        self.icon5pushButtonChangePin.setStyleSheet(u"color: rgb(31, 115, 82);")
-        self.icon6pushButtonChangePin.setStyleSheet(u"color: rgb(31, 115, 82);")
-        self.icon7pushButtonChangePin.setStyleSheet(u"color: rgb(31, 115, 82);")
-        self.icon8pushButtonChangePin.setStyleSheet(u"color: rgb(31, 115, 82);")
-        self.icon1pushButtonChangePin.hide()
-        self.icon2pushButtonChangePin.hide()
-        self.icon3pushButtonChangePin.hide()
-        self.icon4pushButtonChangePin.hide()
-        self.icon5pushButtonChangePin.hide()
-        self.icon6pushButtonChangePin.hide()
-        self.icon7pushButtonChangePin.hide()
-        self.icon8pushButtonChangePin.hide()
-
-
         self.changePinConfirmButton.hide()
         self.changePinLineEdit.hide()
         self.changePinLabel.hide()
@@ -922,7 +877,7 @@ class Ui_MainWindow(QMainWindow):
         self.updatePinLogo = QLabel(self.centralwidget)
         self.updatePinLogo.setObjectName(u"adminLogoLabel")
         self.updatePinLogo.setGeometry(QRect(50, -60, 701, 291))
-        self.updatePinLogo.setStyleSheet(u"background-image: url(:/newPrefix/ricemate.png);")
+        self.updatePinLogo.setStyleSheet(u"background-image: url(:ricemate.png);")
         self.updatePinLogo.setPixmap(QPixmap(u"ricemate.png"))
         self.updatePinPushButton = QPushButton(MainWindow)
         self.updatePinPushButton.setObjectName(u"updatePinPushButton")
@@ -1078,7 +1033,7 @@ class Ui_MainWindow(QMainWindow):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", u"Grainmate", None))
-        self.label2.setText("Ricemate")
+        #self.label2.setText("Ricemate")
         self.pushButton.setText(_translate("MainWindow", u"Tap to order", None))
         self.pushButton.setText("Tap to Order")
 
@@ -1118,11 +1073,6 @@ class Ui_MainWindow(QMainWindow):
         value = spinbox3.value() * self.userPrice3
         self.universalTextEdit.setText(str(int(value)))
         self.textEdit.setText(str(int(value)))
-
-    def amountProduct1(self): #amount
-        amountSpinBox = self.sender()
-        amountSpinBox = self.productSpinBox1.value()
-        print(int(amountSpinBox))
 
     def displayHomePage(self):
         self.hideOrders()
@@ -1171,6 +1121,13 @@ class Ui_MainWindow(QMainWindow):
         self.orderWeight.hide()
         self.orderWeight2.hide()
         self.orderWeight3.hide()
+        self.updatePinPushButton.hide()
+        self.updatePinLineEdit.hide()
+        self.updatePinConfirmLineEdit.hide()
+        self.updatePinNewPinLabel.hide()
+        self.updatePinConfirmPinLabel.hide()
+        self.updatePinLogo.hide()
+        self.temperatureSensor.hide()
         
     def reminderMessage(self):
         reminder = QMessageBox(self)
@@ -1186,21 +1143,9 @@ class Ui_MainWindow(QMainWindow):
         else:
             print("No!")
 
-
-    def checkCoin(self, coin, temp):
-            
-        if self.previousValue < coin:
-            print(coin)
-            QtWidgets.QApplication.processEvents()
-            self.amountCoinPaidTextEdit.setText(str(coin))    
-            self.previousValue = coin
-        else:
-            pass
-
-
     def verifyAccount(self):
         password = self.adminPasswordLineEdit2.text()
-        with open('PythonNiUI\CSVFiles\password.csv', 'r') as csv:
+        with open('CSVFiles/password.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             pin = data[0]
         if password == pin:
@@ -1237,7 +1182,7 @@ class Ui_MainWindow(QMainWindow):
         self.productView3.hide()
         self.productPrice3.hide()
         self.orderSummaryLabelgroupBox.hide()
-
+        self.temperatureSensor.hide()
         self.adminUpdateButton.hide()
         self.adminNotificationButton.hide()
         self.adminSecurityButton.hide()
@@ -1255,6 +1200,7 @@ class Ui_MainWindow(QMainWindow):
 
     def setOrderPage(self): #MainMenue page
         self.hideOrders()
+        self.temperatureSensor.show()
         self.hideMainMenus()
         self.adminBackButton.hide()
         self.adminProductBackButton.hide()
@@ -1275,17 +1221,18 @@ class Ui_MainWindow(QMainWindow):
         self.orderPushButton3.clicked.connect(self.setProduct3)
         self.orderWeight.show()
         self.orderWeight2.show()
-
+        QtWidgets.QApplication.processEvents()
+        #self.temperatureReading()        
 
         #Read CSV
-        with open('PythonNiUI\CSVFiles\product1Weight.csv', 'r') as csv:
+        with open('CSVFiles/product1Weight.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             loadProductWeight1 = data[0]
             print(loadProductWeight1)
             self.orderWeight.setText(loadProductWeight1 + " KG")
 
 
-        with open('PythonNiUI\CSVFiles\product#1NameAndPrice.csv', 'r') as csv:
+        with open('CSVFiles/product#1NameAndPrice.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             # print(data)
             
@@ -1299,7 +1246,7 @@ class Ui_MainWindow(QMainWindow):
             self.productTitle1.setText(loadProductLabel1)
             self.productLabel1.setText(loadProductLabel1)
 
-        with open('PythonNiUI\CSVFiles\product#2NameAndPrice.csv', 'r') as csv:
+        with open('CSVFiles/product#2NameAndPrice.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             loadProductLabel2 = data[0]
             loadProductPrice2 = data[1]
@@ -1310,7 +1257,7 @@ class Ui_MainWindow(QMainWindow):
             self.productTitle2.setText(loadProductLabel2)
             self.productLabel2.setText(loadProductLabel2)
 
-        with open('PythonNiUI\CSVFiles\product#3NameAndPrice.csv', 'r') as csv:
+        with open('CSVFiles/product#3NameAndPrice.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             # loadProductWeight3 = data[0]
             loadProductLabel3 = data[0]
@@ -1362,9 +1309,11 @@ class Ui_MainWindow(QMainWindow):
         self.orderWeight2.hide()
         self.orderWeight3.hide()
         self.pushButton_2.hide()
+        self.temperatureSensor.hide()
           
     def setProduct2(self): # UI_2.Product2
         self.label2.hide()
+        self.temperatureSensor.hide()
         self.pushButton.hide()
         self.orderLabel.hide()
         self.orderLabel2.hide()
@@ -1395,6 +1344,7 @@ class Ui_MainWindow(QMainWindow):
         self.productSpinBox3.show()
         self.showUniversalGroupBox()
         self.label2.hide()
+        self.temperatureSensor.hide()
         self.pushButton.hide()
         self.orderLabel.hide()
         self.orderLabel2.hide()
@@ -1413,33 +1363,27 @@ class Ui_MainWindow(QMainWindow):
     
 
     def setOrderSummary(self):  #Order Summary going to Payment
+            
         self.hideOrders()
         self.adminProductBackButton.hide()
-        self.instruction.show()
-        self.orderSummaryLabel.show()
-        self.orderSummaryLabelgroupBox.show()
-        self.textEdit.show()
-        self.orderConfirmationToCoins.show()
-        self.backPushButton.show()
-        self.totalLabel.show()
+        self.temperatureSensor.hide()
+#        self.instruction.show()
+#        self.orderSummaryLabel.show()
+#        self.orderSummaryLabelgroupBox.show()
+#        self.textEdit.show()
+#        self.orderConfirmationToCoins.show()
+#        self.backPushButton.show()
+#        self.totalLabel.show()
         self.pushButton_2.hide()
-        
-
         #Calculate the reduced weight
         
         #print(int(orderedAmount))
-        totalWeight = self.readOriginalWeight()
-        updatedWeight = totalWeight
-        with open('PythonNiUI\CSVFiles\product1Weight.csv', 'w', newline= '') as file:
-            newWeight = updatedWeight
-            writer = csv.writer(file)
-            writer.writerow(["Product weight"])
-            writer.writerow([newWeight])
-        
-            print(updatedWeight)
+
+            
+
 
     def readOriginalWeight(self):
-        with open('PythonNiUI\CSVFiles\product1Weight.csv', 'r') as csv:
+        with open('CSVFiles/product1Weight.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             orderedAmount = self.sender()
             orderedAmount = self.productSpinBox1.value()
@@ -1466,12 +1410,16 @@ class Ui_MainWindow(QMainWindow):
         self.textEdit.show()
         self.instruction.show()
         self.amountTotalPaid.hide()
+        self.temperatureSensor.hide()
 
         #run coin and bill methods
         #if inputs == price, check plastic in the case. call ir, 
         #then if plastic is present then rice dispense method 
 
     def coins(self):
+        self.hideOrders()
+        self.pushButton_2.hide()
+        self.adminProductBackButton.hide()
         self.splashScreenLabel.hide()
         self.splashScreenLabel1.hide()
         self.splashButton.hide()
@@ -1487,9 +1435,53 @@ class Ui_MainWindow(QMainWindow):
         self.orderConfirmation.show()
         self.amountCoinPaidTextEdit.show()
         self.amountTotalPaid.hide()
+        self.temperatureSensor.hide()
+        
+        totalWeight = self.readOriginalWeight()
+        updatedWeight = totalWeight
+        with open('CSVFiles/product1Weight.csv', 'w', newline= '') as file:
+            newWeight = updatedWeight
+            writer = csv.writer(file)
+            writer.writerow(["Product weight"])
+            writer.writerow([newWeight])
+        
+            print(updatedWeight)
+        
+        QtWidgets.QApplication.processEvents()    
+        
+        coinInserted = self.amountCoinPaidTextEdit.text()
+        
+        setup()
+        try:
+            print("Coin Acceptor Running")
+            while True:
+                if self.coinsValue <= 54:
+                        self.coinsValue = loop()
+                        coin = int(self.coinsValue)
+                
+                        #check if the value of the coin is incremented
+                        self.checkCoin(coin, self.previousValue)
+                else:
+                        print("Okay na baby")
+                        self.riceDispensing() 
+                        QtWidgets.QApplication.processEvents()
+                        break                
+        except Exception as e:
+            print(e)
+            GPIO.cleanup()
 
-    
+    def checkCoin(self, coin, temp):
+            
+        if self.previousValue < coin:
+            print(coin)
+            QtWidgets.QApplication.processEvents()
+            self.amountCoinPaidTextEdit.setText(str(coin))    
+            self.previousValue = coin
+        else:
+            pass
+            
     def displayTotalInserted(self):
+        print("Running Display Total Inserted")
         self.splashScreenLabel.hide()
         self.splashScreenLabel1.hide()
         self.splashButton.hide()
@@ -1506,7 +1498,7 @@ class Ui_MainWindow(QMainWindow):
         self.verifyOrderConfirmation.show()
         self.amountTotalPaid.show()
         self.amountTotalPaidTextEdit.show()
-        
+        self.temperatureSensor.hide()
         self.amountCoinPaidTextEdit.hide()
         
     def verifyInputPrice(self):
@@ -1519,15 +1511,104 @@ class Ui_MainWindow(QMainWindow):
         else:
             print("Failed to Pay amount")
         
+    # def temperatureReading(self):
+    #     print("temperature sensor running")
+    #     temperature_celsius,_= read_temp()
+    #     print(temperature_celsius)
+    #     self.temperatureSensor.setText(f"{str(temperature_celsius)} Celsius")
+            
 
+    def loadSensorReading(self):
+        print("load sensor reading")
 
-       
+    def servoMethod(self):
+        servoPin = 22
+        factory = PiGPIOFactory()
+        servo = AngularServo(servoPin, min_angle=0, max_angle=180, min_pulse_width=0.0005, max_pulse_width=0.0025, pin_factory=factory)
+        servo_relay = gpiozero.OutputDevice(servoPin, active_high=True, initial_value=False)
+        servo.angle = 0
+        
+        amountSpinBox = self.sender()
+        amountSpinBox = self.productSpinBox1.value()
+        totalAmountSpinBox = int(amountSpinBox)
+        
+        if totalAmountSpinBox == 1:
+                servo_relay.on()
+                servo.angle = 0
+                print(servo.angle)
+                sleep(16.5)
 
+                servo.angle = 180
+                print(servo.angle)
+                sleep(1)
+                
+                servo.angle = 0
+                print(servo.angle)
+                        
+                servo_relay.off()
+           
+        elif totalAmountSpinBox == 2:
+                servo_relay.on()
+                servo.angle = 0
+                print(servo.angle)
+                sleep(33)
+
+                servo.angle = 180
+                print(servo.angle)
+                sleep(1)
+                
+                servo.angle = 0
+                print(servo.angle)
+                
+                servo_relay.off()
+        
+        elif totalAmountSpinBox == 3:
+                servo_relay.on()
+                servo.angle = 0
+                print(servo.angle)
+                sleep(49.5)
+
+                servo.angle = 180
+                print(servo.angle)
+                sleep(1)
+                
+                servo.angle = 0
+                print(servo.angle)
+                
+                servo_relay.off()
+                
+        elif totalAmountSpinBox == 4:
+                servo_relay.on()
+                servo.angle = 0
+                print(servo.angle)
+                sleep(66)
+
+                servo.angle = 180
+                print(servo.angle)
+                sleep(1)
+                
+                servo.angle = 0
+                print(servo.angle)
+                
+                servo_relay.off()
+                
+        elif totalAmountSpinBox == 5:
+                servo_relay.on()
+                servo.angle = 0
+                print(servo.angle)
+                sleep(82.5)
+
+                servo.angle = 180
+                print(servo.angle)
+                sleep(1)
+                
+                servo.angle = 0
+                print(servo.angle)
+                
+                servo_relay.off()
+        
     def riceDispensing(self):
-        #call ir method
-        #call beep
-        #call servo
-        self.amountProduct1()
+        self.temperatureSensor.hide()
         self.verifyOrderConfirmation.hide()
         self.orderConfirmation.hide()
         self.orderSummaryLabelgroupBox.hide()
@@ -1537,13 +1618,47 @@ class Ui_MainWindow(QMainWindow):
         self.orderConfirmation.hide()
         self.amountTotalPaid.hide()
         self.amountTotalPaidTextEdit.hide()
+        #call beep
         self.splashScreenLabel.show()
         self.splashScreenLabel1.show()
         self.splashButton.show()
-         #if servo is closed, proceed to thankyoucard method
-        print("dispensing")
+        self.temperatureSensor.hide()
+        QtWidgets.QApplication.processEvents()
+        
+        
+        self.irMethod()
+        #call ir method
+
+        #if servo is closed, proceed to thankyoucard method
+
+        
+    def irMethod(self):
+        sensor_pin = 23
+        led_pin = 26
+
+        # GPIO setup
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(sensor_pin, GPIO.IN)
+        while sensor_pin != False:
+                if GPIO.input(sensor_pin):
+                        print("no object")
+                        sleep(0.5)
+                else:
+                        # If an object is detected
+                        print("object detected")
+                        #time.sleep(0.1)
+                        #straight to dispense. wait 2 secs before dispensing
+                        sleep(2)
+                        self.servoMethod()
+                        break
+        self.thankYouCard()
+
 
     def thankYouCard(self):
+        #self.irMethod()
+        self.temperatureSensor.hide()
+        self.orderSummaryLabelgroupBox.hide()
         self.orderSummaryLabelgroupBox.hide()
         self.orderSummaryLabel.hide()
         self.totalLabel.hide()
@@ -1558,6 +1673,7 @@ class Ui_MainWindow(QMainWindow):
     
 
     def setAdminLandingPage(self):  #Admin Landing page UI
+        self.temperatureSensor.hide()
         self.label2.hide()
         self.pushButton.hide()
         self.pushButton_2.hide()
@@ -1598,6 +1714,12 @@ class Ui_MainWindow(QMainWindow):
         self.updatePinNewPinLabel.hide()
         self.updatePinConfirmPinLabel.hide()
         self.updatePinLogo.hide()
+        self.updatePinPushButton.hide()
+        self.updatePinLineEdit.hide()
+        self.updatePinConfirmLineEdit.hide()
+        self.updatePinNewPinLabel.hide()
+        self.updatePinConfirmPinLabel.hide()
+        self.updatePinLogo.hide()
         self.hideAlertSettings()
         self.icon1pushButton.show()
         self.icon2pushButton.show()
@@ -1607,67 +1729,6 @@ class Ui_MainWindow(QMainWindow):
         self.icon6pushButton.show()
         self.icon7pushButton.show()
         self.icon8pushButton.show()
-
-    def icon1Button(self):
-        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '1')
-
-    def icon2Button(self):
-        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '2')
-
-    def icon3Button(self):
-        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '3')
-
-    def icon4Button(self):
-        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '4')
-
-    def icon5Button(self):
-        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '5')
-
-    def icon6Button(self):
-        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '6')
-
-    def icon7Button(self):
-        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '7')
-
-    def pushButton_erase_clicked(self):
-        text = self.adminPasswordLineEdit2.text()
-        textLength = len(text)
-        if(textLength):
-            newtext = text[:textLength - 1]
-            self.adminPasswordLineEdit2.setText(newtext)
-
-
-    def icon1Button(self):
-        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '1')
-
-    def icon2Button(self):
-        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '2')
-
-    def icon3Button(self):
-        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '3')
-
-    def icon4Button(self):
-        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '4')
-
-    def icon5Button(self):
-        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '5')
-
-    def icon6Button(self):
-        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '6')
-
-    def icon7Button(self):
-        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '7')
-
-    def pushButton_erase_clicked(self):
-        text = self.adminPasswordLineEdit2.text()
-        textLength = len(text)
-        if(textLength):
-            newtext = text[:textLength - 1]
-            self.adminPasswordLineEdit2.setText(newtext)
-
-  
-
-
 
     def adminReminderMessage(self): #To Back to Admin Landing Page - login form
         adminReminder = QMessageBox(self)
@@ -1683,6 +1744,34 @@ class Ui_MainWindow(QMainWindow):
         else:
             print("No!")
     
+    def icon1Button(self):
+        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '1')
+
+    def icon2Button(self):
+        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '2')
+
+    def icon3Button(self):
+        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '3')
+
+    def icon4Button(self):
+        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '4')
+
+    def icon5Button(self):
+        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '5')
+
+    def icon6Button(self):
+        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '6')
+
+    def icon7Button(self):
+        self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '7')
+
+    def pushButton_erase_clicked(self):
+        text = self.adminPasswordLineEdit2.text()
+        textLength = len(text)
+        if(textLength):
+            newtext = text[:textLength - 1]
+            self.adminPasswordLineEdit2.setText(newtext)
+            
     def adminBackButtonLang(self):
         self.setAdminMainMenu()
         self.salesListView.hide()
@@ -1696,8 +1785,11 @@ class Ui_MainWindow(QMainWindow):
         self.icon6pushButton.hide()
         self.icon7pushButton.hide()
         self.icon8pushButton.hide()
+        self.temperatureSensor.hide()
+        
         
     def setAdminMainMenu(self): #Admin Main Menu (Update Products, Unregistered Sales, Sales Data)
+        self.temperatureSensor.hide()
         self.adminUpdateButton.show()
         self.adminSecurityButton.show()
         self.adminSalesButton.show()
@@ -1728,7 +1820,13 @@ class Ui_MainWindow(QMainWindow):
         self.cancelButton.hide()
         self.adminToLandingPageButton.hide()
         self.adminUpdateBackButton.hide()
-        self.hideAlertSettingsButton()
+        self.hideAlertSettingsButton() #hide alert settings button
+        self.updatePinPushButton.hide()
+        self.updatePinLineEdit.hide()
+        self.updatePinConfirmLineEdit.hide()
+        self.updatePinNewPinLabel.hide()
+        self.updatePinConfirmPinLabel.hide()
+        self.updatePinLogo.hide()
         self.icon1pushButton.hide()
         self.icon2pushButton.hide()
         self.icon3pushButton.hide()
@@ -1736,7 +1834,7 @@ class Ui_MainWindow(QMainWindow):
         self.icon5pushButton.hide()
         self.icon6pushButton.hide()
         self.icon7pushButton.hide()
-        self.icon8pushButton.hide() #hide alert settings button
+        self.icon8pushButton.hide()
 
 
     def adminUpdateProductDetails(self):    #Update Products
@@ -1763,7 +1861,7 @@ class Ui_MainWindow(QMainWindow):
         self.adminLogoLabel.hide()
         self.spinBox_2.show()
         self.adminUpdateProductName1Label_2.show()    
-
+        self.temperatureSensor.hide()
         # self.adminAccountButton.hide()
 
     def hideAdminMainMenu(self): #Hide the contents of admin main menu
@@ -1777,7 +1875,6 @@ class Ui_MainWindow(QMainWindow):
         self.adminAccountButton.hide()
         self.adminPasswordLineEdit2.hide()
         self.adminPasswordLabel2.hide()
-        #self.adminLogoLabel.show()
         self.adminTitleLabel.hide()
         self.adminBackButton.show()
         self.adminCreateNewAccount.hide()
@@ -1814,7 +1911,6 @@ class Ui_MainWindow(QMainWindow):
         print("productWeight = ", productWeight)
         if self.spinBox.value() == 1:
             if productLabel == None:
-                print("pasok baby")
                 self.getWeightFromAdmin()
             else:
                 self.getWeightFromAdmin()
@@ -1827,7 +1923,7 @@ class Ui_MainWindow(QMainWindow):
             self.getItemInProduct3DetailCSV()
 
     def getItemInProduct1DetailCSV(self): #Product#1
-        with open('PythonNiUI\CSVFiles\product#1NameAndPrice.csv', 'w', newline='') as file:
+        with open('CSVFiles/product#1NameAndPrice.csv', 'w', newline='') as file:
             updatedProductLabel = self.sender()
             updatedProductLabel = self.updateProductName1LineEdit.text()
             updatedProductPrice = self.sender()
@@ -1841,7 +1937,7 @@ class Ui_MainWindow(QMainWindow):
         updatedProductLabel = self.updateProductName1LineEdit.text()
         updatedProductPrice = self.sender()
         updatedProductPrice = self.updateProductPrice1LineEdit.text()
-        with open('PythonNiUI\CSVFiles\product#2NameAndPrice.csv', 'w', newline='') as file:
+        with open('CSVFiles/product#2NameAndPrice.csv', 'w', newline='') as file:
             updatedProductLabel = self.sender()
             updatedProductLabel = self.updateProductName1LineEdit.text()
             updatedProductPrice = self.sender()
@@ -1855,7 +1951,7 @@ class Ui_MainWindow(QMainWindow):
         updatedProductLabel = self.updateProductName1LineEdit.text()
         updatedProductPrice = self.sender()
         updatedProductPrice = self.updateProductPrice1LineEdit.text()
-        with open('PythonNiUI\CSVFiles\product#3NameAndPrice.csv', 'w', newline='') as file:
+        with open('CSVFiles/product#3NameAndPrice.csv', 'w', newline='') as file:
             updatedProductLabel = self.sender()
             updatedProductPrice = self.sender()
             updatedProductLabel = self.updateProductName1LineEdit.text()
@@ -1865,7 +1961,7 @@ class Ui_MainWindow(QMainWindow):
             writer.writerow([updatedProductLabel, updatedProductPrice])
     
     def getWeightFromAdmin(self):
-        with open('PythonNiUI\CSVFiles\product1Weight.csv', 'w', newline='') as file:
+        with open('CSVFiles/product1Weight.csv', 'w', newline='') as file:
             product1Weight = self.sender()
             product1Weight = self.spinBox_2.value()
             writer = csv.writer(file)
@@ -1886,14 +1982,7 @@ class Ui_MainWindow(QMainWindow):
         self.securityLabel.hide()
         self.adminAccountButton.hide()
         self.adminUpdateBackButton.show()
-        self.icon1pushButton.show()
-        self.icon2pushButton.show()
-        self.icon3pushButton.show()
-        self.icon4pushButton.show()
-        self.icon5pushButton.show()
-        self.icon6pushButton.show()
-        self.icon7pushButton.show()
-        self.icon8pushButton.show()
+        self.temperatureSensor.hide()
         #self.adminToLandingPageButton.show()
 
 
@@ -1908,14 +1997,7 @@ class Ui_MainWindow(QMainWindow):
         self.changePinLineEdit.hide()
         self.changePinLabel.hide()
         self.adminLogoLabel.hide()
-        self.icon1pushButton.show()
-        self.icon2pushButton.show()
-        self.icon3pushButton.show()
-        self.icon4pushButton.show()
-        self.icon5pushButton.show()
-        self.icon6pushButton.show()
-        self.icon7pushButton.show()
-        self.icon8pushButton.show()
+        self.temperatureSensor.hide()
 
     def userUpdatedPinPassword(self):
         updatedPinLabel= self.sender()
@@ -1928,7 +2010,7 @@ class Ui_MainWindow(QMainWindow):
                 [finalUpdatedPinLabel],
             ]
 
-            file = open('PythonNiUI\CSVFiles\password.csv', 'a', newline='')
+            file = open('CSVFiles/password.csv', 'a', newline='')
             writer = csv.writer(file)
             writer.writerows(pinPasswords)
             file.close()
@@ -1939,7 +2021,7 @@ class Ui_MainWindow(QMainWindow):
     #         print(data)
 
     def pinVerificationConfirmButton(self): #use CSV to store the updated passwords
-        with open('PythonNiUI\CSVFiles\password.csv', 'r') as csv:
+        with open('CSVFiles/password.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             pin = data[0]
         if self.changePinLineEdit.text() == pin:
@@ -1949,6 +2031,7 @@ class Ui_MainWindow(QMainWindow):
             # updatedPinPassword = self.changePinLineEdit.text()
 
     def hideAlertSettingsButton(self):
+        self.temperatureSensor.hide()
         self.alertSettingLabel.hide()
         self.alertSettingItem1.hide()
         self.alertSettingItem2.hide()
