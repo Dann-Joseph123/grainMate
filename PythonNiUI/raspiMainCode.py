@@ -1,26 +1,24 @@
 import sys
 import csv
-import gpiozero
+#import gpiozero
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5 import QtWidgets, QtCore
-from  gpiozero.pins.pigpio import PiGPIOFactory
-from gpiozero import AngularServo
-from time import sleep
-import RPi.GPIO as GPIO
-from hx711 import HX711
+# from  gpiozero.pins.pigpio import PiGPIOFactory
+# from gpiozero import AngularServo
+# from time import sleep
+# import RPi.GPIO as GPIO
+# from hx711 import HX711
 
-from coin_acceptor import setup, loop
+# from coin_acceptor import setup, loop
 #from TempSensor import read_temp
 #from load_Sensor import get_load
 
 class Ui_MainWindow(QMainWindow):
 
     def setupUi(self, MainWindow):
-
-
-                
+               
         #Launching the Main Window
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
@@ -35,7 +33,9 @@ class Ui_MainWindow(QMainWindow):
         self.previousValue = 0
         self.coinsValue = 0
         
-        #Landing Page
+    ####################################################################################################################
+            #--------------------------------------------- LANDING PAGE ------------------------------------------>
+    ####################################################################################################################
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.label2 = QLabel(self.centralwidget)
@@ -69,7 +69,9 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_2.clicked.connect(self.setAdminLandingPage)
         MainWindow.setCentralWidget(self.centralwidget)
 
-        #OrderForm
+    ####################################################################################################################
+            #--------------------------------------------- ORDER FORM------------------------------------------>
+    ####################################################################################################################
         font = QFont()
         font.setPointSize(24)
         self.orderLabel = QLabel(self.centralwidget)
@@ -106,16 +108,7 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel4.setFont(font1)
         self.orderLabel4.setStyleSheet(u"color: rgb(33, 123, 88);")
         self.orderLabel4.setAlignment(Qt.AlignCenter)
-        # self.orderLabel4.setText("Jasmine")
         self.orderLabel4.hide()
-        # self.orderLabel5 = QLabel(self.centralwidget)
-        # self.orderLabel5.setObjectName(u"orderLabel5")
-        # self.orderLabel5.setGeometry(QRect(620, 290, 100, 41))
-        # self.orderLabel5.setFont(font1)
-        # self.orderLabel5.setStyleSheet(u"color: rgb(33, 123, 88);")
-        # self.orderLabel5.setAlignment(Qt.AlignCenter)
-        # # self.orderLabel5.setText("Red Rice")
-        # self.orderLabel5.hide()
         self.orderLabel6 = QLabel(self.centralwidget)
         self.orderLabel6.setObjectName(u"orderLabel6")
         self.orderLabel6.setGeometry(QRect(180, 370, 81, 21))
@@ -124,7 +117,6 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel6.setFont(font2)
         self.orderLabel6.setStyleSheet(u"color: rgb(33, 123, 88);")
         self.orderLabel6.setAlignment(Qt.AlignCenter)
-        # self.orderLabel6.setText("P. 52.00")
         self.orderLabel6.hide()
         self.orderLabel7 = QLabel(self.centralwidget)
         self.orderLabel7.setObjectName(u"orderLabel7")
@@ -132,7 +124,6 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel7.setFont(font2)
         self.orderLabel7.setStyleSheet(u"color: rgb(33, 123, 88);")
         self.orderLabel7.setAlignment(Qt.AlignCenter)
-        # self.orderLabel7.setText("P. 45.00")
         self.orderLabel7.hide()
         self.orderLabel8 = QLabel(self.centralwidget)
         self.orderLabel8.setObjectName(u"orderLabel8")
@@ -140,19 +131,12 @@ class Ui_MainWindow(QMainWindow):
         self.orderLabel8.setFont(font2)
         self.orderLabel8.setStyleSheet(u"color: rgb(33, 123, 88);")
         self.orderLabel8.setAlignment(Qt.AlignCenter)
-        # self.orderLabel8.setText("P. 48.00")
         self.orderLabel8.hide()
-        # self.orderLabel9 = QLabel(self.centralwidget)
-        # self.orderLabel9.setObjectName(u"orderLabel9")
-        # self.orderLabel9.setGeometry(QRect(720, 340, 81, 21))
-        # self.orderLabel9.setFont(font2)
-        # self.orderLabel9.setStyleSheet(u"color: rgb(33, 123, 88);")
-        # self.orderLabel9.setAlignment(Qt.AlignCenter)
-        # # self.orderLabel9.setText("P. 57.00")
-        # self.orderLabel9.hide()
         
         
-        #OrderForm Buttons
+    ####################################################################################################################
+        #--------------------------------------------- ORDER FORM BUTTONS ------------------------------------------>
+    ####################################################################################################################
 
         backIcon = QIcon()
         backIcon.addFile(u"Graphics/previous.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -166,7 +150,9 @@ class Ui_MainWindow(QMainWindow):
         adminProductBackButtonFont3 = QFont()
         adminProductBackButtonFont3.setPointSize(12)
 
-        #Product #1
+    ####################################################################################################################
+        #--------------------------------------------- ORDER FORM BUTTON 1 ------------------------------------------>
+    ####################################################################################################################
         self.orderPushButton1 = QPushButton(self.centralwidget)
         self.orderPushButton1.setObjectName(u"orderPushButton1")
         self.orderPushButton1.setGeometry(QRect(160, 150, 141, 131))
@@ -176,7 +162,9 @@ class Ui_MainWindow(QMainWindow):
         self.orderPushButton1.setIconSize(QSize(140, 140))
         self.orderPushButton1.hide()
 
-        #Product#2
+    ####################################################################################################################
+        #--------------------------------------------- ORDER FORM BUTTON 2 ------------------------------------------>
+    ####################################################################################################################
         self.orderPushButton2 = QPushButton(self.centralwidget)
         self.orderPushButton2.setObjectName(u"orderPushButton2")
         self.orderPushButton2.setGeometry(QRect(340, 150, 141, 131))
@@ -186,7 +174,9 @@ class Ui_MainWindow(QMainWindow):
         self.orderPushButton2.setIconSize(QSize(181, 181))
         self.orderPushButton2.hide()
 
-        #Product#3
+    ####################################################################################################################
+        #--------------------------------------------- ORDER FORM BUTTON 3------------------------------------------>
+    ####################################################################################################################
         self.orderPushButton3 = QPushButton(self.centralwidget)
         self.orderPushButton3.setObjectName(u"orderPushButton3")
         self.orderPushButton3.setGeometry(QRect(520, 150, 141, 131))
@@ -196,7 +186,9 @@ class Ui_MainWindow(QMainWindow):
         self.orderPushButton3.setIconSize(QSize(194, 191))
         self.orderPushButton3.hide()
 
-        #Product #1 Weight
+    ####################################################################################################################
+    #--------------------------------------------- ORDER FORM WEIGHT LABEL 1------------------------------------------>
+    ####################################################################################################################
         self.orderWeight = QLabel(self.centralwidget)
         self.orderWeight.setObjectName(u"orderWeight")
         self.orderWeight.setGeometry(QRect(170, 290, 111, 41))
@@ -205,7 +197,9 @@ class Ui_MainWindow(QMainWindow):
         self.orderWeight.setAlignment(Qt.AlignCenter)
         self.orderWeight.hide()
         
-        #Product #2 Weight
+    ####################################################################################################################
+    #--------------------------------------------- ORDER FORM WEIGHT LABEL 2 ------------------------------------------>
+    ####################################################################################################################
         self.orderWeight2 = QLabel(self.centralwidget)
         self.orderWeight2.setObjectName(u"orderWeight2")
         self.orderWeight2.setGeometry(QRect(360, 290, 111, 41))
@@ -213,6 +207,10 @@ class Ui_MainWindow(QMainWindow):
         self.orderWeight2.setStyleSheet(u"color: rgb(33, 123, 88);")
         self.orderWeight2.setAlignment(Qt.AlignCenter)
         self.orderWeight2.hide()
+
+    ####################################################################################################################
+    #--------------------------------------------- ORDER FORM WEIGHT LABEL 3 ------------------------------------------>
+    ####################################################################################################################
 
         self.orderWeight3 = QLabel(self.centralwidget)
         self.orderWeight3.setObjectName(u"orderWeight3")
@@ -222,7 +220,9 @@ class Ui_MainWindow(QMainWindow):
         self.orderWeight3.setAlignment(Qt.AlignCenter)
         self.orderWeight3.hide()
 
-        #Product 1 and General Formats
+    ####################################################################################################################
+    #--------------------------------------------- PRODUCT 1 || GENERAL FORMAT ---------------------------------------->
+    ####################################################################################################################
         self.productTitle1 = QLabel(self.centralwidget)
         self.productTitle1.setObjectName(u"label")
         self.productTitle1.setGeometry(QRect(290, 40, 211, 61))
@@ -293,7 +293,9 @@ class Ui_MainWindow(QMainWindow):
         self.productSpinBox1.valueChanged.connect(self.displayToTotal1)
         self.productPrice1.textChanged.connect(self.priceToAmount1)
 
-        #Product 2 Order Amount
+    ####################################################################################################################
+    #--------------------------------------------- PRODUCT 2 ORDER DETAILS ------------------------------------------>
+    ####################################################################################################################
         self.productTitle2 = QLabel(self.centralwidget)
         self.productTitle2.setObjectName(u"label")
         self.productTitle2.setGeometry(QRect(290, 50, 211, 61))
@@ -327,7 +329,9 @@ class Ui_MainWindow(QMainWindow):
         self.universalCancelButton.clicked.connect(self.setOrderPage)
         #self.universalConfirmButton.clicked.connect(self.setOrderSummary)
         
-        #Product 3
+    ####################################################################################################################
+    #--------------------------------------------- PRODUCT 3 ORDER DETAILS ------------------------------------------>
+    ####################################################################################################################
         self.productTitle3 = QLabel(self.centralwidget)
         self.productTitle3.setObjectName(u"label")
         self.productTitle3.setGeometry(QRect(290, 50, 211, 61))
@@ -361,7 +365,9 @@ class Ui_MainWindow(QMainWindow):
         self.universalCancelButton.clicked.connect(self.setOrderPage)
         #self.universalConfirmButton.clicked.connect(self.setOrderSummary)
 
-        #OrderSummary
+    ####################################################################################################################
+        #--------------------------------------------- ORDER SUMMARY ------------------------------------------>
+    ####################################################################################################################
         self.orderSummaryLabelgroupBox = QGroupBox(self.centralwidget)
         self.orderSummaryLabelgroupBox.setObjectName(u"groupBox")
         self.orderSummaryLabelgroupBox.setGeometry(QRect(110, 50, 581, 361))
@@ -419,7 +425,11 @@ class Ui_MainWindow(QMainWindow):
         self.amountPaidTextEdit.setGeometry(QRect(350, 170, 181, 51))
         self.amountPaidTextEdit.setFont(font2)
         self.amountPaidTextEdit.setReadOnly(True)
-        #Coins
+        
+        
+    ####################################################################################################################
+    #--------------------------------------------- COIN ACCEPTING PAGE ------------------------------------------>
+    ####################################################################################################################
         self.instruction1 = QLabel(self.orderSummaryLabelgroupBox)
         self.instruction1.setObjectName(u"instruction1")
         self.instruction1.setGeometry(QRect(185, 240, 270, 16))
@@ -446,7 +456,10 @@ class Ui_MainWindow(QMainWindow):
         self.orderConfirmation.setText("Click to Continue")
         self.orderConfirmation.clicked.connect(self.verifyInputPrice)
 
-        #total amount inserted
+        
+    ####################################################################################################################
+    #--------------------------------------------- TOTAL AMOUNT INSERTED ------------------------------------------>
+    ####################################################################################################################
         self.amountTotalPaid = QLabel(self.orderSummaryLabelgroupBox)
         self.amountTotalPaid.setObjectName(u"amountTotalPaid")
         self.amountTotalPaid.setGeometry(QRect(20, 180, 321, 31))
@@ -469,7 +482,10 @@ class Ui_MainWindow(QMainWindow):
         self.verifyOrderConfirmation.clicked.connect(self.verifyInputPrice)
         self.verifyOrderConfirmation.hide()
 
-
+            
+    ####################################################################################################################
+    #--------------------------------------------- BACK BUTTON || CANCEL TRANSACTION ---------------------------------->
+    ####################################################################################################################
         self.backPushButton = QPushButton(self.orderSummaryLabelgroupBox)
         self.backPushButton.setObjectName(u"pushButton")
         self.backPushButton.setGeometry(QRect(20, 20, 51, 24))
@@ -491,7 +507,10 @@ class Ui_MainWindow(QMainWindow):
         self.instruction1.hide()
 
 
-        #Thank you card
+        
+    ####################################################################################################################
+    #---------------------------------------------  THANK YOU PAGE ------------------------------------------>
+    ####################################################################################################################
         self.thankYoulabel = QLabel(MainWindow)
         self.thankYoulabel.setObjectName(u"thankYoulabel")
         self.thankYoulabel.setGeometry(QRect(260, 140, 261, 51))
@@ -518,7 +537,10 @@ class Ui_MainWindow(QMainWindow):
         self.thankYoulabel_2.hide()
         self.thankYoupushButton.hide()
 
-        #Loading and Dispensing
+                
+    ####################################################################################################################
+    #------------------------------------------- LOADING AND DISPENSING PAGE ------------------------------------------>
+    ####################################################################################################################
         splashScreenfont = QFont()
         splashScreenfont.setPointSize(18)
         self.splashScreenLabel = QLabel(MainWindow)
@@ -540,7 +562,7 @@ class Ui_MainWindow(QMainWindow):
         self.splashButton = QPushButton(MainWindow)
         self.splashButton.setGeometry(QRect(230, 330, 371, 54))
         self.splashButton.setText("Proceed")
-        #self.splashButton.clicked.connect(self.thankYouCard)
+        self.splashButton.clicked.connect(self.thankYouCard)
 
         self.splashButton.hide()
         self.splashScreenLabel.hide()
@@ -549,7 +571,10 @@ class Ui_MainWindow(QMainWindow):
 
 
 
-        #Admin Landing Page
+           
+    ####################################################################################################################
+    #--------------------------------------------- ADMIN LOGIN PAGE PAGE ------------------------------------------>
+    ####################################################################################################################
         AdminLogo = QFont()
         AdminLogo.setPointSize(60)
         AdminLogo.setBold(True)
@@ -636,11 +661,11 @@ class Ui_MainWindow(QMainWindow):
         self.icon8pushButton.clicked.connect(self.pushButton_erase_clicked)
         self.icon1pushButton.setText("1")
         self.icon2pushButton.setText("2")
-        self.icon3pushButton.setText("3")
-        self.icon4pushButton.setText("4")
-        self.icon5pushButton.setText("5")
-        self.icon6pushButton.setText("6")   
-        self.icon7pushButton.setText("7")
+        self.icon4pushButton.setText("3")
+        self.icon3pushButton.setText("4")
+        self.icon5pushButton.setText("6")
+        self.icon6pushButton.setText("7")   
+        self.icon7pushButton.setText("5")
         self.icon8pushButton.setText("del")
         self.icon1pushButton.setStyleSheet(u"color: rgb(31, 115, 82);")
         self.icon2pushButton.setStyleSheet(u"color: rgb(31, 115, 82);")
@@ -668,7 +693,10 @@ class Ui_MainWindow(QMainWindow):
         self.adminProductBackButton.hide()
         
 
-        #Admin Main Menu
+               
+    ####################################################################################################################
+    #--------------------------------------------- ADMIN MAIN MENU PAGE ------------------------------------------>
+    ####################################################################################################################
         self.adminToLandingPageButton = QPushButton(self.centralwidget)
         self.adminToLandingPageButton.setObjectName(u"adminToLandingPageButton")
         self.adminToLandingPageButton.setGeometry(QRect(20, 30, 61, 31))
@@ -740,7 +768,10 @@ class Ui_MainWindow(QMainWindow):
         self.adminUpdateBackButton.setFlat(True)
         self.adminUpdateBackButton.clicked.connect(self.adminBackButtonLang)
         
-        #Update Product Template
+                
+    ####################################################################################################################
+    #--------------------------------------------- UPDATE PRODUCT PAGE ------------------------------------------>
+    ####################################################################################################################
         # self.backBUtton = QPushButton(MainWindow)
         # self.backBUtton.setObjectName(u"backBUtton")
         # self.backBUtton.setGeometry(QRect(30, 20, 61, 51))
@@ -803,16 +834,15 @@ class Ui_MainWindow(QMainWindow):
         self.cancelButton.setObjectName(u"cancelButton")
         self.cancelButton.setGeometry(QRect(390, 390, 75, 31))
         self.cancelButton.setText(u"Cancel")
-      
-
         self.adminUpdateProductName1Label_2 = QLabel(MainWindow)
         self.adminUpdateProductName1Label_2.setObjectName(u"adminUpdateProductName1Label_2")
         self.adminUpdateProductName1Label_2.setGeometry(QRect(210, 219, 151, 31))
         self.adminUpdateProductName1Label_2.setFont(adminfont3)
         self.adminUpdateProductName1Label_2.setStyleSheet(u"color: rgb(30, 114, 81)")
         self.adminUpdateProductName1Label_2.setText("Product Weight")
+        #WEIGHT SPINBOX
         self.spinBox_2 = QSpinBox(MainWindow)
-        self.spinBox_2.setObjectName(u"spinBox_2")
+        self.spinBox_2.setObjectName(u"spinBox_2") 
         self.spinBox_2.setGeometry(QRect(510, 210, 51, 41))
         self.spinBox_2.setFont(adminfont3)
         self.spinBox_2.setMinimum(0)
@@ -851,8 +881,11 @@ class Ui_MainWindow(QMainWindow):
         self.backPushButton.hide()
         self.adminProductBackButton.hide()
 
-        #Change Pin
         
+        
+    ####################################################################################################################
+    #--------------------------------------------- CHANGE PIN PAGE ------------------------------------------>
+    ####################################################################################################################
         self.changePinConfirmButton = QPushButton(MainWindow)
         self.changePinConfirmButton.setObjectName(u"changePinConfirmButton")
         self.changePinConfirmButton.setGeometry(QRect(330, 320, 181, 51))
@@ -871,13 +904,10 @@ class Ui_MainWindow(QMainWindow):
         self.changePinLabel.setGeometry(QRect(200, 240, 51, 41))
         self.changePinLabel.setText("Pin: ")
         self.changePinLabel.setFont(adminTextEditFont)
-
         self.changePinConfirmButton.hide()
         self.changePinLineEdit.hide()
         self.changePinLabel.hide()
-
-        
-        #Update Pin Password
+    #Update Pin Password
         self.updatePinLogo = QLabel(self.centralwidget)
         self.updatePinLogo.setObjectName(u"adminLogoLabel")
         self.updatePinLogo.setGeometry(QRect(50, -60, 701, 291))
@@ -918,8 +948,10 @@ class Ui_MainWindow(QMainWindow):
         self.updatePinConfirmPinLabel.hide()
         self.updatePinLogo.hide()
 
-
-        #Alert Setting
+        
+    ####################################################################################################################
+    #--------------------------------------------- ALERT MENU PAGE ------------------------------------------>
+    ####################################################################################################################
         # font = QFont()
         # font.setPointSize(11)
         # Form.setFont(font)
@@ -932,68 +964,50 @@ class Ui_MainWindow(QMainWindow):
         self.alertSettingLabel.setText(u"Alert Setting")
         self.alertSettingItem1 = QLabel(MainWindow)
         self.alertSettingItem1.setObjectName(u"alertSettingItem1")
-        self.alertSettingItem1.setGeometry(QRect(110, 140, 201, 16))
+        self.alertSettingItem1.setGeometry(QRect(110, 170, 201, 16))
         self.alertSettingItem1.setText(u"Turn on Notifications")
         alertSettingfont2 = QFont()
         alertSettingfont2.setPointSize(15)
         self.alertSettingItem1.setFont(alertSettingfont2)
         self.alertSettingItem2 = QLabel(MainWindow)
         self.alertSettingItem2.setObjectName(u"alertSettingItem2")
-        self.alertSettingItem2.setGeometry(QRect(110, 170, 261, 31))
+        self.alertSettingItem2.setGeometry(QRect(110, 200, 261, 31))
         self.alertSettingItem2.setFont(alertSettingfont2)
         self.alertSettingItem2.setText("Near-empty Container Alert")
         self.alertSettingItem3 = QLabel(MainWindow)
         self.alertSettingItem3.setObjectName(u"alertSettingItem3")
-        self.alertSettingItem3.setGeometry(QRect(110, 220, 201, 16))
+        self.alertSettingItem3.setGeometry(QRect(110, 250, 201, 16))
         self.alertSettingItem3.setFont(alertSettingfont2)
         self.alertSettingItem3.setText("Rice Condition Alerts")
-        self.alertSettingItem4 = QLabel(MainWindow)
-        self.alertSettingItem4.setObjectName(u"alertSettingItem4")
-        self.alertSettingItem4.setGeometry(QRect(110, 250, 201, 31))
-        self.alertSettingItem4.setFont(alertSettingfont2)
-        self.alertSettingItem4.setText("Temperature")
-        self.alertSettingItem5 = QLabel(MainWindow)
-        self.alertSettingItem5.setObjectName(u"alertSettingItem5")
-        self.alertSettingItem5.setGeometry(QRect(110, 290, 201, 31))
-        self.alertSettingItem5.setFont(alertSettingfont2)
-        self.alertSettingItem5.setText("Humidity")
         self.alertSettingItem6 = QLabel(MainWindow)
         self.alertSettingItem6.setObjectName(u"alertSettingItem6")
-        self.alertSettingItem6.setGeometry(QRect(110, 380, 201, 16))
+        self.alertSettingItem6.setGeometry(QRect(110, 300, 201, 16))
         self.alertSettingItem6.setFont(alertSettingfont2)
         self.alertSettingItem6.setText("Sales Alert")
         self.alertSettingItem7 = QLabel(MainWindow)
         self.alertSettingItem7.setObjectName(u"alertSettingItem7")
-        self.alertSettingItem7.setGeometry(QRect(110, 340, 201, 16))
+        self.alertSettingItem7.setGeometry(QRect(110, 350, 201, 16))
         self.alertSettingItem7.setFont(alertSettingfont2)
         self.alertSettingItem7.setText("Unauthorized Sale")
         self.checkBoxItem1 = QCheckBox(MainWindow)
         self.checkBoxItem1.setObjectName(u"checkBoxItem1")
-        self.checkBoxItem1.setGeometry(QRect(500, 140, 75, 20))
+        self.checkBoxItem1.setGeometry(QRect(500, 170, 75, 20))
         self.checkBoxItem1.setText("Enable")
         self.checkBoxItem2 = QCheckBox(MainWindow)
         self.checkBoxItem2.setObjectName(u"checkBoxItem2")
-        self.checkBoxItem2.setGeometry(QRect(500, 180, 75, 20))
+        self.checkBoxItem2.setGeometry(QRect(500, 210, 75, 20))
         self.checkBoxItem2.setText("Enable")
         self.checkBoxItem3 = QCheckBox(MainWindow)
         self.checkBoxItem3.setObjectName(u"checkBoxItem3")
-        self.checkBoxItem3.setGeometry(QRect(500, 220, 75, 20))
+        self.checkBoxItem3.setGeometry(QRect(500, 250, 75, 20))
         self.checkBoxItem3.setText("Enable")
-        self.checkBoxItem4 = QCheckBox(MainWindow)
-        self.checkBoxItem4.setObjectName(u"checkBoxItem4")
-        self.checkBoxItem4.setGeometry(QRect(500, 260, 75, 20))
-        self.checkBoxItem4.setText("Enable")
-        self.checkBoxItem5 = QCheckBox(MainWindow)
-        self.checkBoxItem5.setObjectName(u"checkBoxItem5")
-        self.checkBoxItem5.setGeometry(QRect(500, 300, 75, 20))
-        self.checkBoxItem5.setText("Enable")
         self.checkBoxItem6 = QCheckBox(MainWindow)
         self.checkBoxItem6.setObjectName(u"checkBoxItem6")
-        self.checkBoxItem6.setGeometry(QRect(500, 340, 75, 20))
+        self.checkBoxItem6.setGeometry(QRect(500, 300, 75, 20))
         self.checkBoxItem6.setText("Enable")
         self.checkBoxItem7 = QCheckBox(MainWindow)
         self.checkBoxItem7.setObjectName(u"checkBoxItem7")
-        self.checkBoxItem7.setGeometry(QRect(500, 380, 75, 20))
+        self.checkBoxItem7.setGeometry(QRect(500, 350, 75, 20))
         self.checkBoxItem7.setText("Enable")
         self.comboBoxItem2 = QComboBox(MainWindow)
         self.comboBoxItem2.addItem("1 kg")
@@ -1002,26 +1016,22 @@ class Ui_MainWindow(QMainWindow):
         self.comboBoxItem2.addItem("4 kg")
         self.comboBoxItem2.addItem("5 kg")
         self.comboBoxItem2.setObjectName(u"comboBoxItem2")
-        self.comboBoxItem2.setGeometry(QRect(620, 173, 69, 31))
+        self.comboBoxItem2.setGeometry(QRect(620, 205, 69, 31))
         self.comboBoxItem6 = QComboBox(MainWindow)
         self.comboBoxItem6.addItem("Daily")
         self.comboBoxItem6.addItem("Monthly")
         self.comboBoxItem6.setObjectName(u"comboBoxItem6")
-        self.comboBoxItem6.setGeometry(QRect(620, 340, 69, 22))
+        self.comboBoxItem6.setGeometry(QRect(620, 350, 69, 22))
 
         self.alertSettingLabel.hide()
         self.alertSettingItem1.hide()
         self.alertSettingItem2.hide()
         self.alertSettingItem3.hide()
-        self.alertSettingItem4.hide()
-        self.alertSettingItem5.hide()
         self.alertSettingItem6.hide()
         self.alertSettingItem7.hide()
         self.checkBoxItem1.hide()
         self.checkBoxItem2.hide()
         self.checkBoxItem3.hide()
-        self.checkBoxItem4.hide()
-        self.checkBoxItem5.hide()
         self.checkBoxItem6.hide()
         self.checkBoxItem7.hide()
         self.comboBoxItem2.hide()
@@ -1078,6 +1088,9 @@ class Ui_MainWindow(QMainWindow):
         self.universalTextEdit.setText(str(int(value)))
         self.textEdit.setText(str(int(value)))
 
+    ####################################################################################################################
+    #--------------------------------------------- DISPLAY HOMEPAGE ------------------------------------------>
+    ####################################################################################################################
     def displayHomePage(self):
         self.hideOrders()
         self.label2.show()
@@ -1132,7 +1145,18 @@ class Ui_MainWindow(QMainWindow):
         self.updatePinConfirmPinLabel.hide()
         self.updatePinLogo.hide()
         self.temperatureSensor.hide()
-        
+        self.icon1pushButton.hide()
+        self.icon2pushButton.hide()
+        self.icon3pushButton.hide()
+        self.icon4pushButton.hide()
+        self.icon5pushButton.hide()
+        self.icon6pushButton.hide()
+        self.icon7pushButton.hide()
+        self.icon8pushButton.hide()
+    
+    ####################################################################################################################
+    #---------------------------- BACK TO HOME PAGE || CANCELS TRANSACTIONS ---------------------------------------->
+    ####################################################################################################################
     def reminderMessage(self):
         reminder = QMessageBox(self)
         reminder.setWindowTitle("Notice")
@@ -1147,6 +1171,10 @@ class Ui_MainWindow(QMainWindow):
         else:
             print("No!")
 
+
+    ####################################################################################################################
+    #--------------------------------------------- ACCOUNT VERIFIER ------------------------------------------>
+    ####################################################################################################################
     def verifyAccount(self):
         password = self.adminPasswordLineEdit2.text()
         with open('CSVFiles/password.csv', 'r') as csv:
@@ -1166,6 +1194,9 @@ class Ui_MainWindow(QMainWindow):
             self.adminPasswordLineEdit2.clear()
             print("Invalid username or password")
 
+    ####################################################################################################################
+    #------------------------------------------ HIDE ORDERS FOR BACK BUTTON ------------------------------------------>
+    ####################################################################################################################
     def hideOrders(self): #hide orders when clicking back/ cancel
         self.productTitle1.hide()
         self.productView1.hide()
@@ -1196,12 +1227,14 @@ class Ui_MainWindow(QMainWindow):
         self.salesDataLabel.hide()
         self.securityLabel.hide()
         self.adminAccountButton.hide()  
-
     def hideMainMenus(self):
         self.label2.hide()
         self.pushButton.hide()
         self.pushButton_2.hide()
 
+    ####################################################################################################################
+    #--------------------------------------------- SET MAIN MENU PAGE ------------------------------------------>
+    ####################################################################################################################
     def setOrderPage(self): #MainMenue page
         self.hideOrders()
         self.temperatureSensor.show()
@@ -1228,13 +1261,26 @@ class Ui_MainWindow(QMainWindow):
         QtWidgets.QApplication.processEvents()
         #self.temperatureReading()        
 
-        #Read CSV
+    ####################################################################################################################
+    #---------------------------- READ FROM THE PRODUCT DETAILS FROM CSV  ------------------------------------------>
+    ####################################################################################################################
         with open('CSVFiles/product1Weight.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             loadProductWeight1 = data[0]
-            print(loadProductWeight1)
             self.orderWeight.setText(loadProductWeight1 + " KG")
 
+        with open('CSVFiles/product2Weight.csv', 'r') as csv:
+            data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
+            loadProductWeight2 = data[0]
+            print(loadProductWeight2)
+
+            self.orderWeight2.setText(loadProductWeight2 + " KG")
+
+
+        with open('CSVFiles/product3Weight.csv', 'r') as csv:
+            data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
+            loadProductWeight3 = data[0]
+            self.orderWeight3.setText(loadProductWeight3 + " KG")
 
         with open('CSVFiles/product#1NameAndPrice.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
@@ -1250,11 +1296,13 @@ class Ui_MainWindow(QMainWindow):
             self.productTitle1.setText(loadProductLabel1)
             self.productLabel1.setText(loadProductLabel1)
 
+            # loadProductWeight2 = 
+            # self.orderWeight2.setText(loadProductWeight2 + " KG")
+
         with open('CSVFiles/product#2NameAndPrice.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             loadProductLabel2 = data[0]
             loadProductPrice2 = data[1]
-            # self.orderWeight2.setText(loadProductWeight2 + " KG")
             self.productPrice2.setText(loadProductPrice2)
             self.orderLabel3.setText(loadProductLabel2)
             self.orderLabel7.setText(loadProductPrice2)
@@ -1281,6 +1329,9 @@ class Ui_MainWindow(QMainWindow):
         self.orderConfirmationToCoins.hide()
         self.totalLabel.hide()
 
+    ####################################################################################################################
+    #------------------------------------- CLEAR TOTAL AND AMOUNT FIELDS ------------------------------------------>
+    ####################################################################################################################
     def clearInputs(self):  # Clear Total and Amount fields 
         self.universalTextEdit.clear()
         self.productSpinBox1.clear()
@@ -1288,6 +1339,10 @@ class Ui_MainWindow(QMainWindow):
         self.productSpinBox3.clear()
         self.textEdit.clear()
         self.amountTotalPaidTextEdit.clear()
+    
+    ####################################################################################################################
+    #--------------------------------------------- DISPLAY PRODUCT 1 UI ------------------------------------------>
+    ####################################################################################################################
 
     def setProduct1(self): # UI_2.Product1
         self.label2.hide()
@@ -1314,7 +1369,11 @@ class Ui_MainWindow(QMainWindow):
         self.orderWeight3.hide()
         self.pushButton_2.hide()
         self.temperatureSensor.hide()
-          
+    
+
+    ####################################################################################################################
+    #--------------------------------------------- DISPLAY PRODUCT 2 UI ------------------------------------------>
+    ####################################################################################################################
     def setProduct2(self): # UI_2.Product2
         self.label2.hide()
         self.temperatureSensor.hide()
@@ -1340,6 +1399,9 @@ class Ui_MainWindow(QMainWindow):
         self.showUniversalGroupBox()
         self.pushButton_2.hide()
   
+    ####################################################################################################################
+        #--------------------------------------------- DISPLAY PRODUCT 3 UI ------------------------------------------>
+    ####################################################################################################################
     def setProduct3(self): # UI_2.Product3
         self.productTitle3.show()
         self.productView3.show()
@@ -1366,6 +1428,9 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_2.hide()
     
 
+    ####################################################################################################################
+    #--------------------------------------------- DISPLAY ORDER SUMMARY ------------------------------------------>
+    ####################################################################################################################
     def setOrderSummary(self):  #Order Summary going to Payment
             
         self.hideOrders()
@@ -1383,9 +1448,9 @@ class Ui_MainWindow(QMainWindow):
         
         #print(int(orderedAmount))
 
-            
-
-
+    ####################################################################################################################
+    #------------------------------------- DISPLAY ORIGINAL WEIGHT FROM WEIGHT CSV ------------------------------------>
+    ####################################################################################################################
     def readOriginalWeight(self):
         with open('CSVFiles/product1Weight.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
@@ -1399,13 +1464,18 @@ class Ui_MainWindow(QMainWindow):
             #self.orderWeight.setText(totalWeight + " KG")
 
 
-
+    ####################################################################################################################
+    #------------------------------------------- DISPLAY ORDER FORM GROUP BOX ----------------------------------------->
+    ####################################################################################################################
     def showUniversalGroupBox(self):    #Orders universal group box
         self.universalGroupBox.show()
         self.universalTextEdit.show()
         self.universalConfirmButton.show()
         self.universalCancelButton.show()  
 
+    ####################################################################################################################
+    #--------------------------------------------- DISPLAY ORDER CONFIRMATION ------------------------------------------>
+    ####################################################################################################################
     def orderConfirmed(self): #Orders confirmed
         print("confirmed order. waiting for payment")
         self.orderSummaryLabelgroupBox.show()
@@ -1420,6 +1490,9 @@ class Ui_MainWindow(QMainWindow):
         #if inputs == price, check plastic in the case. call ir, 
         #then if plastic is present then rice dispense method 
 
+    ####################################################################################################################
+    #-------------------------------------- DISPLAY COIN ACCEPTING PAGE ------------------------------------------>
+    ####################################################################################################################
     def coins(self):
         self.hideOrders()
         self.pushButton_2.hide()
@@ -1460,7 +1533,10 @@ class Ui_MainWindow(QMainWindow):
             self.previousValue = coin
         else:
             pass
-            
+    
+    ####################################################################################################################
+    #-------------------------------------- DISPLAY TOTAL INSERTED AMOUNT PAGE ---------------------------------------->
+    ####################################################################################################################   
     def displayTotalInserted(self):
         print("Running Display Total Inserted")
         self.splashScreenLabel.hide()
@@ -1510,97 +1586,101 @@ class Ui_MainWindow(QMainWindow):
     #                 QtWidgets.QApplication.processEvents()
     #                 break 
         
-
-    def servoMethod(self):
-        servoPin = 22
-        factory = PiGPIOFactory()
-        servo = AngularServo(servoPin, min_angle=0, max_angle=180, min_pulse_width=0.0005, max_pulse_width=0.0025, pin_factory=factory)
-        servo_relay = gpiozero.OutputDevice(servoPin, active_high=True, initial_value=False)
-        servo.angle = 0
+    ####################################################################################################################
+    #-------------------------------------- SERVO CONTROLLER ------------------------------------------>
+    ####################################################################################################################
+    # def servoMethod(self):
+    #     servoPin = 22
+    #     factory = PiGPIOFactory()
+    #     servo = AngularServo(servoPin, min_angle=0, max_angle=180, min_pulse_width=0.0005, max_pulse_width=0.0025, pin_factory=factory)
+    #     servo_relay = gpiozero.OutputDevice(servoPin, active_high=True, initial_value=False)
+    #     servo.angle = 0
         
-        amountSpinBox = self.sender()
-        amountSpinBox = self.productSpinBox1.value()
-        totalAmountSpinBox = int(amountSpinBox)
+    #     amountSpinBox = self.sender()
+    #     amountSpinBox = self.productSpinBox1.value()
+    #     totalAmountSpinBox = int(amountSpinBox)
         
-        if totalAmountSpinBox == 1:
-                servo_relay.on()
-                servo.angle = 0
-                print(servo.angle)
-                sleep(16.5)
+    #     if totalAmountSpinBox == 1:
+    #             servo_relay.on()
+    #             servo.angle = 0
+    #             print(servo.angle)
+    #             sleep(16.5)
 
-                servo.angle = 180
-                print(servo.angle)
-                sleep(1)
+    #             servo.angle = 180
+    #             print(servo.angle)
+    #             sleep(1)
                 
-                servo.angle = 0
-                print(servo.angle)
+    #             servo.angle = 0
+    #             print(servo.angle)
                         
-                servo_relay.off()
+    #             servo_relay.off()
            
-        elif totalAmountSpinBox == 2:
-                servo_relay.on()
-                servo.angle = 0
-                print(servo.angle)
-                sleep(33)
+    #     elif totalAmountSpinBox == 2:
+    #             servo_relay.on()
+    #             servo.angle = 0
+    #             print(servo.angle)
+    #             sleep(33)
 
-                servo.angle = 180
-                print(servo.angle)
-                sleep(1)
+    #             servo.angle = 180
+    #             print(servo.angle)
+    #             sleep(1)
                 
-                servo.angle = 0
-                print(servo.angle)
+    #             servo.angle = 0
+    #             print(servo.angle)
                 
-                servo_relay.off()
+    #             servo_relay.off()
         
-        elif totalAmountSpinBox == 3:
-                servo_relay.on()
-                servo.angle = 0
-                print(servo.angle)
-                sleep(49.5)
+    #     elif totalAmountSpinBox == 3:
+    #             servo_relay.on()
+    #             servo.angle = 0
+    #             print(servo.angle)
+    #             sleep(49.5)
 
-                servo.angle = 180
-                print(servo.angle)
-                sleep(1)
+    #             servo.angle = 180
+    #             print(servo.angle)
+    #             sleep(1)
                 
-                servo.angle = 0
-                print(servo.angle)
+    #             servo.angle = 0
+    #             print(servo.angle)
                 
-                servo_relay.off()
+    #             servo_relay.off()
                 
-        elif totalAmountSpinBox == 4:
-                servo_relay.on()
-                servo.angle = 0
-                print(servo.angle)
-                sleep(66)
+    #     elif totalAmountSpinBox == 4:
+    #             servo_relay.on()
+    #             servo.angle = 0
+    #             print(servo.angle)
+    #             sleep(66)
 
-                servo.angle = 180
-                print(servo.angle)
-                sleep(1)
+    #             servo.angle = 180
+    #             print(servo.angle)
+    #             sleep(1)
                 
-                servo.angle = 0
-                print(servo.angle)
+    #             servo.angle = 0
+    #             print(servo.angle)
                 
-                servo_relay.off()
+    #             servo_relay.off()
                 
-        elif totalAmountSpinBox == 5:
-                servo_relay.on()
-                servo.angle = 0
-                print(servo.angle)
-                sleep(82.5)
+    #     elif totalAmountSpinBox == 5:
+    #             servo_relay.on()
+    #             servo.angle = 0
+    #             print(servo.angle)
+    #             sleep(82.5)
 
-                servo.angle = 180
-                print(servo.angle)
-                sleep(1)
+    #             servo.angle = 180
+    #             print(servo.angle)
+    #             sleep(1)
                 
-                servo.angle = 0
-                print(servo.angle)
+    #             servo.angle = 0
+    #             print(servo.angle)
                 
-                servo_relay.off()
-        self.thankYouCard()
+    #             servo_relay.off()
+    #     self.thankYouCard()
         #self.loadSensorReading()
         #QtWidgets.QApplication.processEvents()
 
-        
+    ####################################################################################################################
+    #-------------------------------------- RICE DISPENSING METHOD  ------------------------------------------>
+    ####################################################################################################################
     def riceDispensing(self):
         self.temperatureSensor.hide()
         self.verifyOrderConfirmation.hide()
@@ -1620,31 +1700,37 @@ class Ui_MainWindow(QMainWindow):
         QtWidgets.QApplication.processEvents()
         
         
-        self.irMethod()
+        #self.irMethod()
         #call ir method
 
         #if servo is closed, proceed to thankyoucard metho
-                
-    def irMethod(self):
-        sensor_pin = 23
-        led_pin = 26
+    
+    ####################################################################################################################
+    #----------------------------------- CHECKS THE PRESENCE OF PLASTIC BAGS ---------------------------------------->
+    ####################################################################################################################
+    # def irMethod(self):
+    #     sensor_pin = 23
+    #     led_pin = 26
 
-        # GPIO setup
-        GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(sensor_pin, GPIO.IN)
-        while sensor_pin != False:
-                if GPIO.input(sensor_pin):
-                        print("no object")
-                        sleep(0.5)
-                else:
-                        # If an object is detected
-                        print("object detected")
-                        sleep(1)
-                        self.dispensingMessage()
-                        break
-        self.thankYouCard()
+    #     # GPIO setup
+    #     GPIO.setwarnings(False)
+    #     GPIO.setmode(GPIO.BCM)
+    #     GPIO.setup(sensor_pin, GPIO.IN)
+    #     while sensor_pin != False:
+    #             if GPIO.input(sensor_pin):
+    #                     print("no object")
+    #                     sleep(0.5)
+    #             else:
+    #                     # If an object is detected
+    #                     print("object detected")
+    #                     sleep(1)
+    #                     self.dispensingMessage()
+    #                     break
+    #     self.thankYouCard()
 
+    ####################################################################################################################
+    #-------------------------------------- CHECK RICE COST == AMOUNT INPUT  ------------------------------------------>
+    ####################################################################################################################
     def verifyInputPrice(self):
         toPayAmount = self.sender()
         toPayAmount = self.textEdit.text()
@@ -1656,7 +1742,9 @@ class Ui_MainWindow(QMainWindow):
             print("Failed to Pay amount")
         
         
-
+    ####################################################################################################################
+    #-------------------------------------- CONFIRMATION MESSAGE TO DISPENSE ------------------------------------------>
+    ####################################################################################################################
     def dispensingMessage(self):
         reminder = QMessageBox(self)
         reminder.setWindowTitle("Confirmation")
@@ -1667,10 +1755,13 @@ class Ui_MainWindow(QMainWindow):
 
         if button == QMessageBox.Yes:
             print("Yes!")
-            self.servoMethod()
+            #self.servoMethod()
         else:
             print("No!")
             
+    ####################################################################################################################
+    #-------------------------------------- DISPLAY THANK YOU MESSAGE ------------------------------------------>
+    ####################################################################################################################
     def thankYouCard(self):
         #self.irMethod()
         self.temperatureSensor.hide()
@@ -1687,7 +1778,9 @@ class Ui_MainWindow(QMainWindow):
         self.thankYoulabel_2.show()
         self.thankYoupushButton.show()
     
-
+    ####################################################################################################################
+    #-------------------------------------- DISPLAY ADMIN LOGIN PAGE ------------------------------------------>
+    ####################################################################################################################
     def setAdminLandingPage(self):  #Admin Landing page UI
         self.temperatureSensor.hide()
         self.label2.hide()
@@ -1746,6 +1839,9 @@ class Ui_MainWindow(QMainWindow):
         self.icon7pushButton.show()
         self.icon8pushButton.show()
 
+    ####################################################################################################################
+    #-------------------------------------- RETURN TO LOGIN FORM ------------------------------------------>
+    ####################################################################################################################
     def adminReminderMessage(self): #To Back to Admin Landing Page - login form
         adminReminder = QMessageBox(self)
         adminReminder.setWindowTitle("Notice")
@@ -1759,6 +1855,10 @@ class Ui_MainWindow(QMainWindow):
             self.setAdminLandingPage()
         else:
             print("No!")
+
+    ####################################################################################################################
+    #------------------------------------- BUTTONS FOR TOUCHSCREEN PIN NUMBERS ----------------------------------------->
+    ####################################################################################################################
     
     def icon1Button(self):
         self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '1')
@@ -1766,28 +1866,36 @@ class Ui_MainWindow(QMainWindow):
     def icon2Button(self):
         self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '2')
 
-    def icon3Button(self):
+    def icon4Button(self):
         self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '3')
 
-    def icon4Button(self):
+    def icon3Button(self):
         self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '4')
 
-    def icon5Button(self):
+    def icon7Button(self):
         self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '5')
 
-    def icon6Button(self):
+    def icon5Button(self):
         self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '6')
 
-    def icon7Button(self):
+    def icon6Button(self):
         self.adminPasswordLineEdit2.setText(self.adminPasswordLineEdit2.text() + '7')
 
+
+    ####################################################################################################################
+    #-------------------------------------- INPUT ERASER ------------------------------------------>
+    ####################################################################################################################
     def pushButton_erase_clicked(self):
         text = self.adminPasswordLineEdit2.text()
         textLength = len(text)
         if(textLength):
             newtext = text[:textLength - 1]
             self.adminPasswordLineEdit2.setText(newtext)
-            
+
+
+    ####################################################################################################################
+    #-------------------------------------- ADMIN BACK BUTTON ------------------------------------------>
+    ####################################################################################################################  
     def adminBackButtonLang(self):
         self.setAdminMainMenu()
         self.salesListView.hide()
@@ -1803,7 +1911,9 @@ class Ui_MainWindow(QMainWindow):
         self.icon8pushButton.hide()
         self.temperatureSensor.hide()
         
-        
+    ####################################################################################################################
+    #-------------------------------------- DISPLAY ADMIN MAIN MENU ------------------------------------------>
+    ####################################################################################################################
     def setAdminMainMenu(self): #Admin Main Menu (Update Products, Unregistered Sales, Sales Data)
         self.temperatureSensor.hide()
         self.adminUpdateButton.show()
@@ -1852,7 +1962,9 @@ class Ui_MainWindow(QMainWindow):
         self.icon7pushButton.hide()
         self.icon8pushButton.hide()
 
-
+    ####################################################################################################################
+    #-------------------------------------- DISPLAY THANK YOU MESSAGE ------------------------------------------>
+    ####################################################################################################################
     def adminUpdateProductDetails(self):    #Update Products
         self.adminUpdateBackButton.show()
         self.adminProduct1Label.show()
@@ -1880,7 +1992,10 @@ class Ui_MainWindow(QMainWindow):
         self.temperatureSensor.hide()
         # self.adminAccountButton.hide()
 
-    def hideAdminMainMenu(self): #Hide the contents of admin main menu
+    ####################################################################################################################
+    #-------------------------------------- HIDE ADMIN MAIN MENU ------------------------------------------>
+    ####################################################################################################################
+    def hideAdminMainMenu(self): 
         self.adminUpdateButton.hide()
         self.adminNotificationButton.hide()
         self.adminSecurityButton.hide()
@@ -1906,6 +2021,10 @@ class Ui_MainWindow(QMainWindow):
         self.spinBox_2.hide()
         self.adminUpdateProductName1Label_2.hide()    
 
+
+    ####################################################################################################################
+    #-------------------------------------- DISPLAY SALES DATA (TO BE REMOVED???) ------------------------------------------>
+    ####################################################################################################################
     def setSalesData(self): #Show the contents of the Sales Data UI
         self.hideAdminMainMenu()
         self.adminLogoLabel.hide()
@@ -1916,7 +2035,11 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton.hide()
         self.pushButton_2.hide()
         self.updateLabel.hide ()
-        
+    
+    
+    ####################################################################################################################
+    #-------------------------------------- PRODUCT DETAILS UPDATER ------------------------------------------>
+    ####################################################################################################################
     def productRiceLabel(self): #Calls UpdateProductFunctions in every spinbox
         productLabel= self.sender()
         productLabel = self.updateProductName1LineEdit.text()
@@ -1927,16 +2050,24 @@ class Ui_MainWindow(QMainWindow):
         print("productWeight = ", productWeight)
         if self.spinBox.value() == 1:
             if productLabel == None:
-                self.getWeightFromAdmin()
+                self.getWeight1FromAdmin()
             else:
-                self.getWeightFromAdmin()
+                self.getWeight1FromAdmin()
                 self.getItemInProduct1DetailCSV()
 
         elif self.spinBox.value() == 2:
-            self.getItemInProduct2DetailCSV()
+            if productLabel == None:
+                self.getWeight2FromAdmin()
+            else:
+                self.getWeight2FromAdmin()
+                self.getItemInProduct2DetailCSV()
 
-        elif self.spinBox.value() == 3:
-            self.getItemInProduct3DetailCSV()
+        elif self.spinBox.value() == 3: # TO FOLLOW
+            if productLabel == None:
+                self.getWeight3FromAdmin()
+            else:
+                self.getWeight3FromAdmin()
+                self.getItemInProduct3DetailCSV()
 
     def getItemInProduct1DetailCSV(self): #Product#1
         with open('CSVFiles/product#1NameAndPrice.csv', 'w', newline='') as file:
@@ -1976,14 +2107,32 @@ class Ui_MainWindow(QMainWindow):
             writer.writerow(["Product name", "Product price"])
             writer.writerow([updatedProductLabel, updatedProductPrice])
     
-    def getWeightFromAdmin(self):
+    def getWeight1FromAdmin(self):
         with open('CSVFiles/product1Weight.csv', 'w', newline='') as file:
             product1Weight = self.sender()
             product1Weight = self.spinBox_2.value()
             writer = csv.writer(file)
-            writer.writerow(["Product name",])
+            writer.writerow(["Product weight",])
             writer.writerow([product1Weight,])
+    def getWeight2FromAdmin(self):
+        with open('CSVFiles/product2Weight.csv', 'w', newline='') as file:
+            product2Weight = self.sender()
+            product2Weight = self.spinBox_2.value()
+            writer = csv.writer(file)
+            writer.writerow(["Product weight",])
+            writer.writerow([product2Weight,])
+    def getWeight3FromAdmin(self):
+        with open('CSVFiles/product3Weight.csv', 'w', newline='') as file:
+            product3Weight = self.sender()
+            product3Weight = self.spinBox_2.value()
+            writer = csv.writer(file)
+            writer.writerow(["Product weight",])
+            writer.writerow([product3Weight,])
 
+    
+    ####################################################################################################################
+    #-------------------------------------- PIN UPDATER ------------------------------------------>
+    ####################################################################################################################
     def setPinVerification(self):
         self.changePinConfirmButton.show()
         self.changePinLineEdit.show()
@@ -2000,7 +2149,6 @@ class Ui_MainWindow(QMainWindow):
         self.adminUpdateBackButton.show()
         self.temperatureSensor.hide()
         #self.adminToLandingPageButton.show()
-
 
     def setUpdatePinPassword(self):
         self.updatePinPushButton.show()
@@ -2031,11 +2179,10 @@ class Ui_MainWindow(QMainWindow):
             writer.writerows(pinPasswords)
             file.close()
 
-    # def checkUpdatedPinPassword(self):
-    #     with open('PythonNiUI\password.csv', 'r') as csv:
-    #         data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
-    #         print(data)
 
+    ####################################################################################################################
+    #-------------------------------------- STORE THE UPDATED PIN TO CSV ------------------------------------------>
+    ####################################################################################################################
     def pinVerificationConfirmButton(self): #use CSV to store the updated passwords
         with open('CSVFiles/password.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
@@ -2046,40 +2193,41 @@ class Ui_MainWindow(QMainWindow):
             # updatedPinPassword = self.sender()
             # updatedPinPassword = self.changePinLineEdit.text()
 
+
+    ####################################################################################################################
+    #-------------------------------------- HIDE ALERT SETTIGS ------------------------------------------>
+    ####################################################################################################################
     def hideAlertSettingsButton(self):
         self.temperatureSensor.hide()
         self.alertSettingLabel.hide()
         self.alertSettingItem1.hide()
         self.alertSettingItem2.hide()
         self.alertSettingItem3.hide()
-        self.alertSettingItem4.hide()
-        self.alertSettingItem5.hide()
         self.alertSettingItem6.hide()
         self.alertSettingItem7.hide()
         self.checkBoxItem1.hide()
         self.checkBoxItem2.hide()
         self.checkBoxItem3.hide()
-        self.checkBoxItem4.hide()
-        self.checkBoxItem5.hide()
         self.checkBoxItem6.hide()
         self.checkBoxItem7.hide()
         self.comboBoxItem2.hide()
         self.comboBoxItem6.hide()
 
+
+
+    ####################################################################################################################
+    #-------------------------------------- DISPLAY NOTIFICATION ------------------------------------------>
+    ####################################################################################################################
     def setAlertSettings(self): #Notifications
         self.alertSettingLabel.show()
         self.alertSettingItem1.show()
         self.alertSettingItem2.show()
         self.alertSettingItem3.show()
-        self.alertSettingItem4.show()
-        self.alertSettingItem5.show()
         self.alertSettingItem6.show()
         self.alertSettingItem7.show()
         self.checkBoxItem1.show()
         self.checkBoxItem2.show()
         self.checkBoxItem3.show()
-        self.checkBoxItem4.show()
-        self.checkBoxItem5.show()
         self.checkBoxItem6.show()
         self.checkBoxItem7.show()
         self.comboBoxItem2.show()
@@ -2092,20 +2240,20 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_2.hide()
         self.updateLabel.hide()
     
+    
+    ####################################################################################################################
+    #-------------------------------------- HIDE ALERT  ------------------------------------------>
+    ####################################################################################################################
     def hideAlertSettings(self):
         self.alertSettingLabel.hide()
         self.alertSettingItem1.hide()
         self.alertSettingItem2.hide()
         self.alertSettingItem3.hide()
-        self.alertSettingItem4.hide()
-        self.alertSettingItem5.hide()
         self.alertSettingItem6.hide()
         self.alertSettingItem7.hide()
         self.checkBoxItem1.hide()
         self.checkBoxItem2.hide()
         self.checkBoxItem3.hide()
-        self.checkBoxItem4.hide()
-        self.checkBoxItem5.hide()
         self.checkBoxItem6.hide()
         self.checkBoxItem7.hide()
         self.comboBoxItem2.hide()
