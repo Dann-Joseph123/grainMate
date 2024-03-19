@@ -1,19 +1,20 @@
 import sys
 import csv
-#import gpiozero
+import gpiozero
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5 import QtWidgets, QtCore
-# from  gpiozero.pins.pigpio import PiGPIOFactory
-# from gpiozero import AngularServo
-# from time import sleep
-# import RPi.GPIO as GPIO
-# from hx711 import HX711
+import asyncio
+from  gpiozero.pins.pigpio import PiGPIOFactory
+from gpiozero import AngularServo
+from time import sleep
+import RPi.GPIO as GPIO
+from hx711 import HX711
 
-# from coin_acceptor import setup, loop
-#from TempSensor import read_temp
-#from load_Sensor import get_load
+from coin_acceptor import setup, loop
+from TempSensor import read_temp
+from load_Sensor import get_load
 
 class Ui_MainWindow(QMainWindow):
 
@@ -32,6 +33,8 @@ class Ui_MainWindow(QMainWindow):
         #variable for the previous value of coin
         self.previousValue = 0
         self.coinsValue = 0
+        self.selectedProduct = None
+        
         
     ####################################################################################################################
             #--------------------------------------------- LANDING PAGE ------------------------------------------>
@@ -1177,7 +1180,7 @@ class Ui_MainWindow(QMainWindow):
     ####################################################################################################################
     def verifyAccount(self):
         password = self.adminPasswordLineEdit2.text()
-        with open('CSVFiles/password.csv', 'r') as csv:
+        with open('PythonNiUI/CSVFiles/password.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             pin = data[0]
         if password == pin:
@@ -1258,31 +1261,31 @@ class Ui_MainWindow(QMainWindow):
         self.orderPushButton3.clicked.connect(self.setProduct3)
         self.orderWeight.show()
         self.orderWeight2.show()
+        self.orderWeight3.show()
         QtWidgets.QApplication.processEvents()
         #self.temperatureReading()        
 
     ####################################################################################################################
     #---------------------------- READ FROM THE PRODUCT DETAILS FROM CSV  ------------------------------------------>
     ####################################################################################################################
-        with open('CSVFiles/product1Weight.csv', 'r') as csv:
+        with open('PythonNiUI/CSVFiles/product1Weight.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             loadProductWeight1 = data[0]
             self.orderWeight.setText(loadProductWeight1 + " KG")
 
-        with open('CSVFiles/product2Weight.csv', 'r') as csv:
+        with open('PythonNiUI/CSVFiles/product2Weight.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             loadProductWeight2 = data[0]
             print(loadProductWeight2)
 
             self.orderWeight2.setText(loadProductWeight2 + " KG")
 
-
-        with open('CSVFiles/product3Weight.csv', 'r') as csv:
+        with open('PythonNiUI/CSVFiles/product3Weight.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             loadProductWeight3 = data[0]
             self.orderWeight3.setText(loadProductWeight3 + " KG")
 
-        with open('CSVFiles/product#1NameAndPrice.csv', 'r') as csv:
+        with open('PythonNiUI/CSVFiles/product#1NameAndPrice.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             # print(data)
             
@@ -1299,7 +1302,7 @@ class Ui_MainWindow(QMainWindow):
             # loadProductWeight2 = 
             # self.orderWeight2.setText(loadProductWeight2 + " KG")
 
-        with open('CSVFiles/product#2NameAndPrice.csv', 'r') as csv:
+        with open('PythonNiUI/CSVFiles/product#2NameAndPrice.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             loadProductLabel2 = data[0]
             loadProductPrice2 = data[1]
@@ -1309,17 +1312,16 @@ class Ui_MainWindow(QMainWindow):
             self.productTitle2.setText(loadProductLabel2)
             self.productLabel2.setText(loadProductLabel2)
 
-        with open('CSVFiles/product#3NameAndPrice.csv', 'r') as csv:
+        with open('PythonNiUI/CSVFiles/product#3NameAndPrice.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
-            # loadProductWeight3 = data[0]
             loadProductLabel3 = data[0]
             loadProductPrice3 = data[1]
-            # self.orderWeight3.setText(loadProductWeight3 + " KG")
             self.productPrice3.setText(loadProductPrice3)
             self.orderLabel4.setText(loadProductLabel3)
             self.orderLabel8.setText(loadProductPrice3)
             self.productTitle3.setText(loadProductLabel3)
             self.productLabel3.setText(loadProductLabel3)
+            print(loadProductWeight3,loadProductLabel3, loadProductPrice3)
         
         #Order Summary
         self.orderSummaryLabel.hide()
@@ -1369,6 +1371,8 @@ class Ui_MainWindow(QMainWindow):
         self.orderWeight3.hide()
         self.pushButton_2.hide()
         self.temperatureSensor.hide()
+        self.selectedProduct = 1
+        
     
 
     ####################################################################################################################
@@ -1377,7 +1381,7 @@ class Ui_MainWindow(QMainWindow):
     def setProduct2(self): # UI_2.Product2
         self.label2.hide()
         self.temperatureSensor.hide()
-        self.pushButton.hide()
+        self.pushButton.hide()  
         self.orderLabel.hide()
         self.orderLabel2.hide()
         self.orderLabel3.hide()
@@ -1398,7 +1402,8 @@ class Ui_MainWindow(QMainWindow):
         self.productSpinBox2.show()
         self.showUniversalGroupBox()
         self.pushButton_2.hide()
-  
+        self.selectedProduct = 2
+
     ####################################################################################################################
         #--------------------------------------------- DISPLAY PRODUCT 3 UI ------------------------------------------>
     ####################################################################################################################
@@ -1426,6 +1431,7 @@ class Ui_MainWindow(QMainWindow):
         self.orderWeight2.hide()
         self.orderWeight3.hide()
         self.pushButton_2.hide()
+        self.selectedProduct = 3
     
 
     ####################################################################################################################
@@ -1452,7 +1458,7 @@ class Ui_MainWindow(QMainWindow):
     #------------------------------------- DISPLAY ORIGINAL WEIGHT FROM WEIGHT CSV ------------------------------------>
     ####################################################################################################################
     def readOriginalWeight(self):
-        with open('CSVFiles/product1Weight.csv', 'r') as csv:
+        with open('PythonNiUI/CSVFiles/product1Weight.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             orderedAmount = self.sender()
             orderedAmount = self.productSpinBox1.value()
@@ -1462,6 +1468,28 @@ class Ui_MainWindow(QMainWindow):
             totalWeight = int(loadProductWeight1)- minusWeight
             return totalWeight
             #self.orderWeight.setText(totalWeight + " KG")
+        
+    def readOriginalWeight2(self):
+        with open('PythonNiUI/CSVFiles/product2Weight.csv', 'r') as csv:
+            data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
+            orderedAmount2 = self.sender()
+            orderedAmount2 = self.productSpinBox2.value()
+            loadProductWeight2 = data[0]
+            minusWeight2 = int(orderedAmount2)
+
+            totalWeight2 = int(loadProductWeight2)- minusWeight2
+            return totalWeight2
+        
+    def readOriginalWeight3(self):
+        with open('PythonNiUI/CSVFiles/product3Weight.csv', 'r') as csv:
+            data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
+            orderedAmount3 = self.sender()
+            orderedAmount3 = self.productSpinBox3.value()
+            loadProductWeight3 = data[0]
+            minusWeight2 = int(orderedAmount3)
+
+            totalWeight3 = int(loadProductWeight3)- minusWeight2
+            return totalWeight3
 
 
     ####################################################################################################################
@@ -1513,16 +1541,40 @@ class Ui_MainWindow(QMainWindow):
         self.amountCoinPaidTextEdit.hide()
         self.amountTotalPaidTextEdit.show()
         self.temperatureSensor.hide()
-        
-        totalWeight = self.readOriginalWeight()
-        updatedWeight = totalWeight
-        with open('CSVFiles/product1Weight.csv', 'w', newline= '') as file:
-            newWeight = updatedWeight
-            writer = csv.writer(file)
-            writer.writerow(["Product weight"])
-            writer.writerow([newWeight])
-        
-            print(updatedWeight)
+
+        print("Coin Amount Section")
+        if self.selectedProduct == 1:
+            totalWeight = self.readOriginalWeight()
+            updatedWeight = totalWeight
+            with open('PythonNiUI/CSVFiles/product1Weight.csv', 'w', newline= '') as file:
+                newWeight = updatedWeight
+                writer = csv.writer(file)
+                writer.writerow(["Product weight"])
+                writer.writerow([newWeight])
+            
+                print(updatedWeight)
+        elif self.selectedProduct == 2:
+            totalWeight2 = self.readOriginalWeight2()
+            updatedWeight2 = totalWeight2
+            with open('PythonNiUI/CSVFiles/product2Weight.csv', 'w', newline= '') as file:
+                newWeight = updatedWeight2
+                writer = csv.writer(file)
+                writer.writerow(["Product weight"])
+                writer.writerow([newWeight])
+            
+                print(updatedWeight2)
+        else:
+            totalWeight3 = self.readOriginalWeight3()
+            updatedWeight3 = totalWeight3
+            with open('PythonNiUI/CSVFiles/product3Weight.csv', 'w', newline= '') as file:
+                newWeight = updatedWeight3
+                writer = csv.writer(file)
+                writer.writerow(["Product weight"])
+                writer.writerow([newWeight])
+            
+                print(updatedWeight3)
+
+        #write another instance of code for the remaining of the containers 2 and 3
         
     def checkCoin(self, coin, temp):
             
@@ -1560,123 +1612,141 @@ class Ui_MainWindow(QMainWindow):
         
  
         
-    # def temperatureReading(self):
-    #     print("temperature sensor running")
-    #     temperature_celsius,_= read_temp()
-    #     print(temperature_celsius)
-    #     self.temperatureSensor.setText(f"{str(temperature_celsius)} Celsius")
+    def temperatureReading(self):
+        print("temperature sensor running")
+        temperature_celsius,_= read_temp()
+        print(temperature_celsius)
+        self.temperatureSensor.setText(f"{str(temperature_celsius)} Celsius")
 
 
-    # def loadSensorReading(self):
-    #         print("load sensor reading")
+    async def loadSensorReading(self):
+            print("load sensor reading")
 
-    #         inputted_weight = self.productSpinBox1.sender()
-    #         inputted_weight = self.productSpinBox1.value()
-    #         self.splashScreenLabel1.setText("Mamamooo")
-    #         QtWidgets.QApplication.processEvents()
-    #         while True:
-    #             self.weight = get_load(inputted_weight)
+            self.inputted_weight = self.productSpinBox1.sender()
+            self.inputted_weight = self.productSpinBox1.value()
+            self.splashScreenLabel1.setText("Mamamooo")
+            QtWidgets.QApplication.processEvents()
+            while True:
+                self.weight = get_load(self.inputted_weight)
 
-    #             if self.weight != float(inputted_weight):
-    #                 self.splashScreenLabel1.setText(str(self.weight))
-    #                 QtWidgets.QApplication.processEvents()
-    #             else:
-    #                 print("staph na baby sheesh")
-    #                 self.splashScreenLabel1.setText(str(self.weight))
-    #                 QtWidgets.QApplication.processEvents()
-    #                 break 
+                if self.weight != float(self.inputted_weight):
+                    self.splashScreenLabel1.setText(str(self.weight))
+                    QtWidgets.QApplication.processEvents()
+                else:
+                    print("staph na baby sheesh")
+                    self.splashScreenLabel1.setText(str(self.weight))
+                    QtWidgets.QApplication.processEvents()
+                    break 
         
     ####################################################################################################################
     #-------------------------------------- SERVO CONTROLLER ------------------------------------------>
     ####################################################################################################################
-    # def servoMethod(self):
-    #     servoPin = 22
-    #     factory = PiGPIOFactory()
-    #     servo = AngularServo(servoPin, min_angle=0, max_angle=180, min_pulse_width=0.0005, max_pulse_width=0.0025, pin_factory=factory)
-    #     servo_relay = gpiozero.OutputDevice(servoPin, active_high=True, initial_value=False)
-    #     servo.angle = 0
+    async def servoMethod(self):
+        servoPin = 22
+        factory = PiGPIOFactory()
+        servo = AngularServo(servoPin, min_angle=0, max_angle=180, min_pulse_width=0.0005, max_pulse_width=0.0025, pin_factory=factory)
+        servo_relay = gpiozero.OutputDevice(servoPin, active_high=True, initial_value=False)
+        servo.angle = 0
         
-    #     amountSpinBox = self.sender()
-    #     amountSpinBox = self.productSpinBox1.value()
-    #     totalAmountSpinBox = int(amountSpinBox)
-        
-    #     if totalAmountSpinBox == 1:
-    #             servo_relay.on()
-    #             servo.angle = 0
-    #             print(servo.angle)
-    #             sleep(16.5)
+        amountSpinBox = self.sender()
+        amountSpinBox = self.productSpinBox1.value()
+        totalAmountSpinBox = int(amountSpinBox)
 
-    #             servo.angle = 180
-    #             print(servo.angle)
-    #             sleep(1)
+        servo_relay.on()
+        servo.angle = 0
+        print(servo.angle)
+
+        if totalAmountSpinBox == self.inputted_weight:
+            servo.angle = 180
+            sleep(1)
+            servo_relay.off()
+        
+        if totalAmountSpinBox == 1:
+                servo_relay.on()
+                servo.angle = 0
+                print(servo.angle)
+                sleep(16.5)+
+
+                servo.angle = 180
+                print(servo.angle)
+                sleep(1)
                 
-    #             servo.angle = 0
-    #             print(servo.angle)
+                servo.angle = 0
+                print(servo.angle)
                         
-    #             servo_relay.off()
+                servo_relay.off()
            
-    #     elif totalAmountSpinBox == 2:
-    #             servo_relay.on()
-    #             servo.angle = 0
-    #             print(servo.angle)
-    #             sleep(33)
+        elif totalAmountSpinBox == 2:
+                servo_relay.on()
+                servo.angle = 0
+                print(servo.angle)
+                sleep(33)
 
-    #             servo.angle = 180
-    #             print(servo.angle)
-    #             sleep(1)
+                servo.angle = 180
+                print(servo.angle)
+                sleep(1)
                 
-    #             servo.angle = 0
-    #             print(servo.angle)
+                servo.angle = 0
+                print(servo.angle)
                 
-    #             servo_relay.off()
+                servo_relay.off()
         
-    #     elif totalAmountSpinBox == 3:
-    #             servo_relay.on()
-    #             servo.angle = 0
-    #             print(servo.angle)
-    #             sleep(49.5)
+        elif totalAmountSpinBox == 3:
+                servo_relay.on()
+                servo.angle = 0
+                print(servo.angle)
+                sleep(49.5)
 
-    #             servo.angle = 180
-    #             print(servo.angle)
-    #             sleep(1)
+                servo.angle = 180
+                print(servo.angle)
+                sleep(1)
                 
-    #             servo.angle = 0
-    #             print(servo.angle)
+                servo.angle = 0
+                print(servo.angle)
                 
-    #             servo_relay.off()
+                servo_relay.off()
                 
-    #     elif totalAmountSpinBox == 4:
-    #             servo_relay.on()
-    #             servo.angle = 0
-    #             print(servo.angle)
-    #             sleep(66)
+        elif totalAmountSpinBox == 4:
+                servo_relay.on()
+                servo.angle = 0
+                print(servo.angle)
+                sleep(66)
 
-    #             servo.angle = 180
-    #             print(servo.angle)
-    #             sleep(1)
+                servo.angle = 180
+                print(servo.angle)
+                sleep(1)
                 
-    #             servo.angle = 0
-    #             print(servo.angle)
+                servo.angle = 0
+                print(servo.angle)
                 
-    #             servo_relay.off()
+                servo_relay.off()
                 
-    #     elif totalAmountSpinBox == 5:
-    #             servo_relay.on()
-    #             servo.angle = 0
-    #             print(servo.angle)
-    #             sleep(82.5)
+        elif totalAmountSpinBox == 5:
+                servo_relay.on()
+                servo.angle = 0
+                print(servo.angle)
+                sleep(82.5)
 
-    #             servo.angle = 180
-    #             print(servo.angle)
-    #             sleep(1)
+                servo.angle = 180
+                print(servo.angle)
+                sleep(1)
                 
-    #             servo.angle = 0
-    #             print(servo.angle)
+                servo.angle = 0
+                print(servo.angle)
                 
-    #             servo_relay.off()
-    #     self.thankYouCard()
-        #self.loadSensorReading()
-        #QtWidgets.QApplication.processEvents()
+                servo_relay.off()
+        self.thankYouCard()
+        self.loadSensorReading()
+        QtWidgets.QApplication.processEvents()
+
+    # multitasking
+    async def multitask(self):
+        first_task =  asyncio.create_task(self.loadSensorReading())
+        second_task = asyncio.create_task(self.servoMethod())
+
+        await first_task
+        await second_task
+
 
     ####################################################################################################################
     #-------------------------------------- RICE DISPENSING METHOD  ------------------------------------------>
@@ -1700,7 +1770,7 @@ class Ui_MainWindow(QMainWindow):
         QtWidgets.QApplication.processEvents()
         
         
-        #self.irMethod()
+        self.irMethod()
         #call ir method
 
         #if servo is closed, proceed to thankyoucard metho
@@ -1708,25 +1778,25 @@ class Ui_MainWindow(QMainWindow):
     ####################################################################################################################
     #----------------------------------- CHECKS THE PRESENCE OF PLASTIC BAGS ---------------------------------------->
     ####################################################################################################################
-    # def irMethod(self):
-    #     sensor_pin = 23
-    #     led_pin = 26
+    def irMethod(self):
+        sensor_pin = 23
+        led_pin = 26
 
-    #     # GPIO setup
-    #     GPIO.setwarnings(False)
-    #     GPIO.setmode(GPIO.BCM)
-    #     GPIO.setup(sensor_pin, GPIO.IN)
-    #     while sensor_pin != False:
-    #             if GPIO.input(sensor_pin):
-    #                     print("no object")
-    #                     sleep(0.5)
-    #             else:
-    #                     # If an object is detected
-    #                     print("object detected")
-    #                     sleep(1)
-    #                     self.dispensingMessage()
-    #                     break
-    #     self.thankYouCard()
+        # GPIO setup
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(sensor_pin, GPIO.IN)
+        while sensor_pin != False:
+                if GPIO.input(sensor_pin):
+                        print("no object")
+                        sleep(0.5)
+                else:
+                        # If an object is detected
+                        print("object detected")
+                        sleep(1)
+                        self.dispensingMessage()
+                        break
+        self.thankYouCard()
 
     ####################################################################################################################
     #-------------------------------------- CHECK RICE COST == AMOUNT INPUT  ------------------------------------------>
@@ -1755,7 +1825,7 @@ class Ui_MainWindow(QMainWindow):
 
         if button == QMessageBox.Yes:
             print("Yes!")
-            #self.servoMethod()
+            self.servoMethod()
         else:
             print("No!")
             
@@ -1763,7 +1833,7 @@ class Ui_MainWindow(QMainWindow):
     #-------------------------------------- DISPLAY THANK YOU MESSAGE ------------------------------------------>
     ####################################################################################################################
     def thankYouCard(self):
-        #self.irMethod()
+        self.irMethod()
         self.temperatureSensor.hide()
         self.orderSummaryLabelgroupBox.hide()
         self.orderSummaryLabelgroupBox.hide()
@@ -2070,7 +2140,7 @@ class Ui_MainWindow(QMainWindow):
                 self.getItemInProduct3DetailCSV()
 
     def getItemInProduct1DetailCSV(self): #Product#1
-        with open('CSVFiles/product#1NameAndPrice.csv', 'w', newline='') as file:
+        with open('PythonNiUI/CSVFiles/product#1NameAndPrice.csv', 'w', newline='') as file:
             updatedProductLabel = self.sender()
             updatedProductLabel = self.updateProductName1LineEdit.text()
             updatedProductPrice = self.sender()
@@ -2084,7 +2154,7 @@ class Ui_MainWindow(QMainWindow):
         updatedProductLabel = self.updateProductName1LineEdit.text()
         updatedProductPrice = self.sender()
         updatedProductPrice = self.updateProductPrice1LineEdit.text()
-        with open('CSVFiles/product#2NameAndPrice.csv', 'w', newline='') as file:
+        with open('PythonNiUI/CSVFiles/product#2NameAndPrice.csv', 'w', newline='') as file:
             updatedProductLabel = self.sender()
             updatedProductLabel = self.updateProductName1LineEdit.text()
             updatedProductPrice = self.sender()
@@ -2098,7 +2168,7 @@ class Ui_MainWindow(QMainWindow):
         updatedProductLabel = self.updateProductName1LineEdit.text()
         updatedProductPrice = self.sender()
         updatedProductPrice = self.updateProductPrice1LineEdit.text()
-        with open('CSVFiles/product#3NameAndPrice.csv', 'w', newline='') as file:
+        with open('PythonNiUI/CSVFiles/product#3NameAndPrice.csv', 'w', newline='') as file:
             updatedProductLabel = self.sender()
             updatedProductPrice = self.sender()
             updatedProductLabel = self.updateProductName1LineEdit.text()
@@ -2108,21 +2178,21 @@ class Ui_MainWindow(QMainWindow):
             writer.writerow([updatedProductLabel, updatedProductPrice])
     
     def getWeight1FromAdmin(self):
-        with open('CSVFiles/product1Weight.csv', 'w', newline='') as file:
+        with open('PythonNiUI/CSVFiles/product1Weight.csv', 'w', newline='') as file:
             product1Weight = self.sender()
             product1Weight = self.spinBox_2.value()
             writer = csv.writer(file)
             writer.writerow(["Product weight",])
             writer.writerow([product1Weight,])
     def getWeight2FromAdmin(self):
-        with open('CSVFiles/product2Weight.csv', 'w', newline='') as file:
+        with open('PythonNiUI/CSVFiles/product2Weight.csv', 'w', newline='') as file:
             product2Weight = self.sender()
             product2Weight = self.spinBox_2.value()
             writer = csv.writer(file)
             writer.writerow(["Product weight",])
             writer.writerow([product2Weight,])
     def getWeight3FromAdmin(self):
-        with open('CSVFiles/product3Weight.csv', 'w', newline='') as file:
+        with open('PythonNiUI/CSVFiles/product3Weight.csv', 'w', newline='') as file:
             product3Weight = self.sender()
             product3Weight = self.spinBox_2.value()
             writer = csv.writer(file)
@@ -2174,7 +2244,7 @@ class Ui_MainWindow(QMainWindow):
                 [finalUpdatedPinLabel],
             ]
 
-            file = open('CSVFiles/password.csv', 'a', newline='')
+            file = open('PythonNiUI/CSVFiles/password.csv', 'a', newline='')
             writer = csv.writer(file)
             writer.writerows(pinPasswords)
             file.close()
@@ -2184,7 +2254,7 @@ class Ui_MainWindow(QMainWindow):
     #-------------------------------------- STORE THE UPDATED PIN TO CSV ------------------------------------------>
     ####################################################################################################################
     def pinVerificationConfirmButton(self): #use CSV to store the updated passwords
-        with open('CSVFiles/password.csv', 'r') as csv:
+        with open('PythonNiUI/CSVFiles/password.csv', 'r') as csv:
             data = [[x.strip() for x in line.strip().split(',')] for line in csv.readlines()][-1]
             pin = data[0]
         if self.changePinLineEdit.text() == pin:
